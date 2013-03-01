@@ -1,0 +1,13 @@
+org.mule.modules.drupal
+org.mule.modules.drupal.adapters
+org.mule.modules.drupal.agents
+org.mule.modules.drupal.client
+org.mule.modules.drupal.config
+org.mule.modules.drupal.connectivity
+org.mule.modules.drupal.model
+org.mule.modules.drupal.model.holders
+org.mule.modules.drupal.model.transformers
+org.mule.modules.drupal.process
+org.mule.modules.drupal.processors
+org.mule.modules.drupal.transformers
+

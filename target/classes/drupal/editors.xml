@@ -1,0 +1,821 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<namespace xmlns="http://www.mulesoft.org/schema/mule/tooling.attributes" xmlns:mule="http://www.mulesoft.org/schema/mule/core" prefix="drupal" url="http://www.mulesoft.org/schema/mule/drupal">
+  <global-cloud-connector connectivityTesting="on" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="" localId="parentConfig" icon="" description="" caption="Drupal"></global-cloud-connector>
+  <nested abstract="true" localId="connection-pooling-profile" description="" caption="">
+    <label description="" caption="Define connection pool configuration" name="poolingProfileLabel"></label>
+    <integer step="0" min="0" defaultValue="5" fillLine="true" description="Controls the maximum number of connections that can be borrowed from the pool at one time. When set to a negative value, there is no limit to the number of connections that may be active at one time. When maxActive is exceeded, the pool is said to be exhausted." caption="Max active" name="maxActive"></integer>
+    <integer step="0" min="0" defaultValue="5" fillLine="true" description="Controls the maximum number of connections that can sit idle in the pool at any time. When set to a negative value, there is no limit to the number of connections that may be idle at one time." caption="Max idle" name="maxIdle"></integer>
+    <enum defaultValue="INITIALISE_ONE" alwaysFill="true" description="Determines how connections in a pool should be initialized. The possible values are: INITIALISE_NONE (will not load any connection into the pool on startup), INITIALISE_ONE (will load one initial connection into the pool on startup), or INITIALISE_ALL (will load all connections in the pool on startup)" caption="Initialisation policy" name="initialisationPolicy">
+      <option value="INITIALISE_NONE"></option>
+      <option value="INITIALISE_ONE"></option>
+      <option value="INITIALISE_ALL"></option>
+    </enum>
+    <enum defaultValue="WHEN_EXHAUSTED_GROW" alwaysFill="true" description="Specifies the behavior of the connection pool when the pool is exhausted. Possible values are: &quot;WHEN_EXHAUSTED_FAIL&quot;, which will throw a NoSuchElementException, &quot;WHEN_EXHAUSTED_WAIT&quot;, which will block by invoking Object.wait(long) until a new or idle object is available, or WHEN_EXHAUSTED_GROW, which will create a new connection and return it, essentially making maxActive meaningless. If a positive maxWait value is supplied, it will block for at most that many milliseconds, after which a NoSuchElementException will be thrown. If maxThreadWait is a negative value, it will block indefinitely." caption="Exhausted action" name="exhaustedAction">
+      <option value="WHEN_EXHAUSTED_WAIT"></option>
+      <option value="WHEN_EXHAUSTED_FAIL"></option>
+      <option value="WHEN_EXHAUSTED_GROW"></option>
+    </enum>
+    <integer step="0" min="0" defaultValue="1800000" fillLine="true" description="Determines the minimum amount of time a connection may sit idle in the pool before it is eligible for eviction. When non-positive, no connections will be evicted from the pool due to idle time alone." caption="Min eviction (ms)" name="minEvictionMillis"></integer>
+    <integer step="0" min="0" defaultValue="-1" fillLine="true" description="Specifies the number of milliseconds between runs of the connection evictor. When non-positive, no connection evictor is executed." caption="Eviction check interval (ms)" name="evictionCheckIntervalMillis"></integer>
+  </nested>
+  <nested abstract="true" localId="reconnectionStrategyElement" description="" caption="">
+    <label description="" caption="Define how mule should attempt to handle a connection failure" name="connectionLabel"></label>
+    <radioBoolean fillLine="true" description="Disable reconection strategy" caption="Do not use a Reconnection strategy" name="noReconnection"></radioBoolean>
+    <radioBoolean fillLine="true" description="A reconnection strategy that allows the user to configure how many times a reconnection should be attempted and how long to wait between attempts." caption="Standard Reconnection" name="standardReconnection"></radioBoolean>
+    <integer step="1" max="2147483647" min="1" defaultValue="2000" indented="true" controlled="standardReconnection" description="How often (in ms) to reconnect" caption="Frequency (ms)" name="reconnectionFrequency"></integer>
+    <integer step="1" max="2147483647" min="1" defaultValue="2" indented="true" controlled="standardReconnection,!reconnectForever" description="How many reconnection attempts to make" caption="Reconnection Attempts" name="reconnectionAttemps"></integer>
+    <boolean indented="true" controlled="standardReconnection" description="A reconnection strategy that retries an infinite number of times at the specified frequency." caption="Reconnect Forever" name="reconnectForever"></boolean>
+    <radioBoolean fillLine="true" description="A user-defined reconnection strategy." caption="Custom Reconnection" name="customReconnection"></radioBoolean>
+    <classname indented="true" controlled="customReconnection" description="A class that implements the RetryPolicyTemplate interface." caption="Class" name="class"></classname>
+    <childElement allowMultiple="true" controlled="customReconnection" description="Property elements." caption="Properties" name="http://www.springframework.org/schema/beans/property"></childElement>
+  </nested>
+  <global-cloud-connector connectivityTesting="on" extends="http://www.mulesoft.org/schema/mule/drupal/parentConfig" abstract="false" image="icons/large/drupal-connector-48x32.png" localId="config" icon="icons/small/drupal-connector-24x16.png" description="Global Drupal configuration information." caption="Drupal">
+    <attribute-category description="Drupal configuration properties." caption="General">
+      <group caption="Generic" id="drupalGenericProperties">
+        <name required="true" description="Give a name to this configuration so it can be later referenced by config-ref." caption="Name" name="name"></name>
+      </group>
+      <group caption="Connection" id="connection">
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+      <group caption="General" id="general">
+        <string defaultValue="/rest/api" javaType="java.lang.String" required="false" description="Path to the REST api." caption="Api Url" name="apiUrl"></string>
+        <string defaultValue="comment" javaType="java.lang.String" required="false" description="Path relative to the REST api url for the Comment Resource." caption="Comment Endpoint" name="commentEndpoint"></string>
+        <string defaultValue="file" javaType="java.lang.String" required="false" description="Path relative to the REST api url for the File Resource." caption="File Endpoint" name="fileEndpoint"></string>
+        <string defaultValue="localhost" javaType="java.lang.String" required="false" description="Uri of the server." caption="Server" name="server"></string>
+        <integer step="1" min="0" defaultValue="8888" javaType="int" required="false" description="Port of the connecion." caption="Port" name="port"></integer>
+        <string defaultValue="node" javaType="java.lang.String" required="false" description="Path relative to the REST api url for the Node Resource." caption="Node Endpoint" name="nodeEndpoint"></string>
+        <string defaultValue="taxonomy_term" javaType="java.lang.String" required="false" description="Path relative to the REST api url for the TaxonomyTerm Resource." caption="Taxonomy Term Endpoint" name="taxonomyTermEndpoint"></string>
+        <string defaultValue="taxonomy_vocabulary" javaType="java.lang.String" required="false" description="Path relative to the REST api url for the TaxonomyVocabulary Resource." caption="Taxonomy Vocabulary Endpoint" name="taxonomyVocabularyEndpoint"></string>
+      </group>
+    </attribute-category>
+    <attribute-category description="Pooling profile options." caption="Pooling Profile">
+      <group caption="Pooling Profile" id="poolingProfile">
+        <childElement inplace="true" description="" caption="" name="http://www.mulesoft.org/schema/mule/drupal/connection-pooling-profile"></childElement>
+      </group>
+    </attribute-category>
+    <attribute-category description="Reconnection options." caption="Reconnection">
+      <group caption="Strategies" id="reconnectionStrategies">
+        <childElement inplace="true" valuePersistence="org.mule.tooling.ui.modules.core.widgets.meta.HTTPTransactionValuePersistence" description="" caption="" name="http://www.mulesoft.org/schema/mule/core/reconnectionStrategyElement"></childElement>
+        <childElement allowedSubTypes="http://www.mulesoft.org/schema/mule/core/reconnect,http://www.mulesoft.org/schema/mule/core/reconnect-custom-strategy,http://www.mulesoft.org/schema/mule/core/reconnect-forever" allowSubTypes="true" visibleInDialog="false" description="" caption="" name="http://www.mulesoft.org/schema/mule/core/abstractReconnectionStrategy"></childElement>
+      </group>
+    </attribute-category>
+  </global-cloud-connector>
+  <cloud-connector abstract="true" image="icons/large/drupal-connector-48x32.png" localId="abstractDrupalConnectorGeneric" icon="icons/small/drupal-connector-24x16.png" description="Interact with Drupal." caption="Abstractdrupalconnectorgeneric">
+    <attribute-category description="General." caption="General">
+      <group caption="Generic" id="abstractDrupalConnectorGeneric">
+        <globalRef requiredType="http://www.mulesoft.org/schema/mule/drupal/config" required="true" description="Specify which configuration to use for this invocation." caption="Config Reference" name="config-ref"></globalRef>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" image="icons/large/drupal-connector-48x32.png" localId="drupal-connector" icon="icons/small/drupal-connector-24x16.png" description="Cloud Connector." caption="Drupal" aliasId="org.mule.tooling.ui.modules.core.pattern.drupal">
+    <attribute-category description="General." caption="General">
+      <group caption="Generic" id="drupalConnectorGeneric">
+        <modeSwitch alwaysCombo="true" description="Operation." caption="Operation" name="Drupal operations to execute">
+          <mode modeLabel="Count all comments" modeId="http://www.mulesoft.org/schema/mule/drupal/count-all-comments"></mode>
+          <mode modeLabel="Count new comments" modeId="http://www.mulesoft.org/schema/mule/drupal/count-new-comments"></mode>
+          <mode modeLabel="Create comment" modeId="http://www.mulesoft.org/schema/mule/drupal/create-comment"></mode>
+          <mode modeLabel="Create file" modeId="http://www.mulesoft.org/schema/mule/drupal/create-file"></mode>
+          <mode modeLabel="Create node" modeId="http://www.mulesoft.org/schema/mule/drupal/create-node"></mode>
+          <mode modeLabel="Create taxonomy term" modeId="http://www.mulesoft.org/schema/mule/drupal/create-taxonomy-term"></mode>
+          <mode modeLabel="Create taxonomy vocabulary" modeId="http://www.mulesoft.org/schema/mule/drupal/create-taxonomy-vocabulary"></mode>
+          <mode modeLabel="Create user" modeId="http://www.mulesoft.org/schema/mule/drupal/create-user"></mode>
+          <mode modeLabel="Delete comment" modeId="http://www.mulesoft.org/schema/mule/drupal/delete-comment"></mode>
+          <mode modeLabel="Delete file" modeId="http://www.mulesoft.org/schema/mule/drupal/delete-file"></mode>
+          <mode modeLabel="Delete node" modeId="http://www.mulesoft.org/schema/mule/drupal/delete-node"></mode>
+          <mode modeLabel="Delete taxonomy term" modeId="http://www.mulesoft.org/schema/mule/drupal/delete-taxonomy-term"></mode>
+          <mode modeLabel="Delete taxonomy vocabulary" modeId="http://www.mulesoft.org/schema/mule/drupal/delete-taxonomy-vocabulary"></mode>
+          <mode modeLabel="Delete user" modeId="http://www.mulesoft.org/schema/mule/drupal/delete-user"></mode>
+          <mode modeLabel="Get comments for node" modeId="http://www.mulesoft.org/schema/mule/drupal/get-comments-for-node"></mode>
+          <mode modeLabel="Get files for node" modeId="http://www.mulesoft.org/schema/mule/drupal/get-files-for-node"></mode>
+          <mode modeLabel="Get nodes with term" modeId="http://www.mulesoft.org/schema/mule/drupal/get-nodes-with-term"></mode>
+          <mode modeLabel="Get taxonomy vocabulary tree" modeId="http://www.mulesoft.org/schema/mule/drupal/get-taxonomy-vocabulary-tree"></mode>
+          <mode modeLabel="Index comments" modeId="http://www.mulesoft.org/schema/mule/drupal/index-comments"></mode>
+          <mode modeLabel="Index files" modeId="http://www.mulesoft.org/schema/mule/drupal/index-files"></mode>
+          <mode modeLabel="Index nodes" modeId="http://www.mulesoft.org/schema/mule/drupal/index-nodes"></mode>
+          <mode modeLabel="Index taxonomy terms" modeId="http://www.mulesoft.org/schema/mule/drupal/index-taxonomy-terms"></mode>
+          <mode modeLabel="Index taxonomy vocabulary" modeId="http://www.mulesoft.org/schema/mule/drupal/index-taxonomy-vocabulary"></mode>
+          <mode modeLabel="Index users" modeId="http://www.mulesoft.org/schema/mule/drupal/index-users"></mode>
+          <mode modeLabel="Read comment" modeId="http://www.mulesoft.org/schema/mule/drupal/read-comment"></mode>
+          <mode modeLabel="Read file" modeId="http://www.mulesoft.org/schema/mule/drupal/read-file"></mode>
+          <mode modeLabel="Read node" modeId="http://www.mulesoft.org/schema/mule/drupal/read-node"></mode>
+          <mode modeLabel="Read taxonomy term" modeId="http://www.mulesoft.org/schema/mule/drupal/read-taxonomy-term"></mode>
+          <mode modeLabel="Read taxonomy vocabulary" modeId="http://www.mulesoft.org/schema/mule/drupal/read-taxonomy-vocabulary"></mode>
+          <mode modeLabel="Read user" modeId="http://www.mulesoft.org/schema/mule/drupal/read-user"></mode>
+          <mode modeLabel="Register user" modeId="http://www.mulesoft.org/schema/mule/drupal/register-user"></mode>
+          <mode modeLabel="Update comment" modeId="http://www.mulesoft.org/schema/mule/drupal/update-comment"></mode>
+          <mode modeLabel="Update file" modeId="http://www.mulesoft.org/schema/mule/drupal/update-file"></mode>
+          <mode modeLabel="Update node" modeId="http://www.mulesoft.org/schema/mule/drupal/update-node"></mode>
+          <mode modeLabel="Update taxonomy term" modeId="http://www.mulesoft.org/schema/mule/drupal/update-taxonomy-term"></mode>
+          <mode modeLabel="Update taxonomy vocabulary" modeId="http://www.mulesoft.org/schema/mule/drupal/update-taxonomy-vocabulary"></mode>
+          <mode modeLabel="Update user" modeId="http://www.mulesoft.org/schema/mule/drupal/update-user"></mode>
+        </modeSwitch>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="int" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="count-all-comments" icon="icons/small/drupal-connector-24x16.png" caption="Count All Comments">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <integer step="1" min="0" javaType="int" required="true" description="Node Id." caption="Node Id" name="nodeId"></integer>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="int" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="count-new-comments" icon="icons/small/drupal-connector-24x16.png" caption="Count New Comments">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <integer step="1" min="0" javaType="int" required="true" description="Node Id." caption="Node Id" name="nodeId"></integer>
+        <integer step="1" min="0" defaultValue="0" javaType="int" required="false" description="Unix like date format. Default value is 0." caption="Since" name="since"></integer>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="org.mule.modules.drupal.model.Comment" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="create-comment" icon="icons/small/drupal-connector-24x16.png" caption="Create Comment">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <childElement allowMultiple="false" inplace="true" javaType="org.mule.modules.drupal.model.Comment" required="false" caption="Comment Reference" name="http://www.mulesoft.org/schema/mule/drupal/comment"></childElement>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="org.mule.modules.drupal.model.File" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="create-file" icon="icons/small/drupal-connector-24x16.png" caption="Create File">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <childElement allowMultiple="false" inplace="true" javaType="org.mule.modules.drupal.model.File" required="false" caption="File Reference" name="http://www.mulesoft.org/schema/mule/drupal/file"></childElement>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="org.mule.modules.drupal.model.Node" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="create-node" icon="icons/small/drupal-connector-24x16.png" caption="Create Node">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <childElement allowMultiple="false" inplace="true" javaType="org.mule.modules.drupal.model.Node" required="false" caption="Node Reference" name="http://www.mulesoft.org/schema/mule/drupal/node"></childElement>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="org.mule.modules.drupal.model.TaxonomyTerm" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="create-taxonomy-term" icon="icons/small/drupal-connector-24x16.png" caption="Create Taxonomy Term">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <childElement allowMultiple="false" inplace="true" javaType="org.mule.modules.drupal.model.TaxonomyTerm" required="false" caption="Taxonomy Term Reference" name="http://www.mulesoft.org/schema/mule/drupal/taxonomy-term"></childElement>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="org.mule.modules.drupal.model.TaxonomyVocabulary" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="create-taxonomy-vocabulary" icon="icons/small/drupal-connector-24x16.png" caption="Create Taxonomy Vocabulary">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <childElement allowMultiple="false" inplace="true" javaType="org.mule.modules.drupal.model.TaxonomyVocabulary" required="false" caption="Taxonomy Vocabulary Reference" name="http://www.mulesoft.org/schema/mule/drupal/taxonomy-vocabulary"></childElement>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="org.mule.modules.drupal.model.User" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="create-user" icon="icons/small/drupal-connector-24x16.png" caption="Create User">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <childElement allowMultiple="false" inplace="true" javaType="org.mule.modules.drupal.model.User" required="false" caption="User Reference" name="http://www.mulesoft.org/schema/mule/drupal/user"></childElement>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="void" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="delete-comment" icon="icons/small/drupal-connector-24x16.png" caption="Delete Comment">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <integer step="1" min="0" javaType="int" required="true" description="Id of the comment." caption="Comment Id" name="commentId"></integer>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="void" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="delete-file" icon="icons/small/drupal-connector-24x16.png" caption="Delete File">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <integer step="1" min="0" javaType="int" required="true" description="Id of the file." caption="File Id" name="fileId"></integer>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="void" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="delete-node" icon="icons/small/drupal-connector-24x16.png" caption="Delete Node">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <integer step="1" min="0" javaType="int" required="true" description="Id of the node." caption="Node Id" name="nodeId"></integer>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="void" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="delete-taxonomy-term" icon="icons/small/drupal-connector-24x16.png" caption="Delete Taxonomy Term">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <integer step="1" min="0" javaType="int" required="true" description="Id of the term." caption="Taxonomy Term Id" name="taxonomyTermId"></integer>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="void" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="delete-taxonomy-vocabulary" icon="icons/small/drupal-connector-24x16.png" caption="Delete Taxonomy Vocabulary">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <integer step="1" min="0" javaType="int" required="true" description="Id of the vocabulary." caption="Taxonomy Voc Id" name="taxonomyVocId"></integer>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="void" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="delete-user" icon="icons/small/drupal-connector-24x16.png" caption="Delete User">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <integer step="1" min="0" javaType="int" required="true" description="Id of the User." caption="User Id" name="userId"></integer>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="java.util.List&lt;org.mule.modules.drupal.model.Comment&gt;" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="get-comments-for-node" icon="icons/small/drupal-connector-24x16.png" caption="Get Comments For Node">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <integer step="1" min="0" javaType="int" required="true" description="The id of the node." caption="Node Id" name="nodeId"></integer>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="java.util.List&lt;org.mule.modules.drupal.model.File&gt;" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="get-files-for-node" icon="icons/small/drupal-connector-24x16.png" caption="Get Files For Node">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <integer step="1" min="0" javaType="int" required="true" description="The node Id." caption="Node Id" name="nodeId"></integer>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="java.util.List&lt;org.mule.modules.drupal.model.Node&gt;" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="get-nodes-with-term" icon="icons/small/drupal-connector-24x16.png" caption="Get Nodes With Term">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <integer step="1" min="0" javaType="int" required="true" description="The term id of the tag we want the nodes to be associated with." caption="Taxonomy Term Id" name="taxonomyTermId"></integer>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="java.util.List&lt;org.mule.modules.drupal.model.TaxonomyTerm&gt;" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="get-taxonomy-vocabulary-tree" icon="icons/small/drupal-connector-24x16.png" caption="Get Taxonomy Vocabulary Tree">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <integer step="1" min="0" defaultValue="0" javaType="int" required="false" description="Max depth value of the terms tree we want to retrieve. It is an exclusive limit. Only terms with lower depth value will be retrieved. Default value is 0. In this case parameter will be ignored." caption="Maxdepth" name="maxdepth"></integer>
+        <integer step="1" min="0" defaultValue="-1" javaType="int" required="false" description="The TaxonomyTerm id we will use to filter the results. Defatuls to -1. In this case the parameter willl be ignored." caption="Parent" name="parent"></integer>
+        <integer step="1" min="0" javaType="int" required="true" description="Id of the TaxonomyVocabulary we want to get." caption="Vocabulary Id" name="vocabularyId"></integer>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="java.util.List&lt;org.mule.modules.drupal.model.Comment&gt;" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="index-comments" icon="icons/small/drupal-connector-24x16.png" caption="Index Comments">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <integer step="1" min="0" defaultValue="0" javaType="int" required="false" description="The maximum amount of results per page. Default value is 0.In this case, parameter won't be used in the request." caption="Pagesize" name="pagesize"></integer>
+        <integer step="1" min="0" defaultValue="-1" javaType="int" required="false" description="The start page of the result list. Default value is -1. In this case, parameter won't be used in the request." caption="Start Page" name="startPage"></integer>
+        <element-controller-list listName="fields" itemName="field" localName="index-comments-fields" javaType="java.util.List&lt;java.lang.String&gt;" required="true" description="List of fields of the comment that we want to retrieve. See." caption="Fields"></element-controller-list>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="java.util.List&lt;org.mule.modules.drupal.model.File&gt;" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="index-files" icon="icons/small/drupal-connector-24x16.png" caption="Index Files">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <integer step="1" min="0" defaultValue="0" javaType="int" required="false" description="The maximum amount of results per page. Default value is 0.In this case, parameter won't be used in the request." caption="Pagesize" name="pagesize"></integer>
+        <integer step="1" min="0" defaultValue="-1" javaType="int" required="false" description="The start page of the result list. Default value is -1. In this case, parameter won't be used in the request." caption="Start Page" name="startPage"></integer>
+        <element-controller-list listName="fields" itemName="field" localName="index-files-fields" javaType="java.util.List&lt;java.lang.String&gt;" required="true" description="List of fields of the File that we want to retrieve. See." caption="Fields"></element-controller-list>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="java.util.List&lt;org.mule.modules.drupal.model.Node&gt;" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="index-nodes" icon="icons/small/drupal-connector-24x16.png" caption="Index Nodes">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <integer step="1" min="0" defaultValue="0" javaType="int" required="false" description="The maximum amount of results per page. Default value is 0.In this case, parameter won't be used in the request." caption="Pagesize" name="pagesize"></integer>
+        <integer step="1" min="0" defaultValue="-1" javaType="int" required="false" description="The start page of the result list. Default value is -1. In this case, parameter won't be used in the request." caption="Start Page" name="startPage"></integer>
+        <element-controller-list listName="fields" itemName="field" localName="index-nodes-fields" javaType="java.util.List&lt;java.lang.String&gt;" required="true" description="List of fields of the node that we want to retrieve.See." caption="Fields"></element-controller-list>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="java.util.List&lt;org.mule.modules.drupal.model.TaxonomyTerm&gt;" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="index-taxonomy-terms" icon="icons/small/drupal-connector-24x16.png" caption="Index Taxonomy Terms">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <integer step="1" min="0" defaultValue="0" javaType="int" required="false" description="The maximum amount of results per page. Default value is 0.In this case, parameter won't be used in the request." caption="Pagesize" name="pagesize"></integer>
+        <integer step="1" min="0" defaultValue="-1" javaType="int" required="false" description="The start page of the result list. Default value is -1. In this case, parameter won't be used in the request." caption="Start Page" name="startPage"></integer>
+        <element-controller-list listName="fields" itemName="field" localName="index-taxonomy-terms-fields" javaType="java.util.List&lt;java.lang.String&gt;" required="true" description="List of fields of the TaxonomyTerm that we want to retrieve. See." caption="Fields"></element-controller-list>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="java.util.List&lt;org.mule.modules.drupal.model.TaxonomyVocabulary&gt;" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="index-taxonomy-vocabulary" icon="icons/small/drupal-connector-24x16.png" caption="Index Taxonomy Vocabulary">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <integer step="1" min="0" defaultValue="0" javaType="int" required="false" description="The maximum amount of results per page. Default value is 0.In this case, parameter won't be used in the request." caption="Pagesize" name="pagesize"></integer>
+        <integer step="1" min="0" defaultValue="-1" javaType="int" required="false" description="The start page of the result list. Default value is -1. In this case, parameter won't be used in the request." caption="Start Page" name="startPage"></integer>
+        <element-controller-list listName="fields" itemName="field" localName="index-taxonomy-vocabulary-fields" javaType="java.util.List&lt;java.lang.String&gt;" required="true" description="List of fields of the TaxonomyVocabulary that we want to retrieve. See." caption="Fields"></element-controller-list>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="java.util.List&lt;org.mule.modules.drupal.model.User&gt;" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="index-users" icon="icons/small/drupal-connector-24x16.png" caption="Index Users">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <integer step="1" min="0" defaultValue="0" javaType="int" required="false" description="The maximum amount of results per page. Default value is 0.In this case, parameter won't be used in the request." caption="Pagesize" name="pagesize"></integer>
+        <integer step="1" min="0" defaultValue="-1" javaType="int" required="false" description="The start page of the result list. Default value is -1. In this case, parameter won't be used in the request." caption="Start Page" name="startPage"></integer>
+        <element-controller-list listName="fields" itemName="field" localName="index-users-fields" javaType="java.util.List&lt;java.lang.String&gt;" required="true" description="List of fields of the user that we want to retrieve. See." caption="Fields"></element-controller-list>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="org.mule.modules.drupal.model.Comment" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="read-comment" icon="icons/small/drupal-connector-24x16.png" caption="Read Comment">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <string javaType="java.lang.String" required="true" description="Number of comment." caption="Comment Id" name="commentId"></string>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="org.mule.modules.drupal.model.File" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="read-file" icon="icons/small/drupal-connector-24x16.png" caption="Read File">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <string javaType="java.lang.String" required="true" description="Number of file." caption="File Id" name="fileId"></string>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="org.mule.modules.drupal.model.Node" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="read-node" icon="icons/small/drupal-connector-24x16.png" caption="Read Node">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <string javaType="java.lang.String" required="true" description="Number of node." caption="Node Id" name="nodeId"></string>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="org.mule.modules.drupal.model.TaxonomyTerm" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="read-taxonomy-term" icon="icons/small/drupal-connector-24x16.png" caption="Read Taxonomy Term">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <string javaType="java.lang.String" required="true" description="Number of the term." caption="Taxonomy Term Id" name="taxonomyTermId"></string>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="org.mule.modules.drupal.model.TaxonomyVocabulary" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="read-taxonomy-vocabulary" icon="icons/small/drupal-connector-24x16.png" caption="Read Taxonomy Vocabulary">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <string javaType="java.lang.String" required="true" description="Number of the vocabulary." caption="Vocabulary Id" name="vocabularyId"></string>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="org.mule.modules.drupal.model.User" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="read-user" icon="icons/small/drupal-connector-24x16.png" caption="Read User">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <string javaType="java.lang.String" required="true" description="Number of user." caption="User Id" name="userId"></string>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="org.mule.modules.drupal.model.User" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="register-user" icon="icons/small/drupal-connector-24x16.png" caption="Register User">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <childElement allowMultiple="false" inplace="true" javaType="org.mule.modules.drupal.model.User" required="false" caption="User Reference" name="http://www.mulesoft.org/schema/mule/drupal/user"></childElement>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="org.mule.modules.drupal.model.Comment" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="update-comment" icon="icons/small/drupal-connector-24x16.png" caption="Update Comment">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <childElement allowMultiple="false" inplace="true" javaType="org.mule.modules.drupal.model.Comment" required="false" caption="Comment Reference" name="http://www.mulesoft.org/schema/mule/drupal/comment"></childElement>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="org.mule.modules.drupal.model.File" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="update-file" icon="icons/small/drupal-connector-24x16.png" caption="Update File">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <childElement allowMultiple="false" inplace="true" javaType="org.mule.modules.drupal.model.File" required="false" caption="File Reference" name="http://www.mulesoft.org/schema/mule/drupal/file"></childElement>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="org.mule.modules.drupal.model.Node" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="update-node" icon="icons/small/drupal-connector-24x16.png" caption="Update Node">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <childElement allowMultiple="false" inplace="true" javaType="org.mule.modules.drupal.model.Node" required="false" caption="Node Reference" name="http://www.mulesoft.org/schema/mule/drupal/node"></childElement>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="org.mule.modules.drupal.model.TaxonomyTerm" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="update-taxonomy-term" icon="icons/small/drupal-connector-24x16.png" caption="Update Taxonomy Term">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <childElement allowMultiple="false" inplace="true" javaType="org.mule.modules.drupal.model.TaxonomyTerm" required="false" caption="Taxonomy Term Reference" name="http://www.mulesoft.org/schema/mule/drupal/taxonomy-term"></childElement>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="org.mule.modules.drupal.model.TaxonomyVocabulary" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="update-taxonomy-vocabulary" icon="icons/small/drupal-connector-24x16.png" caption="Update Taxonomy Vocabulary">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <childElement allowMultiple="false" inplace="true" javaType="org.mule.modules.drupal.model.TaxonomyVocabulary" required="false" caption="Taxonomy Vocabulary Reference" name="http://www.mulesoft.org/schema/mule/drupal/taxonomy-vocabulary"></childElement>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <cloud-connector returnType="org.mule.modules.drupal.model.User" extends="http://www.mulesoft.org/schema/mule/drupal/abstractDrupalConnectorGeneric" abstract="true" image="icons/large/drupal-connector-48x32.png" localId="update-user" icon="icons/small/drupal-connector-24x16.png" caption="Update User">
+    <attribute-category description="General." caption="General">
+      <group caption="General" id="general">
+        <childElement allowMultiple="false" inplace="true" javaType="org.mule.modules.drupal.model.User" required="false" caption="User Reference" name="http://www.mulesoft.org/schema/mule/drupal/user"></childElement>
+      </group>
+    </attribute-category>
+    <attribute-category description="Connection." caption="Connection">
+      <group caption="Connection" id="connection">
+        <label caption="Use these fields to override the credentials defined in the Drupal connector."></label>
+        <label caption=""></label>
+        <string javaType="java.lang.String" required="false" description="A username." caption="Username" name="username"></string>
+        <string javaType="java.lang.String" required="false" description="A password." caption="Password" name="password"></string>
+      </group>
+    </attribute-category>
+  </cloud-connector>
+  <nested xmlname="body" abstract="false" localId="body" description="" caption="">
+    <radioBoolean fillLine="true" description="Provide a reference to a bean or use an expression" caption="Reference or expression" name="useReference"></radioBoolean>
+    <string controlled="useReference" description="" caption="Body Reference" name="ref"></string>
+    <radioBoolean fillLine="true" description="Define this element's attributes" caption="Define attributes" name="complex"></radioBoolean>
+    <element-controller-listOfMap innerName="inner-und" listName="und" itemName="und" localName="configurable-und" javaType="java.util.List&lt;java.util.Map&gt;" controlled="complex" required="false" description="" caption="Und"></element-controller-listOfMap>
+  </nested>
+  <nested xmlname="comment" abstract="false" localId="comment" description="" caption="">
+    <radioBoolean fillLine="true" description="Provide a reference to a bean or use an expression" caption="Reference or expression" name="useReference"></radioBoolean>
+    <string controlled="useReference" description="" caption="Comment Reference" name="ref"></string>
+    <radioBoolean fillLine="true" description="Define this element's attributes" caption="Define attributes" name="complex"></radioBoolean>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="Primary Key: Unique comment ID." caption="Cid" name="cid"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The comment.cid to which this comment is a reply. If set to 0, this comment is not a reply to an existing comment." caption="Pid" name="pid"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The node.nid to which this comment is a reply.Check." caption="Nid" name="nid"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The users.uid who authored the comment. If set to 0, this comment was created by an anonymous user. See." caption="Uid" name="uid"></integer>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="The comment title." caption="Subject" name="subject"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="The authors host name." caption="Hostname" name="hostname"></string>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The time that the comment was created, as a Unix timestamp." caption="Created" name="created"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The time that the comment was last edited, as a Unix timestamp." caption="Changed" name="changed"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The published status of a comment. (0 = Not Published, 1 = Published) Default value is 1." caption="Status" name="status"></integer>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="The vancode representation of the comments place in a thread." caption="Thread" name="thread"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="The comment authors name. Uses users.name if the user is logged in, otherwise uses the value typed into the comment form. See." caption="Name" name="name"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="The comment authors e-mail address from the comment form, if user is anonymous, and the Anonymous users may/must leave their contact information setting is turned on. See." caption="Mail" name="mail"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="The comment authors home page address from the comment form, if user is anonymous, and the Anonymous users may/must leave their contact information setting is turned on." caption="Homepage" name="homepage"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="The languages.language of this comment." caption="Language" name="language"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Type of the comment." caption="Node Type" name="nodeType"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Comment authors registered name." caption="Registered Name" name="registeredName"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Signatureof the user." caption="Signature" name="signature"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Signature format." caption="Signature Format" name="signatureFormat"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Picture." caption="Picture" name="picture"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Boolean to indicate the status." caption="Is New" name="isNew"></string>
+    <childElement allowMultiple="false" inplace="true" javaType="org.mule.modules.drupal.model.CustomField" controlled="complex" required="false" caption="Comment Body Reference" name="http://www.mulesoft.org/schema/mule/drupal/comment-body"></childElement>
+  </nested>
+  <nested xmlname="comment-body" abstract="false" localId="comment-body" description="" caption="">
+    <radioBoolean fillLine="true" description="Provide a reference to a bean or use an expression" caption="Reference or expression" name="useReference"></radioBoolean>
+    <string controlled="useReference" description="" caption="Comment Body Reference" name="ref"></string>
+    <radioBoolean fillLine="true" description="Define this element's attributes" caption="Define attributes" name="complex"></radioBoolean>
+    <element-controller-listOfMap innerName="inner-und" listName="und" itemName="und" localName="configurable-und" javaType="java.util.List&lt;java.util.Map&gt;" controlled="complex" required="false" description="" caption="Und"></element-controller-listOfMap>
+  </nested>
+  <nested xmlname="file" abstract="false" localId="file" description="" caption="">
+    <radioBoolean fillLine="true" description="Provide a reference to a bean or use an expression" caption="Reference or expression" name="useReference"></radioBoolean>
+    <string controlled="useReference" description="" caption="File Reference" name="ref"></string>
+    <radioBoolean fillLine="true" description="Define this element's attributes" caption="Define attributes" name="complex"></radioBoolean>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="File Id." caption="Fid" name="fid"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The users.uid of the user who is associated with the file. See." caption="Uid" name="uid"></integer>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Name of the file with no path components. This may differ from the basename of the URI if the file is renamed to avoid overwriting an existing file." caption="Filename" name="filename"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="The files MIME type." caption="Filemime" name="filemime"></string>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The size of the file in bytes." caption="Filesize" name="filesize"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="A field indicating the status of the file. Two status are defined in core: temporary (0) and permanent (1). Temporary files older than DRUPAL_MAXIMUM_TEMP_FILE_AGE will be removed during a cron run." caption="Status" name="status"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="Timestamp for when the file was added." caption="Timestamp" name="timestamp"></integer>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="File content encoded in Base64." caption="Content" name="content"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Uri full path." caption="Uri Full" name="uriFull"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Target Uri." caption="Target Uri" name="targetUri"></string>
+    <string javaType="java.lang.Object" controlled="complex" required="false" description="Styles." caption="Image Styles Reference" name="imageStyles-ref"></string>
+  </nested>
+  <nested xmlname="node" abstract="false" localId="node" description="" caption="">
+    <radioBoolean fillLine="true" description="Provide a reference to a bean or use an expression" caption="Reference or expression" name="useReference"></radioBoolean>
+    <string controlled="useReference" description="" caption="Node Reference" name="ref"></string>
+    <radioBoolean fillLine="true" description="Define this element's attributes" caption="Define attributes" name="complex"></radioBoolean>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The primary identifier for a node." caption="Nid" name="nid"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The users uid that owns this node; initially, this is the user that created it. See." caption="Uid" name="uid"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The current node revision id version identifier." caption="Vid" name="vid"></integer>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="The machine-readable name of this type of this node." caption="Type" name="type"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="The languages.language of this node." caption="Language" name="language"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="The title of this node, always treated as non-markup plain text." caption="Title" name="title"></string>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="Boolean indicating whether the node is published (visible to non-administrators)." caption="Status" name="status"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="Whether comments are allowed on this node: 0 = no, 1 = closed (read only), 2 = open (read/write)." caption="Comment" name="comment"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="Boolean indicating whether the node should be displayed on the front page." caption="Promote" name="promote"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="Boolean indicating whether the node should be displayed at the top of lists in which it appears." caption="Sticky" name="sticky"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The translation set id for this node, which equals the node id of the source post in each set." caption="Tnid" name="tnid"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="A boolean indicating whether this translation page needs to be updated." caption="Translated" name="translated"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="A Unix timestamp indicating when this version was created." caption="Revision Timestamp" name="revisionTimestamp"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The users.uid that created this version." caption="Revision Uid" name="revisionUid"></integer>
+    <childElement allowMultiple="false" inplace="true" javaType="org.mule.modules.drupal.model.CustomField" controlled="complex" required="false" caption="Body Reference" name="http://www.mulesoft.org/schema/mule/drupal/body"></childElement>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The Unix timestamp when the node was created." caption="Created" name="created"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The Unix timestamp when the node was most recently saved." caption="Changed" name="changed"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The comment.cid of the last comment." caption="Cid" name="cid"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The timestamp of the last comment that was posted within this node, from comment.changed." caption="Last Comment Timestamp" name="lastCommentTimestamp"></integer>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="The name of the latest author to post a comment on this node, from comment.name." caption="Last Comment Name" name="lastCommentName"></string>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The user ID of the latest author to post a comment on this node, from comment.uid." caption="Last Comment Uid" name="lastCommentUid"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The total number of comments on this node." caption="Comment Count" name="commentCount"></integer>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Name." caption="Name" name="name"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Picture." caption="Picture" name="picture"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Data." caption="Data" name="data"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="The path of the node." caption="Path" name="path"></string>
+  </nested>
+  <nested xmlname="taxonomy-term" abstract="false" localId="taxonomy-term" description="" caption="">
+    <radioBoolean fillLine="true" description="Provide a reference to a bean or use an expression" caption="Reference or expression" name="useReference"></radioBoolean>
+    <string controlled="useReference" description="" caption="Taxonomy Term Reference" name="ref"></string>
+    <radioBoolean fillLine="true" description="Define this element's attributes" caption="Define attributes" name="complex"></radioBoolean>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="A description of the term." caption="Description" name="description"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="The filter_format.format of the description." caption="Format" name="format"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="The term name." caption="Name" name="name"></string>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="Primary Key: Unique term ID." caption="Tid" name="tid"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The taxonomy vocabulary vid of the vocabulary to which the term is assigned. See." caption="Vid" name="vid"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The weight of this term in relation to other terms." caption="Weight" name="weight"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="Depth of the node in the vocabulary tree." caption="Depth" name="depth"></integer>
+    <element-controller-list listName="parents" itemName="parent" localName="configurable-parents" javaType="java.util.List&lt;java.lang.Integer&gt;" controlled="complex" required="false" description="List of term Id that of wich this is considered a son." caption="Parents"></element-controller-list>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="The vocabulary machine name of the vocabulary to witch the term is assigned. See." caption="Vocabulary Machine Name" name="vocabularyMachineName"></string>
+  </nested>
+  <nested xmlname="taxonomy-vocabulary" abstract="false" localId="taxonomy-vocabulary" description="" caption="">
+    <radioBoolean fillLine="true" description="Provide a reference to a bean or use an expression" caption="Reference or expression" name="useReference"></radioBoolean>
+    <string controlled="useReference" description="" caption="Taxonomy Vocabulary Reference" name="ref"></string>
+    <radioBoolean fillLine="true" description="Define this element's attributes" caption="Define attributes" name="complex"></radioBoolean>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="Primary Key: Unique vocabulary ID." caption="Vid" name="vid"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The type of hierarchy allowed within the vocabulary. (0 = disabled, 1 = single, 2 = multiple)." caption="Hierarchy" name="hierarchy"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="The weight of this vocabulary in relation to other vocabularies." caption="Weight" name="weight"></integer>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="The vocabulary machine name." caption="Machine Name" name="machineName"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Description of the vocabulary." caption="Description" name="description"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Name of the vocabulary." caption="Name" name="name"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="The module which created the vocabulary." caption="Module" name="module"></string>
+  </nested>
+  <nested xmlname="user" abstract="false" localId="user" description="" caption="">
+    <radioBoolean fillLine="true" description="Provide a reference to a bean or use an expression" caption="Reference or expression" name="useReference"></radioBoolean>
+    <string controlled="useReference" description="" caption="User Reference" name="ref"></string>
+    <radioBoolean fillLine="true" description="Define this element's attributes" caption="Define attributes" name="complex"></radioBoolean>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="Primary Key: Unique user ID." caption="Uid" name="uid"></integer>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Unique user name." caption="Name" name="name"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Users e-mail address." caption="Mail" name="mail"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="User password." caption="Password" name="password"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Users default theme." caption="Theme" name="theme"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Users signature." caption="Signature" name="signature"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="The filter_format.format of the signature." caption="Signature Format" name="signatureFormat"></string>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="Timestamp for when user was created." caption="Created" name="created"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="Timestamp for previous time user accessed the site." caption="Access" name="access"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="Timestamp for users last login." caption="Login" name="login"></integer>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="Whether the user is active(1) or blocked(0)." caption="Status" name="status"></integer>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Users time zone." caption="Timezones" name="timezones"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="Users default language." caption="Language" name="language"></string>
+    <integer step="1" min="0" javaType="java.lang.Integer" controlled="complex" required="false" description="File_managed.fid of users picture. Check." caption="Picture" name="picture"></integer>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="E-mail address used for initial account creation." caption="Init" name="init"></string>
+    <string javaType="java.lang.String" controlled="complex" required="false" description="A serialized array of name value pairs that are related to the user.
+Use of this field is discouraged and it will likely disappear in a future..." caption="Data" name="data"></string>
+    <element-controller-map mapName="roles" itemName="role" localName="configurable-roles" javaType="java.util.HashMap&lt;java.lang.Integer,java.lang.String&gt;" controlled="complex" required="false" description="A map that contains pairs of role id and role description for the user." caption="Roles"></element-controller-map>
+  </nested>
+</namespace>

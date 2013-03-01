@@ -1,0 +1,2267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:ns2="http://www.mulesoft.org/schema/mule/devkit" xmlns:mule="http://www.mulesoft.org/schema/mule/core" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://www.mulesoft.org/schema/mule/drupal">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"></xs:import>
+  <xs:import schemaLocation="http://www.springframework.org/schema/beans/spring-beans-3.0.xsd" namespace="http://www.springframework.org/schema/beans"></xs:import>
+  <xs:import schemaLocation="http://www.mulesoft.org/schema/mule/core/current/mule.xsd" namespace="http://www.mulesoft.org/schema/mule/core"></xs:import>
+  <xs:element xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="config" substitutionGroup="mule:abstract-extension" ns2:javaClass="org.mule.modules.drupal.connectivity.DrupalConnectorConnectionManager">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="mule:abstractExtensionType">
+          <xs:annotation>
+            <xs:documentation>Cloud Connector</xs:documentation>
+          </xs:annotation>
+          <xs:sequence>
+            <xs:element name="connection-pooling-profile" minOccurs="0" type="mule:poolingProfileType">
+              <xs:annotation>
+                <xs:documentation>Characteristics of the connection pool.</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+            <xs:element ref="mule:abstract-reconnection-strategy" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation>Reconnection strategy that defines how Mule should handle a connection failure.</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute name="name" use="optional" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Give a name to this configuration so it can be later referenced by config-ref.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="server" default="localhost" use="optional" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Uri of the server</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="apiUrl" default="/rest/api" use="optional" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Path to the REST api</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="port" default="8888" use="optional" type="integerType">
+            <xs:annotation>
+              <xs:documentation>Port of the connecion</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="nodeEndpoint" default="node" use="optional" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Path relative to the REST api url for the Node Resource.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="commentEndpoint" default="comment" use="optional" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Path relative to the REST api url for the Comment Resource.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="fileEndpoint" default="file" use="optional" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Path relative to the REST api url for the File Resource.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="taxonomyTermEndpoint" default="taxonomy_term" use="optional" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Path relative to the REST api url for the TaxonomyTerm Resource.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="taxonomyVocabularyEndpoint" default="taxonomy_vocabulary" use="optional" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>Path relative to the REST api url for the TaxonomyVocabulary Resource.</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="username" use="optional" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>A username</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+          <xs:attribute name="password" use="optional" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>A password</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="read-node" substitutionGroup="mule:abstract-message-processor" type="ReadNodeType">
+    <xs:annotation>
+      <xs:documentation>Read a node. See .
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ReadNodeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="nodeId" use="required" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Number of node</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="read-comment" substitutionGroup="mule:abstract-message-processor" type="ReadCommentType">
+    <xs:annotation>
+      <xs:documentation>Read a comment. See 
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ReadCommentType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="commentId" use="required" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Number of comment</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="read-user" substitutionGroup="mule:abstract-message-processor" type="ReadUserType">
+    <xs:annotation>
+      <xs:documentation>Read an user. See 
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ReadUserType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="userId" use="required" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Number of user</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="read-taxonomy-term" substitutionGroup="mule:abstract-message-processor" type="ReadTaxonomyTermType">
+    <xs:annotation>
+      <xs:documentation>Read a taxonomy term. See 
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ReadTaxonomyTermType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="taxonomyTermId" use="required" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Number of the term</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="read-file" substitutionGroup="mule:abstract-message-processor" type="ReadFileType">
+    <xs:annotation>
+      <xs:documentation>Read a file. See 
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ReadFileType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="fileId" use="required" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Number of file</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="read-taxonomy-vocabulary" substitutionGroup="mule:abstract-message-processor" type="ReadTaxonomyVocabularyType">
+    <xs:annotation>
+      <xs:documentation>Read a taxonomy vocabulary.
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="ReadTaxonomyVocabularyType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="vocabularyId" use="required" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Number of the vocabulary</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="create-node" substitutionGroup="mule:abstract-message-processor" type="CreateNodeType">
+    <xs:annotation>
+      <xs:documentation>Creates a node
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="CustomFieldObjectType">
+    <xs:sequence>
+      <xs:element name="und" maxOccurs="1" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="und" maxOccurs="unbounded" minOccurs="0">
+              <xs:complexType>
+                <xs:choice>
+                  <xs:sequence>
+                    <xs:element name="inner-und" maxOccurs="unbounded" minOccurs="0">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute name="value-ref" use="optional" type="xs:string"></xs:attribute>
+                            <xs:attribute name="key-ref" use="required" type="xs:string"></xs:attribute>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:sequence>
+                    <xs:any maxOccurs="unbounded" minOccurs="0" processContents="lax"></xs:any>
+                  </xs:sequence>
+                </xs:choice>
+                <xs:attribute name="ref" use="optional" type="xs:string">
+                  <xs:annotation>
+                    <xs:documentation>The reference object for this parameter</xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute name="ref" use="optional" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>The reference object for this parameter</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="ref" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The reference object for this parameter</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="NodeObjectType">
+    <xs:sequence>
+      <xs:element name="body" maxOccurs="1" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:complexContent>
+            <xs:extension xmlns="http://www.mulesoft.org/schema/mule/drupal" base="CustomFieldObjectType"></xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="nid" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The primary identifier for a node.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="uid" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The users uid that owns this node; initially, this is the user that created it. See</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="vid" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The current node revision id version identifier.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="type" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The machine-readable name of this type of this node</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="language" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The languages.language of this node.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="title" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The title of this node, always treated as non-markup plain text.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="status" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>Boolean indicating whether the node is published (visible to non-administrators).</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="comment" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>Whether comments are allowed on this node: 0 = no, 1 = closed (read only), 2 = open (read/write).</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="promote" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>Boolean indicating whether the node should be displayed on the front page.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="sticky" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>Boolean indicating whether the node should be displayed at the top of lists in which it appears.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="tnid" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The translation set id for this node, which equals the node id of the source post in each set.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="translated" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>A boolean indicating whether this translation page needs to be updated.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="revisionTimestamp" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>A Unix timestamp indicating when this version was created.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="revisionUid" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The users.uid that created this version.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="created" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The Unix timestamp when the node was created.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="changed" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The Unix timestamp when the node was most recently saved.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="cid" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The comment.cid of the last comment.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="lastCommentTimestamp" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The timestamp of the last comment that was posted within this node, from comment.changed.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="lastCommentName" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The name of the latest author to post a comment on this node, from comment.name.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="lastCommentUid" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The user ID of the latest author to post a comment on this node, from comment.uid.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="commentCount" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The total number of comments on this node.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Name</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="picture" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Picture</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="data" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Data</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="path" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The path of the node</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="ref" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The reference object for this parameter</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="CreateNodeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:sequence>
+          <xs:element name="node" maxOccurs="1" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Node. The minimum required fields that need to be set are the Type and Title.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns="http://www.mulesoft.org/schema/mule/drupal" base="NodeObjectType"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="create-comment" substitutionGroup="mule:abstract-message-processor" type="CreateCommentType">
+    <xs:annotation>
+      <xs:documentation>Create a comment
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="CommentObjectType">
+    <xs:sequence>
+      <xs:element name="comment-body" maxOccurs="1" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:complexContent>
+            <xs:extension xmlns="http://www.mulesoft.org/schema/mule/drupal" base="CustomFieldObjectType"></xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="cid" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>Primary Key: Unique comment ID.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="pid" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The comment.cid to which this comment is a reply. If set to 0, this comment is not a reply to an existing comment.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="nid" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The node.nid to which this comment is a reply.Check</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="uid" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The users.uid who authored the comment. If set to 0, this comment was created by an anonymous user. See</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="subject" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The comment title.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="hostname" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The authors host name.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="created" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The time that the comment was created, as a Unix timestamp.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="changed" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The time that the comment was last edited, as a Unix timestamp.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="status" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The published status of a comment. (0 = Not Published, 1 = Published) Default value is 1</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="thread" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The vancode representation of the comments place in a thread.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The comment authors name. Uses users.name if the user is logged in, otherwise uses the value typed into the comment form. See</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="mail" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The comment authors e-mail address from the comment form, if user is anonymous, and the Anonymous users may/must leave their contact information setting is turned on. See</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="homepage" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The comment authors home page address from the comment form, if user is anonymous, and the Anonymous users may/must leave their contact information setting is turned on.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="language" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The languages.language of this comment.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="nodeType" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Type of the comment</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="registeredName" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Comment authors registered name</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="signature" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Signatureof the user</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="signatureFormat" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Signature format</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="picture" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Picture</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="isNew" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Boolean to indicate the status</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="ref" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The reference object for this parameter</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="CreateCommentType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:sequence>
+          <xs:element name="comment" maxOccurs="1" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Comment</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns="http://www.mulesoft.org/schema/mule/drupal" base="CommentObjectType"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="create-user" substitutionGroup="mule:abstract-message-processor" type="CreateUserType">
+    <xs:annotation>
+      <xs:documentation>Create a User
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="UserObjectType">
+    <xs:sequence>
+      <xs:element name="roles" maxOccurs="1" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:choice>
+            <xs:sequence>
+              <xs:element name="role" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="value-ref" use="optional" type="xs:string"></xs:attribute>
+                      <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="key" type="integerType"></xs:attribute>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:sequence>
+              <xs:any maxOccurs="unbounded" minOccurs="0" processContents="lax"></xs:any>
+            </xs:sequence>
+          </xs:choice>
+          <xs:attribute name="ref" use="optional" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>The reference object for this parameter</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="uid" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>Primary Key: Unique user ID.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Unique user name.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="mail" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Users e-mail address.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="password" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>User password.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="theme" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Users default theme.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="signature" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Users signature.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="signatureFormat" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The filter_format.format of the signature.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="created" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>Timestamp for when user was created</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="access" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>Timestamp for previous time user accessed the site.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="login" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>Timestamp for users last login.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="status" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>Whether the user is active(1) or blocked(0).</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="timezones" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Users time zone.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="language" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Users default language.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="picture" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>file_managed.fid of users picture. Check</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="init" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>E-mail address used for initial account creation.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="data" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>A serialized array of name value pairs that are related to the user.
+Use of this field is discouraged and it will likely disappear in a future...</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="ref" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The reference object for this parameter</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="CreateUserType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:sequence>
+          <xs:element name="user" maxOccurs="1" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>User with at least Name, mail and password set.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns="http://www.mulesoft.org/schema/mule/drupal" base="UserObjectType"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="create-taxonomy-term" substitutionGroup="mule:abstract-message-processor" type="CreateTaxonomyTermType">
+    <xs:annotation>
+      <xs:documentation>Create a taxonomy term
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="TaxonomyTermObjectType">
+    <xs:sequence>
+      <xs:element name="parents" maxOccurs="1" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="parent" maxOccurs="unbounded" minOccurs="0">
+              <xs:complexType>
+                <xs:simpleContent>
+                  <xs:extension xmlns="http://www.mulesoft.org/schema/mule/drupal" base="integerType">
+                    <xs:attribute name="value-ref" use="optional" type="xs:string"></xs:attribute>
+                  </xs:extension>
+                </xs:simpleContent>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute name="ref" use="optional" type="xs:string">
+            <xs:annotation>
+              <xs:documentation>The reference object for this parameter</xs:documentation>
+            </xs:annotation>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="description" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>A description of the term</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="format" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The filter_format.format of the description</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The term name</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="tid" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>Primary Key: Unique term ID.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="vid" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The taxonomy vocabulary vid of the vocabulary to which the term is assigned. See</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="weight" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The weight of this term in relation to other terms.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="depth" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>Depth of the node in the vocabulary tree</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="vocabularyMachineName" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The vocabulary machine name of the vocabulary to witch the term is assigned. See</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="ref" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The reference object for this parameter</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="CreateTaxonomyTermType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:sequence>
+          <xs:element name="taxonomy-term" maxOccurs="1" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>TaxonomyTerm</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns="http://www.mulesoft.org/schema/mule/drupal" base="TaxonomyTermObjectType"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="create-file" substitutionGroup="mule:abstract-message-processor" type="CreateFileType">
+    <xs:annotation>
+      <xs:documentation>Create a file
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="FileObjectType">
+    <xs:sequence></xs:sequence>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="fid" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>File Id</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="uid" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The users.uid of the user who is associated with the file. See</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="filename" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Name of the file with no path components. This may differ from the basename of the URI if the file is renamed to avoid overwriting an existing file.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="filemime" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The files MIME type.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="filesize" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The size of the file in bytes.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="status" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>A field indicating the status of the file. Two status are defined in core: temporary (0) and permanent (1). Temporary files older than DRUPAL_MAXIMUM_TEMP_FILE_AGE will be removed during a cron run.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="timestamp" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>Timestamp for when the file was added.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="content" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>File content encoded in Base64</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uriFull" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Uri full path</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="targetUri" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Target Uri</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="imageStyles-ref" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Styles</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="ref" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The reference object for this parameter</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="CreateFileType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:sequence>
+          <xs:element name="file" maxOccurs="1" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>File</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns="http://www.mulesoft.org/schema/mule/drupal" base="FileObjectType"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="create-taxonomy-vocabulary" substitutionGroup="mule:abstract-message-processor" type="CreateTaxonomyVocabularyType">
+    <xs:annotation>
+      <xs:documentation>Create a taxonomyVocabulary
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="TaxonomyVocabularyObjectType">
+    <xs:sequence></xs:sequence>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="vid" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>Primary Key: Unique vocabulary ID.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="hierarchy" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The type of hierarchy allowed within the vocabulary. (0 = disabled, 1 = single, 2 = multiple)</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="weight" use="optional" type="integerType">
+      <xs:annotation>
+        <xs:documentation>The weight of this vocabulary in relation to other vocabularies.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="machineName" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The vocabulary machine name.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="description" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Description of the vocabulary.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>Name of the vocabulary</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="module" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The module which created the vocabulary.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="ref" use="optional" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>The reference object for this parameter</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="CreateTaxonomyVocabularyType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:sequence>
+          <xs:element name="taxonomy-vocabulary" maxOccurs="1" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>TaxonomyVocabulary</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns="http://www.mulesoft.org/schema/mule/drupal" base="TaxonomyVocabularyObjectType"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="register-user" substitutionGroup="mule:abstract-message-processor" type="RegisterUserType">
+    <xs:annotation>
+      <xs:documentation>Register a user
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="RegisterUserType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:sequence>
+          <xs:element name="user" maxOccurs="1" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>User with at least Name, mail and password set.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns="http://www.mulesoft.org/schema/mule/drupal" base="UserObjectType"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="update-node" substitutionGroup="mule:abstract-message-processor" type="UpdateNodeType">
+    <xs:annotation>
+      <xs:documentation>Update the node
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="UpdateNodeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:sequence>
+          <xs:element name="node" maxOccurs="1" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Node</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns="http://www.mulesoft.org/schema/mule/drupal" base="NodeObjectType"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="update-comment" substitutionGroup="mule:abstract-message-processor" type="UpdateCommentType">
+    <xs:annotation>
+      <xs:documentation>Update the comment
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="UpdateCommentType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:sequence>
+          <xs:element name="comment" maxOccurs="1" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Comment with new fields set</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns="http://www.mulesoft.org/schema/mule/drupal" base="CommentObjectType"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="update-user" substitutionGroup="mule:abstract-message-processor" type="UpdateUserType">
+    <xs:annotation>
+      <xs:documentation>Update the user
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="UpdateUserType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:sequence>
+          <xs:element name="user" maxOccurs="1" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>User with new fields set</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns="http://www.mulesoft.org/schema/mule/drupal" base="UserObjectType"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="update-taxonomy-term" substitutionGroup="mule:abstract-message-processor" type="UpdateTaxonomyTermType">
+    <xs:annotation>
+      <xs:documentation>Update the taxonomy term
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="UpdateTaxonomyTermType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:sequence>
+          <xs:element name="taxonomy-term" maxOccurs="1" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>TaxonomyTerm with new fields set</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns="http://www.mulesoft.org/schema/mule/drupal" base="TaxonomyTermObjectType"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="update-file" substitutionGroup="mule:abstract-message-processor" type="UpdateFileType">
+    <xs:annotation>
+      <xs:documentation>Update file
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="UpdateFileType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:sequence>
+          <xs:element name="file" maxOccurs="1" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>File with new fields set</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns="http://www.mulesoft.org/schema/mule/drupal" base="FileObjectType"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="update-taxonomy-vocabulary" substitutionGroup="mule:abstract-message-processor" type="UpdateTaxonomyVocabularyType">
+    <xs:annotation>
+      <xs:documentation>Update the taxonomyVocabulary
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="UpdateTaxonomyVocabularyType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:sequence>
+          <xs:element name="taxonomy-vocabulary" maxOccurs="1" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>Taxonomy vocabulary with new fields set</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:complexContent>
+                <xs:extension xmlns="http://www.mulesoft.org/schema/mule/drupal" base="TaxonomyVocabularyObjectType"></xs:extension>
+              </xs:complexContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="delete-node" substitutionGroup="mule:abstract-message-processor" type="DeleteNodeType">
+    <xs:annotation>
+      <xs:documentation>Delete a node
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="DeleteNodeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="nodeId" use="required" type="integerType">
+          <xs:annotation>
+            <xs:documentation>Id of the node</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="delete-comment" substitutionGroup="mule:abstract-message-processor" type="DeleteCommentType">
+    <xs:annotation>
+      <xs:documentation>Delete a comment
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="DeleteCommentType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="commentId" use="required" type="integerType">
+          <xs:annotation>
+            <xs:documentation>Id of the comment</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="delete-file" substitutionGroup="mule:abstract-message-processor" type="DeleteFileType">
+    <xs:annotation>
+      <xs:documentation>Delete a file
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="DeleteFileType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="fileId" use="required" type="integerType">
+          <xs:annotation>
+            <xs:documentation>Id of the file</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="delete-taxonomy-vocabulary" substitutionGroup="mule:abstract-message-processor" type="DeleteTaxonomyVocabularyType">
+    <xs:annotation>
+      <xs:documentation>Delete a Vocabulary
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="DeleteTaxonomyVocabularyType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="taxonomyVocId" use="required" type="integerType">
+          <xs:annotation>
+            <xs:documentation>Id of the vocabulary</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="delete-taxonomy-term" substitutionGroup="mule:abstract-message-processor" type="DeleteTaxonomyTermType">
+    <xs:annotation>
+      <xs:documentation>Delete a Term
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="DeleteTaxonomyTermType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="taxonomyTermId" use="required" type="integerType">
+          <xs:annotation>
+            <xs:documentation>Id of the term</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="delete-user" substitutionGroup="mule:abstract-message-processor" type="DeleteUserType">
+    <xs:annotation>
+      <xs:documentation>Delete an User
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="DeleteUserType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="userId" use="required" type="integerType">
+          <xs:annotation>
+            <xs:documentation>Id of the User</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="count-all-comments" substitutionGroup="mule:abstract-message-processor" type="CountAllCommentsType">
+    <xs:annotation>
+      <xs:documentation>Count all comments in a node
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="CountAllCommentsType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="nodeId" use="required" type="integerType">
+          <xs:annotation>
+            <xs:documentation>Node Id</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="count-new-comments" substitutionGroup="mule:abstract-message-processor" type="CountNewCommentsType">
+    <xs:annotation>
+      <xs:documentation>Counts all new comments in a node.
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="CountNewCommentsType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="nodeId" use="required" type="integerType">
+          <xs:annotation>
+            <xs:documentation>Node Id</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="since" default="0" use="optional" type="integerType">
+          <xs:annotation>
+            <xs:documentation>Unix like date format. Default value is 0.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="index-nodes" substitutionGroup="mule:abstract-message-processor" type="IndexNodesType">
+    <xs:annotation>
+      <xs:documentation>Get a list of Nodes with only the fields specified in the list of fields and the uri field for the node.
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IndexNodesType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:sequence>
+          <xs:element name="fields" maxOccurs="1" minOccurs="1">
+            <xs:annotation>
+              <xs:documentation>List of fields of the node that we want to retrieve.See</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="field" maxOccurs="unbounded" minOccurs="0">
+                  <xs:complexType>
+                    <xs:simpleContent>
+                      <xs:extension base="xs:string">
+                        <xs:attribute name="value-ref" use="optional" type="xs:string"></xs:attribute>
+                      </xs:extension>
+                    </xs:simpleContent>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="ref" use="optional" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>The reference object for this parameter</xs:documentation>
+                </xs:annotation>
+              </xs:attribute>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="startPage" default="-1" use="optional" type="integerType">
+          <xs:annotation>
+            <xs:documentation>The start page of the result list. Default value is -1. In this case, parameter won't be used in the request</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="pagesize" default="0" use="optional" type="integerType">
+          <xs:annotation>
+            <xs:documentation>The maximum amount of results per page. Default value is 0.In this case, parameter won't be used in the request</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="index-comments" substitutionGroup="mule:abstract-message-processor" type="IndexCommentsType">
+    <xs:annotation>
+      <xs:documentation>Get a list of Comments with only the fields specified in the list of fields and the uri field for the comment.
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IndexCommentsType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:sequence>
+          <xs:element name="fields" maxOccurs="1" minOccurs="1">
+            <xs:annotation>
+              <xs:documentation>List of fields of the comment that we want to retrieve. See</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="field" maxOccurs="unbounded" minOccurs="0">
+                  <xs:complexType>
+                    <xs:simpleContent>
+                      <xs:extension base="xs:string">
+                        <xs:attribute name="value-ref" use="optional" type="xs:string"></xs:attribute>
+                      </xs:extension>
+                    </xs:simpleContent>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="ref" use="optional" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>The reference object for this parameter</xs:documentation>
+                </xs:annotation>
+              </xs:attribute>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="startPage" default="-1" use="optional" type="integerType">
+          <xs:annotation>
+            <xs:documentation>The start page of the result list. Default value is -1. In this case, parameter won't be used in the request</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="pagesize" default="0" use="optional" type="integerType">
+          <xs:annotation>
+            <xs:documentation>The maximum amount of results per page. Default value is 0.In this case, parameter won't be used in the request</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="index-users" substitutionGroup="mule:abstract-message-processor" type="IndexUsersType">
+    <xs:annotation>
+      <xs:documentation>Get a list of Users with only the fields specified in the list of fields and the uri field for the user.
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IndexUsersType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:sequence>
+          <xs:element name="fields" maxOccurs="1" minOccurs="1">
+            <xs:annotation>
+              <xs:documentation>List of fields of the user that we want to retrieve. See</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="field" maxOccurs="unbounded" minOccurs="0">
+                  <xs:complexType>
+                    <xs:simpleContent>
+                      <xs:extension base="xs:string">
+                        <xs:attribute name="value-ref" use="optional" type="xs:string"></xs:attribute>
+                      </xs:extension>
+                    </xs:simpleContent>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="ref" use="optional" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>The reference object for this parameter</xs:documentation>
+                </xs:annotation>
+              </xs:attribute>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="startPage" default="-1" use="optional" type="integerType">
+          <xs:annotation>
+            <xs:documentation>The start page of the result list. Default value is -1. In this case, parameter won't be used in the request</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="pagesize" default="0" use="optional" type="integerType">
+          <xs:annotation>
+            <xs:documentation>The maximum amount of results per page. Default value is 0.In this case, parameter won't be used in the request</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="index-taxonomy-terms" substitutionGroup="mule:abstract-message-processor" type="IndexTaxonomyTermsType">
+    <xs:annotation>
+      <xs:documentation>Get a list of taxonomy terms with only the fields specified in the list of fields and the uri field for the term.
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IndexTaxonomyTermsType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:sequence>
+          <xs:element name="fields" maxOccurs="1" minOccurs="1">
+            <xs:annotation>
+              <xs:documentation>List of fields of the TaxonomyTerm that we want to retrieve. See</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="field" maxOccurs="unbounded" minOccurs="0">
+                  <xs:complexType>
+                    <xs:simpleContent>
+                      <xs:extension base="xs:string">
+                        <xs:attribute name="value-ref" use="optional" type="xs:string"></xs:attribute>
+                      </xs:extension>
+                    </xs:simpleContent>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="ref" use="optional" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>The reference object for this parameter</xs:documentation>
+                </xs:annotation>
+              </xs:attribute>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="startPage" default="-1" use="optional" type="integerType">
+          <xs:annotation>
+            <xs:documentation>The start page of the result list. Default value is -1. In this case, parameter won't be used in the request</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="pagesize" default="0" use="optional" type="integerType">
+          <xs:annotation>
+            <xs:documentation>The maximum amount of results per page. Default value is 0.In this case, parameter won't be used in the request</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="index-taxonomy-vocabulary" substitutionGroup="mule:abstract-message-processor" type="IndexTaxonomyVocabularyType">
+    <xs:annotation>
+      <xs:documentation>Get a list of taxonomy vocabulary with only the fields specified in the list of fields and the uri field for the vocabulary.
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IndexTaxonomyVocabularyType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:sequence>
+          <xs:element name="fields" maxOccurs="1" minOccurs="1">
+            <xs:annotation>
+              <xs:documentation>List of fields of the TaxonomyVocabulary that we want to retrieve. See</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="field" maxOccurs="unbounded" minOccurs="0">
+                  <xs:complexType>
+                    <xs:simpleContent>
+                      <xs:extension base="xs:string">
+                        <xs:attribute name="value-ref" use="optional" type="xs:string"></xs:attribute>
+                      </xs:extension>
+                    </xs:simpleContent>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="ref" use="optional" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>The reference object for this parameter</xs:documentation>
+                </xs:annotation>
+              </xs:attribute>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="startPage" default="-1" use="optional" type="integerType">
+          <xs:annotation>
+            <xs:documentation>The start page of the result list. Default value is -1. In this case, parameter won't be used in the request</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="pagesize" default="0" use="optional" type="integerType">
+          <xs:annotation>
+            <xs:documentation>The maximum amount of results per page. Default value is 0.In this case, parameter won't be used in the request</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="index-files" substitutionGroup="mule:abstract-message-processor" type="IndexFilesType">
+    <xs:annotation>
+      <xs:documentation>Get a list of files with only the fields specified in the list of fields and the uri field for the File.
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="IndexFilesType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:sequence>
+          <xs:element name="fields" maxOccurs="1" minOccurs="1">
+            <xs:annotation>
+              <xs:documentation>List of fields of the File that we want to retrieve. See</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="field" maxOccurs="unbounded" minOccurs="0">
+                  <xs:complexType>
+                    <xs:simpleContent>
+                      <xs:extension base="xs:string">
+                        <xs:attribute name="value-ref" use="optional" type="xs:string"></xs:attribute>
+                      </xs:extension>
+                    </xs:simpleContent>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="ref" use="optional" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>The reference object for this parameter</xs:documentation>
+                </xs:annotation>
+              </xs:attribute>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="startPage" default="-1" use="optional" type="integerType">
+          <xs:annotation>
+            <xs:documentation>The start page of the result list. Default value is -1. In this case, parameter won't be used in the request</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="pagesize" default="0" use="optional" type="integerType">
+          <xs:annotation>
+            <xs:documentation>The maximum amount of results per page. Default value is 0.In this case, parameter won't be used in the request</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="get-nodes-with-term" substitutionGroup="mule:abstract-message-processor" type="GetNodesWithTermType">
+    <xs:annotation>
+      <xs:documentation>Get a list of Nodes related to the term
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="GetNodesWithTermType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="taxonomyTermId" use="required" type="integerType">
+          <xs:annotation>
+            <xs:documentation>The term id of the tag we want the nodes to be associated with</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="get-taxonomy-vocabulary-tree" substitutionGroup="mule:abstract-message-processor" type="GetTaxonomyVocabularyTreeType">
+    <xs:annotation>
+      <xs:documentation>The the list of terms that match the requirements of the request.
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="GetTaxonomyVocabularyTreeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="vocabularyId" use="required" type="integerType">
+          <xs:annotation>
+            <xs:documentation>Id of the TaxonomyVocabulary we want to get</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="parent" default="-1" use="optional" type="integerType">
+          <xs:annotation>
+            <xs:documentation>The TaxonomyTerm id we will use to filter the results. Defatuls to -1. In this case the parameter willl be ignored</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="maxdepth" default="0" use="optional" type="integerType">
+          <xs:annotation>
+            <xs:documentation>Max depth value of the terms tree we want to retrieve. It is an exclusive limit. Only terms with lower depth value will be retrieved. Default value is 0. In this case parameter will be ignored</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="get-comments-for-node" substitutionGroup="mule:abstract-message-processor" type="GetCommentsForNodeType">
+    <xs:annotation>
+      <xs:documentation>Get the list of comments of a node
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="GetCommentsForNodeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="nodeId" use="required" type="integerType">
+          <xs:annotation>
+            <xs:documentation>The id of the node</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element xmlns="http://www.mulesoft.org/schema/mule/drupal" xmlns:mule="http://www.mulesoft.org/schema/mule/core" name="get-files-for-node" substitutionGroup="mule:abstract-message-processor" type="GetFilesForNodeType">
+    <xs:annotation>
+      <xs:documentation>Get the list of files attached of a node
+&lt;p/&gt;</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="GetFilesForNodeType">
+    <xs:complexContent>
+      <xs:extension xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:abstractMessageProcessorType">
+        <xs:attribute name="config-ref" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Specify which configuration to use for this invocation.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute xmlns="http://www.mulesoft.org/schema/mule/drupal" name="nodeId" use="required" type="integerType">
+          <xs:annotation>
+            <xs:documentation>the node Id</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="username" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A username</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="password" use="optional" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A password</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="integerType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:integer"></xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="decimalType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:decimal"></xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="floatType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:float"></xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="doubleType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:double"></xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="dateTimeType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:dateTime"></xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="longType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:long"></xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="byteType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:byte"></xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="booleanType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:boolean"></xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="anyUriType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:anyURI"></xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="charType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:minLength value="1"></xs:minLength>
+          <xs:maxLength value="1"></xs:maxLength>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+</xs:schema>
