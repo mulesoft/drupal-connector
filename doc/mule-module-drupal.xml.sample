@@ -1,0 +1,149 @@
+<!-- BEGIN_INCLUDE(drupal:read-node) -->
+    <drupal:read-node nodeId="1"/>
+<!-- END_INCLUDE(drupal:read-node) -->
+<!-- BEGIN_INCLUDE(drupal:read-comment) -->
+    <drupal:read-comment commentId="1"/>
+<!-- END_INCLUDE(drupal:read-comment) -->
+<!-- BEGIN_INCLUDE(drupal:read-user) -->
+    <drupal:read-user userId="1"/>
+<!-- END_INCLUDE(drupal:read-user) -->
+<!-- BEGIN_INCLUDE(drupal:read-taxonomy-term) -->
+    <drupal:read-taxonomy-term taxonomyTermId="1"/>
+<!-- END_INCLUDE(drupal:read-taxonomy-term) -->
+<!-- BEGIN_INCLUDE(drupal:read-file) -->
+    <drupal:read-file fileId="1"/>
+<!-- END_INCLUDE(drupal:read-file) -->
+<!-- BEGIN_INCLUDE(drupal:read-taxonomy-vocabulary) -->
+    <drupal:read-taxonomy-vocabulary vocabularyId="1"/>
+<!-- END_INCLUDE(drupal:read-taxonomy-vocabulary) -->
+<!-- BEGIN_INCLUDE(drupal:create-node) -->
+    <drupal:create-node/>
+<!-- END_INCLUDE(drupal:create-node) -->
+<!-- BEGIN_INCLUDE(drupal:create-comment) -->
+    <drupal:create-comment/>
+<!-- END_INCLUDE(drupal:create-comment) -->
+<!-- BEGIN_INCLUDE(drupal:create-user) -->
+    <drupal:create-user>
+        <drupal:user name="NewUser" mail="foo@foo.com" password="dummy00"/>
+    </drupal:create-user>
+<!-- END_INCLUDE(drupal:create-user) -->
+<!-- BEGIN_INCLUDE(drupal:create-taxonomy-term) -->
+    <drupal:create-taxonomy-term/>
+<!-- END_INCLUDE(drupal:create-taxonomy-term) -->
+<!-- BEGIN_INCLUDE(drupal:create-file) -->
+    <drupal:create-file/>
+<!-- END_INCLUDE(drupal:create-file) -->
+<!-- BEGIN_INCLUDE(drupal:create-taxonomy-vocabulary) -->
+    <drupal:create-taxonomy-vocabulary>
+        <drupal:taxonomy-vocabulary name="NewVoc" description="New taxonomy Vocabulary" machineName="new_voc"/>
+    </drupal:create-taxonomy-vocabulary>
+<!-- END_INCLUDE(drupal:create-taxonomy-vocabulary) -->
+<!-- BEGIN_INCLUDE(drupal:register-user) -->
+    <drupal:register-user>
+        <drupal:user name="NewUser" mail="foo@foo.com" password="dummy00"/>
+    </drupal:register-user>
+<!-- END_INCLUDE(drupal:register-user) -->
+<!-- BEGIN_INCLUDE(drupal:update-node) -->
+    <drupal:update-node/>
+<!-- END_INCLUDE(drupal:update-node) -->
+<!-- BEGIN_INCLUDE(drupal:update-comment) -->
+    <drupal:update-comment/>
+<!-- END_INCLUDE(drupal:update-comment) -->
+<!-- BEGIN_INCLUDE(drupal:update-user) -->
+    <drupal:update-user>
+        <drupal:user/>
+    </drupal:update-user>
+<!-- END_INCLUDE(drupal:update-user) -->
+<!-- BEGIN_INCLUDE(drupal:update-taxonomy-term) -->
+    <drupal:update-taxonomy-term/>
+<!-- END_INCLUDE(drupal:update-taxonomy-term) -->
+<!-- BEGIN_INCLUDE(drupal:update-file) -->
+    <drupal:update-file/>
+<!-- END_INCLUDE(drupal:update-file) -->
+<!-- BEGIN_INCLUDE(drupal:update-taxonomy-vocabulary) -->
+    <drupal:update-taxonomy-vocabulary/>
+<!-- END_INCLUDE(drupal:update-taxonomy-vocabulary) -->
+<!-- BEGIN_INCLUDE(drupal:delete-node) -->
+    <drupal:delete-node nodeId="1"/>
+<!-- END_INCLUDE(drupal:delete-node) -->
+<!-- BEGIN_INCLUDE(drupal:delete-comment) -->
+    <drupal:delete-comment commentId="1"/>
+<!-- END_INCLUDE(drupal:delete-comment) -->
+<!-- BEGIN_INCLUDE(drupal:delete-file) -->
+    <drupal:delete-file fileId="1"/>
+<!-- END_INCLUDE(drupal:delete-file) -->
+<!-- BEGIN_INCLUDE(drupal:delete-taxonomy-vocabulary) -->
+    <drupal:delete-taxonomy-vocabulary taxonomyVocId="1"/>
+<!-- END_INCLUDE(drupal:delete-taxonomy-vocabulary) -->
+<!-- BEGIN_INCLUDE(drupal:delete-taxonomy-term) -->
+    <drupal:delete-taxonomy-term taxonomyTermId="1"/>
+<!-- END_INCLUDE(drupal:delete-taxonomy-term) -->
+<!-- BEGIN_INCLUDE(drupal:delete-user) -->
+    <drupal:delete-user userId="1"/>
+<!-- END_INCLUDE(drupal:delete-user) -->
+<!-- BEGIN_INCLUDE(drupal:count-all-comments) -->
+    <drupal:count-all-comments nodeId="1"/>
+<!-- END_INCLUDE(drupal:count-all-comments) -->
+<!-- BEGIN_INCLUDE(drupal:count-new-comments) -->
+    <drupal:count-new-comments nodeId="1"/>
+<!-- END_INCLUDE(drupal:count-new-comments) -->
+<!-- BEGIN_INCLUDE(drupal:index-nodes) -->
+    <drupal:index-nodes>
+        <drupal:fields>
+            <drupal:field>nid</drupal:field>
+            <drupal:field>type</drupal:field>
+            <drupal:field>title</drupal:field>
+        </drupal:fields>
+    </drupal:index-nodes>
+<!-- END_INCLUDE(drupal:index-nodes) -->
+<!-- BEGIN_INCLUDE(drupal:index-comments) -->
+    <drupal:index-comments>
+        <drupal:fields>
+            <drupal:field>cid</drupal:field>
+            <drupal:field>subject</drupal:field>
+        </drupal:fields>
+    </drupal:index-comments>
+<!-- END_INCLUDE(drupal:index-comments) -->
+<!-- BEGIN_INCLUDE(drupal:index-users) -->
+    <drupal:index-users startPage="2" pagesize="5">
+        <drupal:fields>
+            <drupal:field>mail</drupal:field>
+        </drupal:fields>
+    </drupal:index-users>
+<!-- END_INCLUDE(drupal:index-users) -->
+<!-- BEGIN_INCLUDE(drupal:index-taxonomy-terms) -->
+    <drupal:index-taxonomy-terms>
+        <drupal:fields>
+            <drupal:field>cid</drupal:field>
+            <drupal:field>subject</drupal:field>
+        </drupal:fields>
+    </drupal:index-taxonomy-terms>
+<!-- END_INCLUDE(drupal:index-taxonomy-terms) -->
+<!-- BEGIN_INCLUDE(drupal:index-taxonomy-vocabulary) -->
+    <drupal:index-taxonomy-vocabulary>
+        <drupal:fields>
+            <drupal:field>vid</drupal:field>
+            <drupal:field>created</drupal:field>
+        </drupal:fields>
+    </drupal:index-taxonomy-vocabulary>
+<!-- END_INCLUDE(drupal:index-taxonomy-vocabulary) -->
+<!-- BEGIN_INCLUDE(drupal:index-files) -->
+    <drupal:index-files>
+        <drupal:fields>
+            <drupal:field>vid</drupal:field>
+            <drupal:field>created</drupal:field>
+        </drupal:fields>
+    </drupal:index-files>
+<!-- END_INCLUDE(drupal:index-files) -->
+<!-- BEGIN_INCLUDE(drupal:get-nodes-with-term) -->
+    <drupal:get-nodes-with-term taxonomyTermId="1"/>
+<!-- END_INCLUDE(drupal:get-nodes-with-term) -->
+<!-- BEGIN_INCLUDE(drupal:get-taxonomy-vocabulary-tree) -->
+    <drupal:get-taxonomy-vocabulary-tree vocabularyId="1"/>
+<!-- END_INCLUDE(drupal:get-taxonomy-vocabulary-tree) -->
+<!-- BEGIN_INCLUDE(drupal:get-comments-for-node) -->
+    <drupal:get-comments-for-node nodeId="1"/>
+<!-- END_INCLUDE(drupal:get-comments-for-node) -->
+<!-- BEGIN_INCLUDE(drupal:get-files-for-node) -->
+    <drupal:get-files-for-node nodeId="1"/>
+<!-- END_INCLUDE(drupal:get-files-for-node) -->
