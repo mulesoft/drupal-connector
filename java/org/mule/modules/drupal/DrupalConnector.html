@@ -474,7 +474,8 @@ Summary:
 
 
 <h2>Class Overview</h2>
-<p>Cloud Connector</p>
+<p>Drupal is an open source content management platform powering millions of websites and applications. 
+ This connector allow you to integrate with a drupal server running the rest server.</p>
 
 
 
@@ -543,7 +544,8 @@ Summary:
           
           <a href="../../../../../java/org/mule/modules/drupal/client/DrupalClient.html">DrupalClient</a></nobr></td>
           <td class="jd-linkcol"><a href="../../../../../org/mule/modules/drupal/DrupalConnector.html#client">client</a></td>
-          <td class="jd-descrcol" width="100%"></td>
+          <td class="jd-descrcol" width="100%">Instance of a <code><a href="../../../../../java/org/mule/modules/drupal/client/DrupalRestClient.html">DrupalRestClient</a></code>
+</td>
       </tr>
       
     
@@ -623,6 +625,17 @@ Summary:
           String</nobr></td>
           <td class="jd-linkcol"><a href="../../../../../org/mule/modules/drupal/DrupalConnector.html#taxonomyVocabularyEndpoint">taxonomyVocabularyEndpoint</a></td>
           <td class="jd-descrcol" width="100%">Path relative to the REST api url for the TaxonomyVocabulary Resource.</td>
+      </tr>
+      
+    
+      <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          private
+          
+          
+          String</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../org/mule/modules/drupal/DrupalConnector.html#userEndpoint">userEndpoint</a></td>
+          <td class="jd-descrcol" width="100%">Path relative to the REST api url for the User Resource.</td>
       </tr>
       
     
@@ -757,9 +770,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../org/mule/modules/drupal/DrupalConnector.html#createComment(org.mule.modules.drupal.model.Comment)">createComment</a></span>(<a href="../../../../../java/org/mule/modules/drupal/model/Comment.html">Comment</a> comment)</nobr>
         
-        <div class="jd-descrdiv">Create a comment
- <p/>
- </div>
+        <div class="jd-descrdiv">Create a comment.</div>
   
   </td></tr>
 
@@ -797,9 +808,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../org/mule/modules/drupal/DrupalConnector.html#createNode(org.mule.modules.drupal.model.Node)">createNode</a></span>(<a href="../../../../../java/org/mule/modules/drupal/model/Node.html">Node</a> node)</nobr>
         
-        <div class="jd-descrdiv">Creates a node
- <p/>
- </div>
+        <div class="jd-descrdiv">Creates a node.</div>
   
   </td></tr>
 
@@ -897,9 +906,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../org/mule/modules/drupal/DrupalConnector.html#deleteFile(int)">deleteFile</a></span>(int fileId)</nobr>
         
-        <div class="jd-descrdiv">Delete a file
- <p/>
- </div>
+        <div class="jd-descrdiv">Delete a file.</div>
   
   </td></tr>
 
@@ -1217,6 +1224,22 @@ Summary:
             
             
             
+            String</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/drupal/DrupalConnector.html#getUserEndpoint()">getUserEndpoint</a></span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
             List&lt;<a href="../../../../../java/org/mule/modules/drupal/model/Comment.html">Comment</a>&gt;</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
@@ -1228,7 +1251,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1246,7 +1269,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1264,7 +1287,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1282,7 +1305,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1300,7 +1323,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1318,7 +1341,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1337,7 +1360,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1355,7 +1378,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1373,7 +1396,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1391,7 +1414,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1409,7 +1432,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1427,7 +1450,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1445,7 +1468,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1465,7 +1488,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1481,7 +1504,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1497,7 +1520,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1513,7 +1536,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1529,7 +1552,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1545,7 +1568,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1561,7 +1584,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1577,7 +1600,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1588,6 +1611,22 @@ Summary:
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../org/mule/modules/drupal/DrupalConnector.html#setTaxonomyVocabularyEndpoint(java.lang.String)">setTaxonomyVocabularyEndpoint</a></span>(String taxonomyVocabularyEndpoint)</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/drupal/DrupalConnector.html#setUserEndpoint(java.lang.String)">setUserEndpoint</a></span>(String userEndpoint)</nobr>
         
   </td></tr>
 
@@ -1620,6 +1659,26 @@ Summary:
             
             
             
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../org/mule/modules/drupal/DrupalConnector.html#updateCustomFieldForNode(int, java.lang.String, java.util.Map<java.lang.String, java.lang.String>)">updateCustomFieldForNode</a></span>(int nodeId, String fieldName, Map&lt;String,&nbsp;String&gt; customProperties)</nobr>
+        
+        <div class="jd-descrdiv">Update one custom field with the properties set at the map
+ <p/>
+ </div>
+  
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
             <a href="../../../../../java/org/mule/modules/drupal/model/File.html">File</a></nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
@@ -1633,7 +1692,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1653,7 +1712,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1673,7 +1732,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1693,7 +1752,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2013,7 +2072,8 @@ From class
       </div>
     <div class="jd-details-descr">
       
-  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+  <div class="jd-tagdata jd-tagdescr"><p>Instance of a <code><a href="../../../../../java/org/mule/modules/drupal/client/DrupalRestClient.html">DrupalRestClient</a></code>
+</p></div>
 
     
     </div>
@@ -2230,6 +2290,37 @@ From class
     <div class="jd-details-descr">
       
   <div class="jd-tagdata jd-tagdescr"><p>Path relative to the REST api url for the TaxonomyVocabulary Resource.
+</p></div>
+
+    
+    </div>
+</div>
+
+
+
+<A NAME="userEndpoint"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        private 
+         
+         
+        String
+      </span>
+        userEndpoint
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Path relative to the REST api url for the User Resource.
 </p></div>
 
     
@@ -2519,7 +2610,8 @@ From class
       </div>
     <div class="jd-details-descr">
       
-  <div class="jd-tagdata jd-tagdescr"><p>Create a comment
+  <div class="jd-tagdata jd-tagdescr"><p>Create a comment.<p/> 
+ The comment needs to have the node id set. If the comment is related to another comment in the same node, you need to specify the comment id by setting the pid. See <code><a href="../../../../../java/org/mule/modules/drupal/model/Comment.html">Comment</a></code>.
  <p/>
  </p></div>
   <div class="jd-tagdata">
@@ -2527,7 +2619,7 @@ From class
       <table class="jd-tagtable">
         <tr>
           <th>comment</td>
-          <td>Comment</td>
+          <td>Comment with a subject, body and node id</td>
         </tr>
       </table>
   </div>
@@ -2583,7 +2675,7 @@ From class
       <table class="jd-tagtable">
         <tr>
           <th>file</td>
-          <td>File</td>
+          <td>File that has the content encoded in Base64 and the name of the file.</td>
         </tr>
       </table>
   </div>
@@ -2631,7 +2723,7 @@ From class
       </div>
     <div class="jd-details-descr">
       
-  <div class="jd-tagdata jd-tagdescr"><p>Creates a node
+  <div class="jd-tagdata jd-tagdescr"><p>Creates a node.
  <p/>
  </p></div>
   <div class="jd-tagdata">
@@ -2639,7 +2731,7 @@ From class
       <table class="jd-tagtable">
         <tr>
           <th>node</td>
-          <td>Node. The minimum required fields that need to be set are the Type and Title.</td>
+          <td>Node. The minimum required fields that need to be set are the Type and Title. See <code><a href="../../../../../java/org/mule/modules/drupal/model/Node.html">Node</a></code></td>
         </tr>
       </table>
   </div>
@@ -2907,7 +2999,7 @@ From class
       </div>
     <div class="jd-details-descr">
       
-  <div class="jd-tagdata jd-tagdescr"><p>Delete a file
+  <div class="jd-tagdata jd-tagdescr"><p>Delete a file. If the file is associated to any content, then it can not be deleted.
  <p/>
  </p></div>
   <div class="jd-tagdata">
@@ -3649,6 +3741,37 @@ From class
         </tr>
       </table>
   </div>
+
+    </div>
+</div>
+
+
+<A NAME="getUserEndpoint()"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        String
+      </span>
+      <span class="sympad">getUserEndpoint</span>
+      <span class="normal">()</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
 
     </div>
 </div>
@@ -4782,6 +4905,46 @@ From class
 </div>
 
 
+<A NAME="setUserEndpoint(java.lang.String)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        void
+      </span>
+      <span class="sympad">setUserEndpoint</span>
+      <span class="normal">(String userEndpoint)</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>userEndpoint</td>
+          <td></td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
 <A NAME="updateComment(org.mule.modules.drupal.model.Comment)"></A>
 
 <div class="jd-details api apilevel-"> 
@@ -4829,6 +4992,66 @@ From class
         <tr>
             <th><a href="../../../../../java/org/mule/modules/drupal/client/DrupalException.html">DrupalException</a></td>
             <td>When the server doesn't return code 200, it contains the code returned 
+</td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="updateCustomFieldForNode(int, java.lang.String, java.util.Map<java.lang.String, java.lang.String>)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        void
+      </span>
+      <span class="sympad">updateCustomFieldForNode</span>
+      <span class="normal">(int nodeId, String fieldName, Map&lt;String,&nbsp;String&gt; customProperties)</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Update one custom field with the properties set at the map
+ <p/>
+ </p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>nodeId</td>
+          <td>Id of the node</td>
+        </tr>
+        <tr>
+          <th>fieldName</td>
+          <td>Machine name of the field</td>
+        </tr>
+        <tr>
+          <th>customProperties</td>
+          <td>Map that contains the pair of key and values</td>
+        </tr>
+      </table>
+  </div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Throws</h5>
+      <table class="jd-tagtable">  
+        <tr>
+            <th><a href="../../../../../java/org/mule/modules/drupal/client/DrupalException.html">DrupalException</a></td>
+            <td>When the server doesn't return code 200
 </td>
         </tr>
       </table>

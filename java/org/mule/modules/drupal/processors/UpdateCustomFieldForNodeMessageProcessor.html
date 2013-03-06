@@ -74,7 +74,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="../../../../../../favicon.ico" />
 <title>
 
-  CountNewCommentsMessageProcessor
+  UpdateCustomFieldForNodeMessageProcessor
 
 
 | Mule Drupal Cloud Connector
@@ -240,7 +240,7 @@
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/drupal/processors/AbstractListeningMessageProcessor.html">AbstractListeningMessageProcessor</a>&lt;O&gt;</li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/drupal/processors/AbstractMessageProcessor.html">AbstractMessageProcessor</a>&lt;O&gt;</li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/drupal/processors/CountAllCommentsMessageProcessor.html">CountAllCommentsMessageProcessor</a></li>
-          <li class="selected api apilevel-"><a href="../../../../../../java/org/mule/modules/drupal/processors/CountNewCommentsMessageProcessor.html">CountNewCommentsMessageProcessor</a></li>
+          <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/drupal/processors/CountNewCommentsMessageProcessor.html">CountNewCommentsMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/drupal/processors/CreateCommentMessageProcessor.html">CreateCommentMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/drupal/processors/CreateFileMessageProcessor.html">CreateFileMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/drupal/processors/CreateNodeMessageProcessor.html">CreateNodeMessageProcessor</a></li>
@@ -271,7 +271,7 @@
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/drupal/processors/ReadUserMessageProcessor.html">ReadUserMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/drupal/processors/RegisterUserMessageProcessor.html">RegisterUserMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/drupal/processors/UpdateCommentMessageProcessor.html">UpdateCommentMessageProcessor</a></li>
-          <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/drupal/processors/UpdateCustomFieldForNodeMessageProcessor.html">UpdateCustomFieldForNodeMessageProcessor</a></li>
+          <li class="selected api apilevel-"><a href="../../../../../../java/org/mule/modules/drupal/processors/UpdateCustomFieldForNodeMessageProcessor.html">UpdateCustomFieldForNodeMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/drupal/processors/UpdateFileMessageProcessor.html">UpdateFileMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/drupal/processors/UpdateNodeMessageProcessor.html">UpdateNodeMessageProcessor</a></li>
           <li class="api apilevel-"><a href="../../../../../../java/org/mule/modules/drupal/processors/UpdateTaxonomyTermMessageProcessor.html">UpdateTaxonomyTermMessageProcessor</a></li>
@@ -466,7 +466,7 @@ Summary:
      
     
     class
-<h1>CountNewCommentsMessageProcessor</h1>
+<h1>UpdateCustomFieldForNodeMessageProcessor</h1>
 
 
 
@@ -560,7 +560,7 @@ Summary:
         
             <td class="jd-inheritance-space">&nbsp;&nbsp;&nbsp;&#x21b3;</td>
         
-        <td colspan="1" class="jd-inheritance-class-cell">org.mule.modules.drupal.processors.CountNewCommentsMessageProcessor</td>
+        <td colspan="1" class="jd-inheritance-class-cell">org.mule.modules.drupal.processors.UpdateCustomFieldForNodeMessageProcessor</td>
     </tr>
     
 
@@ -576,7 +576,7 @@ Summary:
 
 
 <h2>Class Overview</h2>
-<p>CountNewCommentsMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/drupal/DrupalConnector.html#countNewComments(int, int)">countNewComments(int, int)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/drupal/DrupalConnector.html">DrupalConnector</a></code>. For each argument there is a field in this processor to match it.  Before invoking the actual method the processor will evaluate and transform where possible to the expected argument type.
+<p>UpdateCustomFieldForNodeMessageProcessor invokes the <code><a href="../../../../../../java/org/mule/modules/drupal/DrupalConnector.html#updateCustomFieldForNode(int, java.lang.String, java.util.Map<java.lang.String, java.lang.String>)">updateCustomFieldForNode(int, java.lang.String, java.util.Map)</a></code> method in <code><a href="../../../../../../java/org/mule/modules/drupal/DrupalConnector.html">DrupalConnector</a></code>. For each argument there is a field in this processor to match it.  Before invoking the actual method the processor will evaluate and transform where possible to the expected argument type.
  
 </p>
 
@@ -779,8 +779,8 @@ org.mule.api.lifecycle.Stoppable
           protected
           
           
-          int</nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/drupal/processors/CountNewCommentsMessageProcessor.html#_nodeIdType">_nodeIdType</a></td>
+          Map&lt;String,&nbsp;String&gt;</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/drupal/processors/UpdateCustomFieldForNodeMessageProcessor.html#_customPropertiesType">_customPropertiesType</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
@@ -790,8 +790,30 @@ org.mule.api.lifecycle.Stoppable
           protected
           
           
+          String</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/drupal/processors/UpdateCustomFieldForNodeMessageProcessor.html#_fieldNameType">_fieldNameType</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class="alt-color api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
           int</nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/drupal/processors/CountNewCommentsMessageProcessor.html#_sinceType">_sinceType</a></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/drupal/processors/UpdateCustomFieldForNodeMessageProcessor.html#_nodeIdType">_nodeIdType</a></td>
+          <td class="jd-descrcol" width="100%"></td>
+      </tr>
+      
+    
+      <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          protected
+          
+          
+          Object</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/drupal/processors/UpdateCustomFieldForNodeMessageProcessor.html#customProperties">customProperties</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
@@ -802,7 +824,7 @@ org.mule.api.lifecycle.Stoppable
           
           
           Object</nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/drupal/processors/CountNewCommentsMessageProcessor.html#nodeId">nodeId</a></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/drupal/processors/UpdateCustomFieldForNodeMessageProcessor.html#fieldName">fieldName</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
@@ -813,7 +835,7 @@ org.mule.api.lifecycle.Stoppable
           
           
           Object</nobr></td>
-          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/drupal/processors/CountNewCommentsMessageProcessor.html#since">since</a></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/drupal/processors/UpdateCustomFieldForNodeMessageProcessor.html#nodeId">nodeId</a></td>
           <td class="jd-descrcol" width="100%"></td>
       </tr>
       
@@ -1000,7 +1022,7 @@ org.mule.api.lifecycle.Stoppable
             </nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/CountNewCommentsMessageProcessor.html#CountNewCommentsMessageProcessor()">CountNewCommentsMessageProcessor</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/UpdateCustomFieldForNodeMessageProcessor.html#UpdateCustomFieldForNodeMessageProcessor()">UpdateCustomFieldForNodeMessageProcessor</a></span>()</nobr>
         
   </td></tr>
 
@@ -1029,7 +1051,7 @@ org.mule.api.lifecycle.Stoppable
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/CountNewCommentsMessageProcessor.html#dispose()">dispose</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/UpdateCustomFieldForNodeMessageProcessor.html#dispose()">dispose</a></span>()</nobr>
         
   </td></tr>
 
@@ -1045,7 +1067,7 @@ org.mule.api.lifecycle.Stoppable
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/CountNewCommentsMessageProcessor.html#initialise()">initialise</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/UpdateCustomFieldForNodeMessageProcessor.html#initialise()">initialise</a></span>()</nobr>
         
         <div class="jd-descrdiv">Obtains the expression manager from the Mule context and initialises the connector.</div>
   
@@ -1063,7 +1085,7 @@ org.mule.api.lifecycle.Stoppable
             MuleEvent</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/CountNewCommentsMessageProcessor.html#process(org.mule.api.MuleEvent)">process</a></span>(MuleEvent event)</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/UpdateCustomFieldForNodeMessageProcessor.html#process(org.mule.api.MuleEvent)">process</a></span>(MuleEvent event)</nobr>
         
         <div class="jd-descrdiv">Invokes the MessageProcessor.</div>
   
@@ -1081,7 +1103,43 @@ org.mule.api.lifecycle.Stoppable
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/CountNewCommentsMessageProcessor.html#setFlowConstruct(org.mule.api.construct.FlowConstruct)">setFlowConstruct</a></span>(FlowConstruct flowConstruct)</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/UpdateCustomFieldForNodeMessageProcessor.html#setCustomProperties(java.lang.Object)">setCustomProperties</a></span>(Object value)</nobr>
+        
+        <div class="jd-descrdiv">Sets customProperties</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/UpdateCustomFieldForNodeMessageProcessor.html#setFieldName(java.lang.Object)">setFieldName</a></span>(Object value)</nobr>
+        
+        <div class="jd-descrdiv">Sets fieldName</div>
+  
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/UpdateCustomFieldForNodeMessageProcessor.html#setFlowConstruct(org.mule.api.construct.FlowConstruct)">setFlowConstruct</a></span>(FlowConstruct flowConstruct)</nobr>
         
         <div class="jd-descrdiv">Sets flow construct</div>
   
@@ -1099,7 +1157,7 @@ org.mule.api.lifecycle.Stoppable
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/CountNewCommentsMessageProcessor.html#setMuleContext(org.mule.api.MuleContext)">setMuleContext</a></span>(MuleContext context)</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/UpdateCustomFieldForNodeMessageProcessor.html#setMuleContext(org.mule.api.MuleContext)">setMuleContext</a></span>(MuleContext context)</nobr>
         
         <div class="jd-descrdiv">Set the Mule context</div>
   
@@ -1117,7 +1175,7 @@ org.mule.api.lifecycle.Stoppable
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/CountNewCommentsMessageProcessor.html#setNodeId(java.lang.Object)">setNodeId</a></span>(Object value)</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/UpdateCustomFieldForNodeMessageProcessor.html#setNodeId(java.lang.Object)">setNodeId</a></span>(Object value)</nobr>
         
         <div class="jd-descrdiv">Sets nodeId</div>
   
@@ -1135,10 +1193,8 @@ org.mule.api.lifecycle.Stoppable
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/CountNewCommentsMessageProcessor.html#setSince(java.lang.Object)">setSince</a></span>(Object value)</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/UpdateCustomFieldForNodeMessageProcessor.html#start()">start</a></span>()</nobr>
         
-        <div class="jd-descrdiv">Sets since</div>
-  
   </td></tr>
 
 
@@ -1153,23 +1209,7 @@ org.mule.api.lifecycle.Stoppable
             void</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/CountNewCommentsMessageProcessor.html#start()">start</a></span>()</nobr>
-        
-  </td></tr>
-
-
-	 
-    <tr class="alt-color api apilevel-" >
-        <td class="jd-typecol"><nobr>
-            
-            
-            
-            
-            
-            void</nobr>
-        </td>
-        <td class="jd-linkcol" width="100%"><nobr>
-        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/CountNewCommentsMessageProcessor.html#stop()">stop</a></span>()</nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/processors/UpdateCustomFieldForNodeMessageProcessor.html#stop()">stop</a></span>()</nobr>
         
   </td></tr>
 
@@ -2200,6 +2240,66 @@ From interface
 
 
 
+<A NAME="_customPropertiesType"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        protected 
+         
+         
+        Map&lt;String,&nbsp;String&gt;
+      </span>
+        _customPropertiesType
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+    </div>
+</div>
+
+
+
+<A NAME="_fieldNameType"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        protected 
+         
+         
+        String
+      </span>
+        _fieldNameType
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+    </div>
+</div>
+
+
+
 <A NAME="_nodeIdType"></A>
 
 <div class="jd-details api apilevel-"> 
@@ -2230,7 +2330,7 @@ From interface
 
 
 
-<A NAME="_sinceType"></A>
+<A NAME="customProperties"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -2238,9 +2338,39 @@ From interface
         protected 
          
          
-        int
+        Object
       </span>
-        _sinceType
+        customProperties
+    </h4>
+      <div class="api-level">
+        
+
+
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p></p></div>
+
+    
+    </div>
+</div>
+
+
+
+<A NAME="fieldName"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        protected 
+         
+         
+        Object
+      </span>
+        fieldName
     </h4>
       <div class="api-level">
         
@@ -2290,36 +2420,6 @@ From interface
 
 
 
-<A NAME="since"></A>
-
-<div class="jd-details api apilevel-"> 
-    <h4 class="jd-details-title">
-      <span class="normal">
-        protected 
-         
-         
-        Object
-      </span>
-        since
-    </h4>
-      <div class="api-level">
-        
-
-
-        
-  
-
-      </div>
-    <div class="jd-details-descr">
-      
-  <div class="jd-tagdata jd-tagdescr"><p></p></div>
-
-    
-    </div>
-</div>
-
-
-
 
 <!-- Public ctors -->
 
@@ -2329,7 +2429,7 @@ From interface
 
 
 
-<A NAME="CountNewCommentsMessageProcessor()"></A>
+<A NAME="UpdateCustomFieldForNodeMessageProcessor()"></A>
 
 <div class="jd-details api apilevel-"> 
     <h4 class="jd-details-title">
@@ -2341,7 +2441,7 @@ From interface
          
         
       </span>
-      <span class="sympad">CountNewCommentsMessageProcessor</span>
+      <span class="sympad">UpdateCustomFieldForNodeMessageProcessor</span>
       <span class="normal">()</span>
     </h4>
       <div class="api-level">
@@ -2495,6 +2595,88 @@ From interface
 </div>
 
 
+<A NAME="setCustomProperties(java.lang.Object)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        void
+      </span>
+      <span class="sympad">setCustomProperties</span>
+      <span class="normal">(Object value)</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Sets customProperties</p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>value</td>
+          <td>Value to set
+</td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="setFieldName(java.lang.Object)"></A>
+
+<div class="jd-details api apilevel-"> 
+    <h4 class="jd-details-title">
+      <span class="normal">
+        public 
+         
+         
+         
+         
+        void
+      </span>
+      <span class="sympad">setFieldName</span>
+      <span class="normal">(Object value)</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+        
+  
+
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Sets fieldName</p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Parameters</h5>
+      <table class="jd-tagtable">
+        <tr>
+          <th>value</td>
+          <td>Value to set
+</td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
 <A NAME="setFlowConstruct(org.mule.api.construct.FlowConstruct)"></A>
 
 <div class="jd-details api apilevel-"> 
@@ -2603,47 +2785,6 @@ From interface
     <div class="jd-details-descr">
       
   <div class="jd-tagdata jd-tagdescr"><p>Sets nodeId</p></div>
-  <div class="jd-tagdata">
-      <h5 class="jd-tagtitle">Parameters</h5>
-      <table class="jd-tagtable">
-        <tr>
-          <th>value</td>
-          <td>Value to set
-</td>
-        </tr>
-      </table>
-  </div>
-
-    </div>
-</div>
-
-
-<A NAME="setSince(java.lang.Object)"></A>
-
-<div class="jd-details api apilevel-"> 
-    <h4 class="jd-details-title">
-      <span class="normal">
-        public 
-         
-         
-         
-         
-        void
-      </span>
-      <span class="sympad">setSince</span>
-      <span class="normal">(Object value)</span>
-    </h4>
-      <div class="api-level">
-        <div>
-
-</div>
-        
-  
-
-      </div>
-    <div class="jd-details-descr">
-      
-  <div class="jd-tagdata jd-tagdescr"><p>Sets since</p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Parameters</h5>
       <table class="jd-tagtable">

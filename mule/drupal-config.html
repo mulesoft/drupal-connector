@@ -237,7 +237,7 @@ Summary:
           <th>Schema Location</th><td>http://www.mulesoft.org/schema/mule/drupal/current/mule-drupal.xsd&nbsp;&nbsp;(<a href="drupal-schema.html">View Schema</a>)</td>
         </tr>
 <tr>
-          <th>Schema Version</th><td>1.0-SNAPSHOT</td>
+          <th>Schema Version</th><td>1.0</td>
         </tr>
 <tr>
           <th>Minimum Mule Version</th><td>3.2</td>
@@ -249,7 +249,8 @@ Summary:
 
 
 <h2>Module Overview</h2>
-<p>Cloud Connector</p>
+<p>Drupal is an open source content management platform powering millions of websites and applications. 
+ This connector allow you to integrate with a drupal server running the rest server.</p>
 
 
 </div><!-- jd-descr -->
@@ -318,9 +319,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/drupal-config.html#create-comment">&lt;drupal:create-comment&gt;</a></nobr>
         
-        <div class="jd-descrdiv">Create a comment
- <p/>
- </div>
+        <div class="jd-descrdiv">Create a comment.</div>
         
   </td></tr>
 
@@ -342,9 +341,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/drupal-config.html#create-node">&lt;drupal:create-node&gt;</a></nobr>
         
-        <div class="jd-descrdiv">Creates a node
- <p/>
- </div>
+        <div class="jd-descrdiv">Creates a node.</div>
         
   </td></tr>
 
@@ -402,9 +399,7 @@ Summary:
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/drupal-config.html#delete-file">&lt;drupal:delete-file&gt;</a></nobr>
         
-        <div class="jd-descrdiv">Delete a file
- <p/>
- </div>
+        <div class="jd-descrdiv">Delete a file.</div>
         
   </td></tr>
 
@@ -650,6 +645,18 @@ Summary:
 	 
     <tr class="alt-color api apilevel-" >
         <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../mule/drupal-config.html#update-custom-field-for-node">&lt;drupal:update-custom-field-for-node&gt;</a></nobr>
+        
+        <div class="jd-descrdiv">Update one custom field with the properties set at the map
+ <p/>
+ </div>
+        
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/drupal-config.html#update-file">&lt;drupal:update-file&gt;</a></nobr>
         
         <div class="jd-descrdiv">Update file
@@ -660,7 +667,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/drupal-config.html#update-node">&lt;drupal:update-node&gt;</a></nobr>
         
@@ -672,7 +679,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/drupal-config.html#update-taxonomy-term">&lt;drupal:update-taxonomy-term&gt;</a></nobr>
         
@@ -684,7 +691,7 @@ Summary:
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/drupal-config.html#update-taxonomy-vocabulary">&lt;drupal:update-taxonomy-vocabulary&gt;</a></nobr>
         
@@ -696,7 +703,7 @@ Summary:
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../mule/drupal-config.html#update-user">&lt;drupal:update-user&gt;</a></nobr>
         
@@ -854,6 +861,18 @@ specify which configuration to use.</p>
           <td class="jd-linkcol"><nobr>taxonomyVocabularyEndpoint</nobr></td>
           <td class="jd-descrcol">taxonomy_vocabulary</td>
           <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Path relative to the REST api url for the TaxonomyVocabulary Resource.</td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol"></td>
+      </tr>
+      
+    
+      <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          xs:string</nobr></td>
+          <td class="jd-linkcol"><nobr>userEndpoint</nobr></td>
+          <td class="jd-descrcol">user</td>
+          <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Path relative to the REST api url for the User Resource.</td>
           <td class="jd-descrcol"></td>
           <td class="jd-descrcol"></td>
           <td class="jd-descrcol"></td>
@@ -1198,9 +1217,20 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
       </div>
     <div class="jd-details-descr">
       
-  <div class="jd-tagdata jd-tagdescr"><p>Create a comment
+  <div class="jd-tagdata jd-tagdescr"><p>Create a comment.<p/> 
+ The comment needs to have the node id set. If the comment is related to another comment in the same node, you need to specify the comment id by setting the pid. See <code><a href="../java/org/mule/modules/drupal/model/Comment.html">Comment</a></code>.
  <p/>
- <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;drupal:create-comment/&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;drupal:create-comment&gt;
+    &lt;drupal:comment subject="New Comment"&gt;
+        &lt;drupal:comment-body&gt;
+            &lt;drupal:und&gt;
+                &lt;drupal:und&gt;
+                    &lt;value&gt;Body content value&lt;/value&gt;
+                &lt;/drupal:und&gt;
+            &lt;/drupal:und&gt;
+        &lt;/drupal:comment-body&gt;
+    &lt;/drupal:comment&gt;
+&lt;/drupal:create-comment&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
@@ -1220,7 +1250,7 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
                     <tr class=" api apilevel-" >
                         <td class="jd-linkcol"><nobr>comment</nobr></td>
                         <td class="jd-descrcol">#[payload]</td>
-                        <td class="jd-descrcol"><i>Optional.&nbsp;</i>Comment</td>
+                        <td class="jd-descrcol"><i>Optional.&nbsp;</i>Comment with a subject, body and node id</td>
                         <td class="jd-descrcol"><a href="../java/org/mule/modules/drupal/model/Comment.html">Comment</a></td>
                         <td class="jd-descrcol">*/*</td>
                         <td class="jd-descrcol"></td>
@@ -1304,7 +1334,9 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
       
   <div class="jd-tagdata jd-tagdescr"><p>Create a file
  <p/>
- <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;drupal:create-file/&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;drupal:create-file&gt;
+    &lt;drupal:file filename="temp.gif" content="ENCODED_CONTENT_BASE64"/&gt;
+&lt;/drupal:create-file&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
@@ -1324,7 +1356,7 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
                     <tr class=" api apilevel-" >
                         <td class="jd-linkcol"><nobr>file</nobr></td>
                         <td class="jd-descrcol">#[payload]</td>
-                        <td class="jd-descrcol"><i>Optional.&nbsp;</i>File</td>
+                        <td class="jd-descrcol"><i>Optional.&nbsp;</i>File that has the content encoded in Base64 and the name of the file.</td>
                         <td class="jd-descrcol"><a href="../java/org/mule/modules/drupal/model/File.html">File</a></td>
                         <td class="jd-descrcol">*/*</td>
                         <td class="jd-descrcol"></td>
@@ -1406,9 +1438,19 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
       </div>
     <div class="jd-details-descr">
       
-  <div class="jd-tagdata jd-tagdescr"><p>Creates a node
+  <div class="jd-tagdata jd-tagdescr"><p>Creates a node.
  <p/>
- <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;drupal:create-node/&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;drupal:create-node&gt;
+    &lt;drupal:node title="New Article" type="article"&gt;
+        &lt;drupal:body&gt;
+            &lt;drupal:und&gt;
+                &lt;drupal:und&gt;
+                    &lt;value&gt;Body content value&lt;/value&gt;
+                &lt;/drupal:und&gt;
+            &lt;/drupal:und&gt;
+        &lt;/drupal:body&gt;
+    &lt;/drupal:node&gt;
+&lt;/drupal:create-node&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
@@ -1428,7 +1470,7 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
                     <tr class=" api apilevel-" >
                         <td class="jd-linkcol"><nobr>node</nobr></td>
                         <td class="jd-descrcol">#[payload]</td>
-                        <td class="jd-descrcol"><i>Optional.&nbsp;</i>Node. The minimum required fields that need to be set are the Type and Title.</td>
+                        <td class="jd-descrcol"><i>Optional.&nbsp;</i>Node. The minimum required fields that need to be set are the Type and Title. See <code><a href="../java/org/mule/modules/drupal/model/Node.html">Node</a></code></td>
                         <td class="jd-descrcol"><a href="../java/org/mule/modules/drupal/model/Node.html">Node</a></td>
                         <td class="jd-descrcol">*/*</td>
                         <td class="jd-descrcol"></td>
@@ -1512,7 +1554,9 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
       
   <div class="jd-tagdata jd-tagdescr"><p>Create a taxonomy term
  <p/>
- <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;drupal:create-taxonomy-term/&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;drupal:create-taxonomy-term&gt;
+    &lt;drupal:taxonomy-term name="New term" description="This is a new term" vid="1"/&gt;
+&lt;/drupal:create-taxonomy-term&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
@@ -1917,7 +1961,7 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
       </div>
     <div class="jd-details-descr">
       
-  <div class="jd-tagdata jd-tagdescr"><p>Delete a file
+  <div class="jd-tagdata jd-tagdescr"><p>Delete a file. If the file is associated to any content, then it can not be deleted.
  <p/>
  <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;drupal:delete-file fileId="1"/&gt;</pre></div></p></div>
   <div class="jd-tagdata">
@@ -4420,7 +4464,17 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
       
   <div class="jd-tagdata jd-tagdescr"><p>Update the comment
  <p/>
- <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;drupal:update-comment/&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;drupal:update-comment&gt;
+ &lt;drupal:comment subject="Updated subject" cid="1"&gt;
+        &lt;drupal:comment-body&gt;
+            &lt;drupal:und&gt;
+                &lt;drupal:und&gt;
+                    &lt;value&gt;Updated body content value&lt;/value&gt;
+                &lt;/drupal:und&gt;
+            &lt;/drupal:und&gt;
+        &lt;/drupal:comment-body&gt;
+    &lt;/drupal:comment&gt;
+&lt;/drupal:update-comment&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
@@ -4500,6 +4554,138 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
         <tr>
             <td><a href="../java/org/mule/modules/drupal/client/DrupalException.html">DrupalException</a></td>
             <td>When the server doesn't return code 200, it contains the code returned 
+</td>
+        </tr>
+      </table>
+  </div>
+
+    </div>
+</div>
+
+
+<A NAME="update-custom-field-for-node"></A>
+
+<div class="jd-details api apilevel-">
+    <h4 class="jd-details-title">
+      <span class="sympad">&lt;drupal:update-custom-field-for-node&gt;</span>
+    </h4>
+      <div class="api-level">
+        <div>
+
+</div>
+      </div>
+    <div class="jd-details-descr">
+      
+  <div class="jd-tagdata jd-tagdescr"><p>Update one custom field with the properties set at the map
+ <p/>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;drupal:update-custom-field-for-node nodeId="1" fieldName="field_test"&gt;
+    &lt;drupal:custom-properties&gt;
+        &lt;value&gt;10.00&lt;/value&gt;
+    &lt;/drupal:custom-properties&gt;
+&lt;/drupal:update-custom-field-for-node&gt;</pre></div></p></div>
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Attributes</h5>
+
+        <table id="lconfig" class="jd-sumtable">
+        <tr><th>Name</th><th>Default Value</th><th>Description</th><th>Java Type</th><th>MIME Type</th><th>Encoding</th></tr>
+        <tr>
+          <td class="jd-linkcol"><nobr>config-ref</nobr></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>Specify which configuration to use.</td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol"></td>
+          <td class="jd-descrcol"></td>
+        </tr>
+          
+          
+                
+                    <tr class=" api apilevel-" >
+                        <td class="jd-linkcol"><nobr>nodeId</nobr></td>
+                        <td class="jd-descrcol"></td>
+                        <td class="jd-descrcol">Id of the node</td>
+                        <td class="jd-descrcol">int</td>
+                        <td class="jd-descrcol">*/*</td>
+                        <td class="jd-descrcol"></td>
+                    </tr>
+                
+                
+          
+                
+                    <tr class="alt-color api apilevel-" >
+                        <td class="jd-linkcol"><nobr>fieldName</nobr></td>
+                        <td class="jd-descrcol"></td>
+                        <td class="jd-descrcol">Machine name of the field</td>
+                        <td class="jd-descrcol">String</td>
+                        <td class="jd-descrcol">*/*</td>
+                        <td class="jd-descrcol">UTF-8</td>
+                    </tr>
+                
+                
+          
+                
+          
+          
+              <tr><th colspan="12">Connection Parameters<br/><span style="font-weight: 200;">This are only required if you didn't specified them at the configuration element. They are also useful for overriding the values of the configurations or even if you need to extract them from the Mule message since they support expression evaluation.</span></th></tr>
+                
+                    <tr class=" api apilevel-" >
+                        <td class="jd-linkcol"><nobr>username</nobr></td>
+                        <td class="jd-descrcol"></td>
+                        <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>A username</td>
+                        <td class="jd-descrcol">String</td>
+                        <td class="jd-descrcol">*/*</td>
+                        <td class="jd-descrcol">UTF-8</td>
+                    </tr>
+                    
+                
+                    <tr class="alt-color api apilevel-" >
+                        <td class="jd-linkcol"><nobr>password</nobr></td>
+                        <td class="jd-descrcol"></td>
+                        <td class="jd-descrcol" width="100%"><i>Optional.&nbsp;</i>A password</td>
+                        <td class="jd-descrcol">String</td>
+                        <td class="jd-descrcol">*/*</td>
+                        <td class="jd-descrcol">UTF-8</td>
+                    </tr>
+                    
+                
+          
+          
+        </table>
+  </div>
+  
+      <div class="jd-tagdata">
+          <h5 class="jd-tagtitle">Child Elements</h5>
+            <table id="lconfig" class="jd-sumtable">
+              
+              <tr><th>Name</th><th>Default Value</th><th>Description</th><th>Java Type</th></td>
+              
+                
+              
+                
+              
+                
+                    <tr>
+                        <td><nobr>&lt;drupal:custom-properties&gt;</nobr></td>
+                        <td></td>
+                        <td>Map that contains the pair of key and values</td>
+                        <td>Map&lt;String,&nbsp;String&gt;</td>
+                    </tr>
+                
+                
+              
+          </table>
+      </div>
+  
+  
+    
+  
+  <div class="jd-tagdata">
+      <h5 class="jd-tagtitle">Exception Payloads</h5>
+      <table class="jd-sumtable">
+        <tr><th>Payload Class</th><th>Description</th></tr>
+        
+        <tr>
+            <td><a href="../java/org/mule/modules/drupal/client/DrupalException.html">DrupalException</a></td>
+            <td>When the server doesn't return code 200
 </td>
         </tr>
       </table>
@@ -4628,7 +4814,9 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
       
   <div class="jd-tagdata jd-tagdescr"><p>Update the node
  <p/>
- <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;drupal:update-node/&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;drupal:update-node&gt;
+    &lt;drupal:node title="Updated title" nid="1"/&gt;
+&lt;/drupal:update-node&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
@@ -4732,7 +4920,9 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
       
   <div class="jd-tagdata jd-tagdescr"><p>Update the taxonomy term
  <p/>
- <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;drupal:update-taxonomy-term/&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;drupal:update-taxonomy-term&gt;
+    &lt;drupal:taxonomy-term description="Updated description" tid="1"/&gt;
+&lt;/drupal:update-taxonomy-term&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
@@ -4836,7 +5026,9 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
       
   <div class="jd-tagdata jd-tagdescr"><p>Update the taxonomyVocabulary
  <p/>
- <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;drupal:update-taxonomy-vocabulary/&gt;</pre></div></p></div>
+ <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;drupal:update-taxonomy-vocabulary&gt;
+    &lt;drupal:taxonomy-vocabulary name="UpdateName" description="New description" vid="1"/&gt;
+&lt;/drupal:update-taxonomy-vocabulary&gt;    </pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>
 
@@ -4941,7 +5133,7 @@ attempts to reconnect only during business hours. Such a setting can prove usefu
   <div class="jd-tagdata jd-tagdescr"><p>Update the user
  <p/>
  <div class="jd-tagdata"><h5 class="jd-tagtitle">XML Sample</h5><pre>&lt;drupal:update-user&gt;
-    &lt;drupal:user/&gt;
+    &lt;drupal:user name="updatedUserName"/&gt;
 &lt;/drupal:update-user&gt;</pre></div></p></div>
   <div class="jd-tagdata">
       <h5 class="jd-tagtitle">Attributes</h5>

@@ -893,7 +893,8 @@ org.mule.api.lifecycle.Stoppable
           
           <a href="../../../../../../java/org/mule/modules/drupal/client/DrupalClient.html">DrupalClient</a></nobr></td>
           <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/drupal/DrupalConnector.html#client">client</a></td>
-          <td class="jd-descrcol" width="100%"></td>
+          <td class="jd-descrcol" width="100%">Instance of a <code><a href="../../../../../../java/org/mule/modules/drupal/client/DrupalRestClient.html">DrupalRestClient</a></code>
+</td>
       </tr>
       
     
@@ -973,6 +974,17 @@ org.mule.api.lifecycle.Stoppable
           String</nobr></td>
           <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/drupal/DrupalConnector.html#taxonomyVocabularyEndpoint">taxonomyVocabularyEndpoint</a></td>
           <td class="jd-descrcol" width="100%">Path relative to the REST api url for the TaxonomyVocabulary Resource.</td>
+      </tr>
+      
+    
+      <tr class=" api apilevel-" >
+          <td class="jd-typecol"><nobr>
+          private
+          
+          
+          String</nobr></td>
+          <td class="jd-linkcol"><a href="../../../../../../org/mule/modules/drupal/DrupalConnector.html#userEndpoint">userEndpoint</a></td>
+          <td class="jd-descrcol" width="100%">Path relative to the REST api url for the User Resource.</td>
       </tr>
       
     
@@ -1445,9 +1457,7 @@ From class
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/DrupalConnector.html#createComment(org.mule.modules.drupal.model.Comment)">createComment</a></span>(<a href="../../../../../../java/org/mule/modules/drupal/model/Comment.html">Comment</a> comment)</nobr>
         
-        <div class="jd-descrdiv">Create a comment
- <p/>
- </div>
+        <div class="jd-descrdiv">Create a comment.</div>
   
   </td></tr>
 
@@ -1485,9 +1495,7 @@ From class
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/DrupalConnector.html#createNode(org.mule.modules.drupal.model.Node)">createNode</a></span>(<a href="../../../../../../java/org/mule/modules/drupal/model/Node.html">Node</a> node)</nobr>
         
-        <div class="jd-descrdiv">Creates a node
- <p/>
- </div>
+        <div class="jd-descrdiv">Creates a node.</div>
   
   </td></tr>
 
@@ -1585,9 +1593,7 @@ From class
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/DrupalConnector.html#deleteFile(int)">deleteFile</a></span>(int fileId)</nobr>
         
-        <div class="jd-descrdiv">Delete a file
- <p/>
- </div>
+        <div class="jd-descrdiv">Delete a file.</div>
   
   </td></tr>
 
@@ -1905,6 +1911,22 @@ From class
             
             
             
+            String</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/DrupalConnector.html#getUserEndpoint()">getUserEndpoint</a></span>()</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
             List&lt;<a href="../../../../../../java/org/mule/modules/drupal/model/Comment.html">Comment</a>&gt;</nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
@@ -1916,7 +1938,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1934,7 +1956,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1952,7 +1974,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1970,7 +1992,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -1988,7 +2010,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2006,7 +2028,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2025,7 +2047,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2043,7 +2065,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2061,7 +2083,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2079,7 +2101,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2097,7 +2119,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2115,7 +2137,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2133,7 +2155,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2153,7 +2175,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2169,7 +2191,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2185,7 +2207,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2201,7 +2223,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2217,7 +2239,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2233,7 +2255,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2249,7 +2271,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2265,7 +2287,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2276,6 +2298,22 @@ From class
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
         <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/DrupalConnector.html#setTaxonomyVocabularyEndpoint(java.lang.String)">setTaxonomyVocabularyEndpoint</a></span>(String taxonomyVocabularyEndpoint)</nobr>
+        
+  </td></tr>
+
+
+	 
+    <tr class="alt-color api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/DrupalConnector.html#setUserEndpoint(java.lang.String)">setUserEndpoint</a></span>(String userEndpoint)</nobr>
         
   </td></tr>
 
@@ -2308,6 +2346,26 @@ From class
             
             
             
+            void</nobr>
+        </td>
+        <td class="jd-linkcol" width="100%"><nobr>
+        <span class="sympad"><a href="../../../../../../org/mule/modules/drupal/DrupalConnector.html#updateCustomFieldForNode(int, java.lang.String, java.util.Map<java.lang.String, java.lang.String>)">updateCustomFieldForNode</a></span>(int nodeId, String fieldName, Map&lt;String,&nbsp;String&gt; customProperties)</nobr>
+        
+        <div class="jd-descrdiv">Update one custom field with the properties set at the map
+ <p/>
+ </div>
+  
+  </td></tr>
+
+
+	 
+    <tr class=" api apilevel-" >
+        <td class="jd-typecol"><nobr>
+            
+            
+            
+            
+            
             <a href="../../../../../../java/org/mule/modules/drupal/model/File.html">File</a></nobr>
         </td>
         <td class="jd-linkcol" width="100%"><nobr>
@@ -2321,7 +2379,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2341,7 +2399,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2361,7 +2419,7 @@ From class
 
 
 	 
-    <tr class=" api apilevel-" >
+    <tr class="alt-color api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
@@ -2381,7 +2439,7 @@ From class
 
 
 	 
-    <tr class="alt-color api apilevel-" >
+    <tr class=" api apilevel-" >
         <td class="jd-typecol"><nobr>
             
             
