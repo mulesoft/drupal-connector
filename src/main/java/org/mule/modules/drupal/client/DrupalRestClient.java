@@ -46,7 +46,12 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.ClientResponse.Status;
 import com.sun.jersey.api.client.WebResource;
-
+/**
+ * Drupal client to interact with the rest server provided with the service modulo.
+ * 
+ * @author pablocabrera
+ *
+ */
 public class DrupalRestClient implements DrupalClient {
 
 	private Client client;
@@ -201,9 +206,6 @@ public class DrupalRestClient implements DrupalClient {
 	/**
 	 * Generic method to update entities from dynamic collections
 	 * 
-	 * {@sample.xml ../../../doc/servicesource-connector.xml.sample
-	 * servicesource:update}
-	 * 
 	 * @param collection
 	 *            a member of the
 	 *            {@link org.mule.modules.drupal.DrupalCollection} enum
@@ -258,7 +260,6 @@ public class DrupalRestClient implements DrupalClient {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private <T extends DrupalEntity> T executeRequest(String method, WebResource r,
 			DrupalCollection dc,Object entity) throws DrupalException {
 		WebResource.Builder builder = r.accept(MediaType.APPLICATION_JSON_TYPE)

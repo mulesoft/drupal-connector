@@ -14,7 +14,7 @@ import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 /**
- * Class that represent TAGs in articles
+ * Class that represent term references in articles
  * @author pablocabrera
  *
  */

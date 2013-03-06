@@ -11,11 +11,12 @@
     <parent>
        <groupId>org.mule.tools.devkit</groupId>
        <artifactId>mule-devkit-parent</artifactId>
-       <version>3.4.0-RC1</version>
+       <version>3.3.2</version>
     </parent>
 
     <properties>
         <devkit.studio.package.skip>false</devkit.studio.package.skip>
+        <category>Community</category>
     </properties>
    
     <dependencies>

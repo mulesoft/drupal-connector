@@ -25,7 +25,11 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-
+/**
+ * Deserializer to handle custom fields deserialization.
+ * @author pablocabrera
+ *
+ */
 public class DrupalEntityDeserealizer implements JsonDeserializer<DrupalEntity> {
 
 	@Override

@@ -23,6 +23,11 @@ import org.mule.modules.drupal.model.File;
 import org.mule.modules.drupal.model.TaxonomyTerm;
 import org.mule.modules.drupal.model.TaxonomyVocabulary;
 
+/**
+ * Enum that contains the resources supported by drupal service module.
+ * @author pablocabrera
+ *
+ */
 public enum DrupalCollection {
 
     Node("node", "node", Node.class),
@@ -32,8 +37,18 @@ public enum DrupalCollection {
     TaxonomyTerm("taxonomy_term","taxonomy_term",TaxonomyTerm.class),
     TaxonomyVocabulary("taxonomy_vocabulary","taxonomy_vocabulary",TaxonomyVocabulary.class);
     
+    /**
+     * Name of the resource
+     */
     private String entityName;
+    /**
+     * alias used for the resource url. By default this value is the same as the entity name.
+     */
     private String endpoint;
+    
+    /**
+     * Java class related to the resource
+     */
     private Class<?> type;
     
     private static final Map<String, DrupalCollection> name2Instance = new HashMap<String, DrupalCollection>();

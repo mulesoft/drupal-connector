@@ -13,7 +13,7 @@ package org.mule.modules.drupal.model;
 
 import com.google.gson.annotations.SerializedName;
 /**
- * Class that represents a Node. Node are usually the pages and articles
+ * Class that represents a Node. Node are usually the pages and articles or any custom content type.
  * @author pablocabrera
  *
  */
@@ -75,7 +75,7 @@ public class Node extends DrupalEntity{
 	private Integer revisionTimestamp;
 	
 	/**
-	 * The users.uid that created this version. {@link User}}
+	 * The users.uid that created this version. See {@link User}.
 	 */
 	@SerializedName(value="revision_uid")
 	private Integer revisionUid;

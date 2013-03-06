@@ -20,6 +20,11 @@ import org.mule.modules.drupal.model.TaxonomyTerm;
 import org.mule.modules.drupal.model.File;
 import org.mule.modules.drupal.model.TaxonomyVocabulary;
 
+/**
+ * Interface of a Drupal Client to interact with the server.
+ * @author pablocabrera
+ *
+ */
 public interface DrupalClient {
 
 	public void login(String username, String password) throws ConnectionException;

@@ -36,7 +36,7 @@ public class DrupalEntity implements Serializable{
 	private String uri;
 	
 	/**
-	 * All fields that are not default will be placed here
+	 * All fields that are not default will be placed here. This is a pair of Name field, and CustomField.
 	 */
 	private Map<String,CustomField> customFields;
 	

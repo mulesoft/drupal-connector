@@ -9,9 +9,20 @@
  */
 
 package org.mule.modules.drupal.client;
-
+/**
+ * Drupal Rest Client Factory.
+ * @author pablocabrera
+ *
+ */
 public class DrupalClientFactory {
 
+	/**
+	 * Returns an instance of {@link DrupalRestClient}
+	 * @param server Endpoint to connect
+	 * @param port	Port number
+	 * @param apiUrl Url of the api under the server
+	 * @return Instance configured with the values. 
+	 */
 	public static DrupalClient getClient(String server, int port, String apiUrl) {
 		return new DrupalRestClient(server, port, apiUrl);
 	}

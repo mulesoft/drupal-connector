@@ -12,7 +12,7 @@ package org.mule.modules.drupal.model;
 
 import com.google.gson.annotations.SerializedName;
 /**
- * Class to groups TAGs
+ * Class to groups Taxonomy Terms. See {@link TaxonomyTerm}.
  * @author pablocabrera
  *
  */

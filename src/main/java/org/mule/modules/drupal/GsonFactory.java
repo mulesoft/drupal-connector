@@ -14,7 +14,12 @@ import org.mule.modules.drupal.model.DrupalEntity;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
+/**
+ * GsonFactory that creates a Gson with custom serializers and deserializers.
+ * 
+ * @author pablocabrera
+ *
+ */
 public abstract class GsonFactory {
 	
 	private static Gson gson = null;

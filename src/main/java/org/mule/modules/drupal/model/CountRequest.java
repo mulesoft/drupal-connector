@@ -14,6 +14,11 @@ import java.io.Serializable;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * A container for the request made to get the amount of comments (and new comments) related to a node.
+ * @author pablocabrera
+ *
+ */
 public class CountRequest implements Serializable{
 
 	private static final long serialVersionUID = -1253208409778724544L;

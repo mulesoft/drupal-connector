@@ -139,7 +139,7 @@ public class DrupalRestClientTestDriver {
 		map=new CustomField();
 		fields=new HashMap();
 		fields.put("value", "10.00");
-		lm=lm = new ArrayList<Map>();
+		lm = new ArrayList<Map>();
 		lm.add(fields);
 		map.setUnd(lm);
 		Map customField=new HashMap<String,CustomField>();
@@ -467,5 +467,34 @@ public class DrupalRestClientTestDriver {
 		assertNotNull(voc);
 		assertNotNull(voc.get(0).getFid());
 		assertNotNull(voc.get(0).getUri());	
+	}
+	
+	@Test
+	public void customField() throws DrupalException{
+		Node node=new Node();
+		node.setNid(14);
+		CustomField map=new CustomField();
+		Map fields=new HashMap();
+		List<Map> lm = new ArrayList<Map>();
+
+		fields.put("fid", "1");
+		lm = new ArrayList<Map>();
+		lm.add(fields);
+		map.setUnd(lm);
+		Map customField=new HashMap<String,CustomField>();
+		customField.put("field_image", map);
+		node.setCustomFields(customField);
+		client.updateNode(node);
+
+	}
+	
+	@Test
+	public void createFile() throws DrupalException{
+		org.mule.modules.drupal.model.File file=client.readFile("4");
+		org.mule.modules.drupal.model.File file2=new org.mule.modules.drupal.model.File();
+		file2.setFilename("temp.gif");
+		file2.setContent(file.getContent());
+		file2 = client.createFile(file2);
+		assertNotNull(file2.getFid());
 	}
 }

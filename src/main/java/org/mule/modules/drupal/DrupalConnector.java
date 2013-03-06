@@ -13,7 +13,10 @@
  */
 package org.mule.modules.drupal;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Connector;
@@ -21,6 +24,7 @@ import org.mule.api.annotations.Connect;
 import org.mule.api.annotations.ValidateConnection;
 import org.mule.api.annotations.ConnectionIdentifier;
 import org.mule.api.annotations.Disconnect;
+import org.mule.api.annotations.display.Password;
 import org.mule.api.annotations.param.ConnectionKey;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
@@ -30,6 +34,7 @@ import org.mule.modules.drupal.client.DrupalClient;
 import org.mule.modules.drupal.client.DrupalClientFactory;
 import org.mule.modules.drupal.client.DrupalException;
 import org.mule.modules.drupal.model.Comment;
+import org.mule.modules.drupal.model.CustomField;
 import org.mule.modules.drupal.model.File;
 import org.mule.modules.drupal.model.Node;
 import org.mule.modules.drupal.model.TaxonomyTerm;
@@ -37,14 +42,17 @@ import org.mule.modules.drupal.model.TaxonomyVocabulary;
 import org.mule.modules.drupal.model.User;
 
 /**
- * Cloud Connector
+ * Drupal is an open source content management platform powering millions of websites and applications. 
+ * This connector allow you to integrate with a drupal server running the rest server.
  *
  * @author MuleSoft, Inc.
  */
-@Connector(name="drupal", schemaVersion="1.0-SNAPSHOT")
+@Connector(name="drupal", schemaVersion="1.0", friendlyName = "Drupal")
 public class DrupalConnector
 {
-	
+	/**
+	 * Instance of a {@link org.mule.modules.drupal.client.DrupalRestClient}
+	 */
 	protected DrupalClient client;
 
 	/**
@@ -70,7 +78,15 @@ public class DrupalConnector
 	@Optional
 	@Default(value="8888")
 	private int port;
-	
+
+	/**
+	 * Path relative to the REST api url for the User Resource.
+	 */
+	@Configurable
+	@Optional
+	@Default(value="user")
+	private String userEndpoint;
+
 	/**
 	 * Path relative to the REST api url for the Node Resource.
 	 */
@@ -119,8 +135,9 @@ public class DrupalConnector
      * @throws ConnectionException
      */
     @Connect
-    public void connect(@ConnectionKey String username, String password)
+    public void connect(@ConnectionKey String username,@Password String password)
         throws ConnectionException {
+    	DrupalCollection.User.setEndpointName(userEndpoint);
         DrupalCollection.Node.setEndpointName(nodeEndpoint);
         DrupalCollection.Comment.setEndpointName(commentEndpoint);
         DrupalCollection.File.setEndpointName(fileEndpoint);
@@ -160,7 +177,7 @@ public class DrupalConnector
     }
 
     /**
-     * Read a node. See {@link Node}.
+     * Read a node. See {@link org.mule.modules.drupal.model.Node}.
      * <p/>
      * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:read-node}
      * 
@@ -174,7 +191,7 @@ public class DrupalConnector
 	}
 
 	/**
-	 * Read a comment. See {@link Comment}
+	 * Read a comment. See {@link org.mule.modules.drupal.model.Comment}
 	 * <p/>
      * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:read-comment}
      * 
@@ -188,7 +205,7 @@ public class DrupalConnector
 	}
 
 	/**
-	 * Read an user. See {@link User}
+	 * Read an user. See {@link org.mule.modules.drupal.model.User}
 	 * <p/>
      * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:read-user}
      * 
@@ -202,7 +219,7 @@ public class DrupalConnector
 	}
 
 	/**
-	 * Read a taxonomy term. See {@link TaxonomyTerm}
+	 * Read a taxonomy term. See {@link org.mule.modules.drupal.model.TaxonomyTerm}
 	 * <p/>
      * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:read-taxonomy-term}
      * 
@@ -216,7 +233,7 @@ public class DrupalConnector
 	}
 
 	/**
-	 * Read a file. See {@link File}
+	 * Read a file. See {@link org.mule.modules.drupal.model.File}
 	 * <p/>
      * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:read-file}
      * 
@@ -244,11 +261,11 @@ public class DrupalConnector
 	}
 
 	/**
-	 * Creates a node
+	 * Creates a node.
 	 * <p/>
      * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:create-node}
      * 
-	 * @param node Node. The minimum required fields that need to be set are the Type and Title.
+	 * @param node Node. The minimum required fields that need to be set are the Type and Title. See {@link org.mule.modules.drupal.model.Node}
 	 * @return The node with the Id set by the server
 	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned 
 	 */
@@ -258,11 +275,12 @@ public class DrupalConnector
 	}
 
 	/**
-	 * Create a comment
+	 * Create a comment.<p/> 
+	 * The comment needs to have the node id set. If the comment is related to another comment in the same node, you need to specify the comment id by setting the pid. See {@link org.mule.modules.drupal.model.Comment}.
 	 * <p/>
      * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:create-comment}
      * 
-	 * @param comment Comment
+	 * @param comment Comment with a subject, body and node id
 	 * @return The comment with the Id set by the server
 	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned 
 	 */
@@ -304,7 +322,7 @@ public class DrupalConnector
 	 * <p/>
      * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:create-file}
      * 
-	 * @param file File
+	 * @param file File that has the content encoded in Base64 and the name of the file.
 	 * @return the file with the Id set.
 	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned 
 	 */
@@ -453,7 +471,7 @@ public class DrupalConnector
 		client.deleteComment(commentId);
 	}
 	/**
-	 * Delete a file
+	 * Delete a file. If the file is associated to any content, then it can not be deleted.
 	 * <p/>
      * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:delete-file}
      * 
@@ -537,7 +555,7 @@ public class DrupalConnector
 	 * <p/>
      * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:index-nodes}
      * 
-	 * @param fields List of fields of the node that we want to retrieve.See {@link Node}
+	 * @param fields List of fields of the node that we want to retrieve.See {@link org.mule.modules.drupal.model.Node}
 	 * @param startPage The start page of the result list. Default value is -1. In this case, parameter won't be used in the request
 	 * @param pagesize The maximum amount of results per page. Default value is 0.In this case, parameter won't be used in the request 
 	 * @return List of nodes with the required fields and the uri
@@ -554,7 +572,7 @@ public class DrupalConnector
 	 * <p/>
      * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:index-comments}
      * 
-	 * @param fields List of fields of the comment that we want to retrieve. See {@link Comment}
+	 * @param fields List of fields of the comment that we want to retrieve. See {@link org.mule.modules.drupal.model.Comment}
 	 * @param startPage The start page of the result list. Default value is -1. In this case, parameter won't be used in the request
 	 * @param pagesize The maximum amount of results per page. Default value is 0.In this case, parameter won't be used in the request 
 	 * @return List of comments with the required fields and the uri
@@ -571,7 +589,7 @@ public class DrupalConnector
 	 * <p/>
      * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:index-users}
      * 
-	 * @param fields List of fields of the user that we want to retrieve. See {@link User}
+	 * @param fields List of fields of the user that we want to retrieve. See {@link org.mule.modules.drupal.model.User}
 	 * @param startPage The start page of the result list. Default value is -1. In this case, parameter won't be used in the request
 	 * @param pagesize The maximum amount of results per page. Default value is 0.In this case, parameter won't be used in the request 
 	 * @return List of users with the required fields and the uri
@@ -588,7 +606,7 @@ public class DrupalConnector
 	 * <p/>
      * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:index-taxonomy-terms}
      * 
-	 * @param fields List of fields of the TaxonomyTerm that we want to retrieve. See {@link TaxonomyTerm}
+	 * @param fields List of fields of the TaxonomyTerm that we want to retrieve. See {@link org.mule.modules.drupal.model.TaxonomyTerm}
 	 * @param startPage The start page of the result list. Default value is -1. In this case, parameter won't be used in the request
 	 * @param pagesize The maximum amount of results per page. Default value is 0.In this case, parameter won't be used in the request 
 	 * @return List of terms with the required fields and the uri
@@ -605,7 +623,7 @@ public class DrupalConnector
 	 * <p/>
      * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:index-taxonomy-vocabulary}
      * 
-	 * @param fields List of fields of the TaxonomyVocabulary that we want to retrieve. See {@link TaxonomyVocabulary}
+	 * @param fields List of fields of the TaxonomyVocabulary that we want to retrieve. See {@link org.mule.modules.drupal.model.TaxonomyVocabulary}
 	 * @param startPage The start page of the result list. Default value is -1. In this case, parameter won't be used in the request
 	 * @param pagesize The maximum amount of results per page. Default value is 0.In this case, parameter won't be used in the request 
 	 * @return List of vocabularies with the required fields and the uri
@@ -622,7 +640,7 @@ public class DrupalConnector
 	 * <p/>
      * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:index-files}
      * 
-	 * @param fields List of fields of the File that we want to retrieve. See {@link File}
+	 * @param fields List of fields of the File that we want to retrieve. See {@link org.mule.modules.drupal.model.File}
 	 * @param startPage The start page of the result list. Default value is -1. In this case, parameter won't be used in the request
 	 * @param pagesize The maximum amount of results per page. Default value is 0.In this case, parameter won't be used in the request 
 	 * @return List of files with the required fields and the uri
@@ -656,7 +674,7 @@ public class DrupalConnector
 	 * @param vocabularyId Id of the TaxonomyVocabulary we want to get
 	 * @param parent The TaxonomyTerm id we will use to filter the results. Defatuls to -1. In this case the parameter willl be ignored
 	 * @param maxdepth Max depth value of the terms tree we want to retrieve. It is an exclusive limit. Only terms with lower depth value will be retrieved. Default value is 0. In this case parameter will be ignored
-	 * @return A list of terms. The tree is actually the relationship that exists between the TaxonomyTerm parent field and the tid field. See {@link TaxonomyTerm}
+	 * @return A list of terms. The tree is actually the relationship that exists between the TaxonomyTerm parent field and the tid field. See {@link org.mule.modules.drupal.model.TaxonomyTerm}
 	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned
 	 */
 	@Processor
@@ -691,6 +709,34 @@ public class DrupalConnector
 	@Processor
 	public List<File> getFilesForNode(int nodeId) throws DrupalException {
 		return client.getFilesForNode(nodeId);
+	}
+	
+	/**
+	 * Update one custom field with the properties set at the map
+	 * <p/>
+     * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:update-custom-field-for-node}
+     *  
+	 * @param nodeId Id of the node
+	 * @param fieldName Machine name of the field
+	 * @param customProperties Map that contains the pair of key and values
+	 * @throws DrupalException When the server doesn't return code 200
+	 */
+	@Processor
+	public void updateCustomFieldForNode(int nodeId,String fieldName,Map<String,String> customProperties) throws DrupalException{
+		Node nod=new Node();
+		nod.setNid(nodeId);
+
+		CustomField field=new CustomField();
+		Map<String,CustomField> map=new HashMap<String,CustomField>();
+		List<Map> list = new ArrayList<Map>();
+		
+		
+		list.add(customProperties);
+		field.setUnd(list);
+		map.put(fieldName, field);
+		nod.setCustomFields(map);
+		
+		client.updateNode(nod);
 	}
 	
 	public String getServer() {
@@ -757,4 +803,12 @@ public class DrupalConnector
 		this.taxonomyVocabularyEndpoint = taxonomyVocabularyEndpoint;
 	}
 
+	public String getUserEndpoint() {
+		return userEndpoint;
+	}
+
+	public void setUserEndpoint(String userEndpoint) {
+		this.userEndpoint = userEndpoint;
+	}
+	
 }

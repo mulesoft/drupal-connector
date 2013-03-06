@@ -7,7 +7,7 @@
       xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-        http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/drupal/1.0-SNAPSHOT/mule-drupal.xsd">
+        http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/drupal/current/mule-drupal.xsd">
 
 	 <drupal:config name="drupal" username="pcabrera" password="Asuncion2003" apiUrl="/htdocs/rest"/>
 	

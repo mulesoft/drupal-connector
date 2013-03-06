@@ -17,10 +17,30 @@
     <drupal:read-taxonomy-vocabulary vocabularyId="1"/>
 <!-- END_INCLUDE(drupal:read-taxonomy-vocabulary) -->
 <!-- BEGIN_INCLUDE(drupal:create-node) -->
-    <drupal:create-node/>
+    <drupal:create-node>
+        <drupal:node title="New Article" type="article">
+            <drupal:body>
+                <drupal:und>
+                    <drupal:und>
+                        <value>Body content value</value>
+                    </drupal:und>
+                </drupal:und>
+            </drupal:body>
+        </drupal:node>
+    </drupal:create-node>
 <!-- END_INCLUDE(drupal:create-node) -->
 <!-- BEGIN_INCLUDE(drupal:create-comment) -->
-    <drupal:create-comment/>
+    <drupal:create-comment>
+        <drupal:comment subject="New Comment">
+            <drupal:comment-body>
+                <drupal:und>
+                    <drupal:und>
+                        <value>Body content value</value>
+                    </drupal:und>
+                </drupal:und>
+            </drupal:comment-body>
+        </drupal:comment>
+    </drupal:create-comment>
 <!-- END_INCLUDE(drupal:create-comment) -->
 <!-- BEGIN_INCLUDE(drupal:create-user) -->
     <drupal:create-user>
@@ -28,10 +48,14 @@
     </drupal:create-user>
 <!-- END_INCLUDE(drupal:create-user) -->
 <!-- BEGIN_INCLUDE(drupal:create-taxonomy-term) -->
-    <drupal:create-taxonomy-term/>
+    <drupal:create-taxonomy-term>
+        <drupal:taxonomy-term name="New term" description="This is a new term" vid="1"/>
+    </drupal:create-taxonomy-term>
 <!-- END_INCLUDE(drupal:create-taxonomy-term) -->
 <!-- BEGIN_INCLUDE(drupal:create-file) -->
-    <drupal:create-file/>
+    <drupal:create-file>
+        <drupal:file filename="temp.gif" content="ENCODED_CONTENT_BASE64"/>
+    </drupal:create-file>
 <!-- END_INCLUDE(drupal:create-file) -->
 <!-- BEGIN_INCLUDE(drupal:create-taxonomy-vocabulary) -->
     <drupal:create-taxonomy-vocabulary>
@@ -44,24 +68,40 @@
     </drupal:register-user>
 <!-- END_INCLUDE(drupal:register-user) -->
 <!-- BEGIN_INCLUDE(drupal:update-node) -->
-    <drupal:update-node/>
+    <drupal:update-node>
+        <drupal:node title="Updated title" nid="1"/>
+    </drupal:update-node>
 <!-- END_INCLUDE(drupal:update-node) -->
 <!-- BEGIN_INCLUDE(drupal:update-comment) -->
-    <drupal:update-comment/>
+    <drupal:update-comment>
+     <drupal:comment subject="Updated subject" cid="1">
+            <drupal:comment-body>
+                <drupal:und>
+                    <drupal:und>
+                        <value>Updated body content value</value>
+                    </drupal:und>
+                </drupal:und>
+            </drupal:comment-body>
+        </drupal:comment>
+    </drupal:update-comment>
 <!-- END_INCLUDE(drupal:update-comment) -->
 <!-- BEGIN_INCLUDE(drupal:update-user) -->
     <drupal:update-user>
-        <drupal:user/>
+        <drupal:user name="updatedUserName"/>
     </drupal:update-user>
 <!-- END_INCLUDE(drupal:update-user) -->
 <!-- BEGIN_INCLUDE(drupal:update-taxonomy-term) -->
-    <drupal:update-taxonomy-term/>
+    <drupal:update-taxonomy-term>
+        <drupal:taxonomy-term description="Updated description" tid="1"/>
+    </drupal:update-taxonomy-term>
 <!-- END_INCLUDE(drupal:update-taxonomy-term) -->
 <!-- BEGIN_INCLUDE(drupal:update-file) -->
     <drupal:update-file/>
 <!-- END_INCLUDE(drupal:update-file) -->
 <!-- BEGIN_INCLUDE(drupal:update-taxonomy-vocabulary) -->
-    <drupal:update-taxonomy-vocabulary/>
+    <drupal:update-taxonomy-vocabulary>
+        <drupal:taxonomy-vocabulary name="UpdateName" description="New description" vid="1"/>
+    </drupal:update-taxonomy-vocabulary>    
 <!-- END_INCLUDE(drupal:update-taxonomy-vocabulary) -->
 <!-- BEGIN_INCLUDE(drupal:delete-node) -->
     <drupal:delete-node nodeId="1"/>
@@ -147,3 +187,11 @@
 <!-- BEGIN_INCLUDE(drupal:get-files-for-node) -->
     <drupal:get-files-for-node nodeId="1"/>
 <!-- END_INCLUDE(drupal:get-files-for-node) -->
+{@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:update-custom-field-for-node}
+<!-- BEGIN_INCLUDE(drupal:update-custom-field-for-node) -->
+    <drupal:update-custom-field-for-node nodeId="1" fieldName="field_test">
+        <drupal:custom-properties>
+            <value>10.00</value>
+        </drupal:custom-properties>
+    </drupal:update-custom-field-for-node>
+<!-- END_INCLUDE(drupal:update-custom-field-for-node) -->

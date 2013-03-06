@@ -14,13 +14,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Drupal use for all custom fields that are not defined by default a list of maps. The name of the field is the machine name set to it and then comes a list of maps named "und"
- * In JSON a custom field looks like: "custom_field_machine_name":{"und":[{"property_name":"property value"}]}
+ * Drupal use for all custom fields that are not defined by default a list of maps. The name of the field is the machine name set to it and then comes a list of maps named "und".<p/>
+ * In JSON a custom field looks like: <code>"custom_field_machine_name":{"und":[{"property_name":"property value"}]}</code>
  * @author pablocabrera
  *
  */
 public class CustomField {
 
+	/**
+	 * List of maps that contains all the fields required to setupd the custom field.
+	 */
 	@SuppressWarnings("rawtypes")
 	List<Map> und;
 
