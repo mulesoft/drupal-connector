@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="drupaldemo">
+    <global-element type="http://www.mulesoft.org/schema/mule/drupal/config" name="Drupal" entity-id="Drupal#1">
+        <properties>
+            <property name="port"/>
+            <property name="nodeEndpoint"/>
+            <property value="pcabrera" name="username"/>
+            <property name="taxonomyVocabularyEndpoint"/>
+            <property value="admin-user" name="name"/>
+            <property value="/htdocs/rest" name="apiUrl"/>
+            <property name="server"/>
+            <property name="taxonomyTermEndpoint"/>
+            <property name="commentEndpoint"/>
+            <property value="Asuncion2003" name="password"/>
+            <property value="1" name="auxiliary;index"/>
+            <property name="fileEndpoint"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/drupal/connection-pooling-profile;0">
+                <property value="WHEN_EXHAUSTED_GROW" name="exhaustedAction"/>
+                <property value="2" name="auxiliary;index"/>
+                <property value="2" name="auxiliary;wrapIn"/>
+                <property value="INITIALISE_ONE" name="initialisationPolicy"/>
+            </property-collection>
+        </properties>
+    </global-element>
+    <global-element type="http://www.mulesoft.org/schema/mule/drupal/config" name="Drupal" entity-id="Drupal#2">
+        <properties>
+            <property name="port"/>
+            <property name="nodeEndpoint"/>
+            <property value="pcabrera" name="username"/>
+            <property name="taxonomyVocabularyEndpoint"/>
+            <property value="Drupal" name="name"/>
+            <property value="/htdocs/rest" name="apiUrl"/>
+            <property name="server"/>
+            <property name="taxonomyTermEndpoint"/>
+            <property name="commentEndpoint"/>
+            <property value="Asuncion2003" name="password"/>
+            <property value="3" name="auxiliary;index"/>
+            <property name="fileEndpoint"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/drupal/connection-pooling-profile;0">
+                <property value="WHEN_EXHAUSTED_GROW" name="exhaustedAction"/>
+                <property value="4" name="auxiliary;index"/>
+                <property value="4" name="auxiliary;wrapIn"/>
+                <property value="INITIALISE_ONE" name="initialisationPolicy"/>
+            </property-collection>
+        </properties>
+    </global-element>
+    <flow SubFlow="false" name="create-article" entity-id="39dab2ce-680d-4553-9c41-b2ed70ef7826">
+        <properties>
+            <property name="processingStrategy"/>
+            <property name="processingStrategy2"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="5" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#1">
+            <graphicalData height="0" width="0" y="0" x="0"/>
+            <endpoint message-exchange-pattern="RequestResponse" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="HTTP#1">
+                <graphicalData height="0" width="0" y="0" x="0"/>
+                <properties>
+                    <property value="8081" name="port"/>
+                    <property value="localhost" name="host"/>
+                    <property name="businessEventsLabel"/>
+                    <property name="followRedirects"/>
+                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property name="keep-alive"/>
+                    <property name="contentType"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="password"/>
+                    <property value="request-response" name="exchange-pattern"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property name="ref"/>
+                    <property name="transformer-refs"/>
+                    <property name="httpLabel"/>
+                    <property name="address"/>
+                    <property value="drupal/node/create" name="path"/>
+                    <property name="encoding"/>
+                    <property name="responseTransformer-refs"/>
+                    <property name="method"/>
+                    <property name="user"/>
+                    <property name="responseTimeout"/>
+                    <property name="mimeType"/>
+                    <property value="6" name="auxiliary;index"/>
+                    <property name="connector-ref"/>
+                </properties>
+            </endpoint>
+            <pattern type="http://www.mulesoft.org/schema/mule/drupal/drupal-connector" name="create-node" entity-id="Drupal#3">
+                <graphicalData height="0" width="0" y="0" x="0"/>
+                <properties>
+                    <property name=""/>
+                    <property name="username"/>
+                    <property value="http://www.mulesoft.org/schema/mule/drupal/create-node" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property name="password"/>
+                    <property value="admin-user" name="config-ref"/>
+                    <property value="7" name="auxiliary;index"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/drupal/node;0">
+                        <property value="#[message.inboundProperties['title']]" name="title"/>
+                        <property value="article" name="type"/>
+                        <property value="8" name="auxiliary;index"/>
+                        <property value="8" name="auxiliary;wrapIn"/>
+                    </property-collection>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/json/object-to-json-transformer" name="Object to JSON" entity-id="Object to JSON#1">
+                <graphicalData height="0" width="0" y="0" x="0"/>
+                <properties>
+                    <property name="sourceClass"/>
+                    <property name="returnClass"/>
+                    <property name="ignoreBadInput"/>
+                    <property name="encoding"/>
+                    <property name="mapper-ref"/>
+                    <property name="mimeType"/>
+                    <property value="9" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="create-comment" entity-id="17b99eea-53e8-4f1e-bdac-bf85fd3e4a69">
+        <properties>
+            <property name="processingStrategy"/>
+            <property name="processingStrategy2"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="10" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#2">
+            <graphicalData height="0" width="0" y="0" x="0"/>
+            <endpoint message-exchange-pattern="RequestResponse" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="HTTP#2">
+                <graphicalData height="0" width="0" y="0" x="0"/>
+                <properties>
+                    <property value="8081" name="port"/>
+                    <property value="localhost" name="host"/>
+                    <property name="businessEventsLabel"/>
+                    <property name="followRedirects"/>
+                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property name="keep-alive"/>
+                    <property name="contentType"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="password"/>
+                    <property value="request-response" name="exchange-pattern"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property name="ref"/>
+                    <property name="transformer-refs"/>
+                    <property name="httpLabel"/>
+                    <property name="address"/>
+                    <property value="drupal/comment/create" name="path"/>
+                    <property name="encoding"/>
+                    <property name="responseTransformer-refs"/>
+                    <property name="method"/>
+                    <property name="user"/>
+                    <property name="responseTimeout"/>
+                    <property name="mimeType"/>
+                    <property value="11" name="auxiliary;index"/>
+                    <property name="connector-ref"/>
+                </properties>
+            </endpoint>
+            <pattern type="http://www.mulesoft.org/schema/mule/drupal/drupal-connector" name="create-comment" entity-id="Drupal#4">
+                <graphicalData height="0" width="0" y="0" x="0"/>
+                <properties>
+                    <property name=""/>
+                    <property name="username"/>
+                    <property value="http://www.mulesoft.org/schema/mule/drupal/create-comment" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property name="password"/>
+                    <property value="admin-user" name="config-ref"/>
+                    <property value="12" name="auxiliary;index"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/drupal/comment;0">
+                        <property value="#[message.inboundProperties['nid']]" name="nid"/>
+                        <property value="#[message.inboundProperties['subject']]" name="subject"/>
+                        <property value="13" name="auxiliary;index"/>
+                        <property value="13" name="auxiliary;wrapIn"/>
+                        <property-collection name="@http://www.mulesoft.org/schema/mule/drupal/comment-body;1">
+                            <property value="14" name="auxiliary;index"/>
+                            <property value="14" name="auxiliary;wrapIn"/>
+                            <property-collection name="@http://www.mulesoft.org/schema/mule/drupal/configurable-unds;1">
+<property value="15" name="auxiliary;index"/>
+<property value="15" name="auxiliary;wrapIn"/>
+<property-collection name="@http://www.mulesoft.org/schema/mule/drupal/configurable-und;1">
+    <property value="16" name="auxiliary;index"/>
+    <property value="16" name="auxiliary;wrapIn"/>
+</property-collection>
+                            </property-collection>
+                        </property-collection>
+                    </property-collection>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/json/object-to-json-transformer" name="Object to JSON" entity-id="Object to JSON#2">
+                <graphicalData height="0" width="0" y="0" x="0"/>
+                <properties>
+                    <property name="sourceClass"/>
+                    <property name="returnClass"/>
+                    <property name="ignoreBadInput"/>
+                    <property name="encoding"/>
+                    <property name="mapper-ref"/>
+                    <property name="mimeType"/>
+                    <property value="18" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="read-node" entity-id="7dbd0146-5a33-4ed0-acb0-c77616f51178">
+        <properties>
+            <property name="processingStrategy"/>
+            <property name="processingStrategy2"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="19" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#3">
+            <graphicalData height="0" width="0" y="0" x="0"/>
+            <endpoint message-exchange-pattern="RequestResponse" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="HTTP#3">
+                <graphicalData height="0" width="0" y="0" x="0"/>
+                <properties>
+                    <property value="8081" name="port"/>
+                    <property value="localhost" name="host"/>
+                    <property name="businessEventsLabel"/>
+                    <property name="followRedirects"/>
+                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property name="keep-alive"/>
+                    <property name="contentType"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="password"/>
+                    <property value="request-response" name="exchange-pattern"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property name="ref"/>
+                    <property name="transformer-refs"/>
+                    <property name="httpLabel"/>
+                    <property name="address"/>
+                    <property value="drupal/node/read" name="path"/>
+                    <property name="encoding"/>
+                    <property name="responseTransformer-refs"/>
+                    <property name="method"/>
+                    <property name="user"/>
+                    <property name="responseTimeout"/>
+                    <property name="mimeType"/>
+                    <property value="20" name="auxiliary;index"/>
+                    <property name="connector-ref"/>
+                </properties>
+            </endpoint>
+            <pattern type="http://www.mulesoft.org/schema/mule/drupal/drupal-connector" name="read-node" entity-id="Drupal#5">
+                <graphicalData height="0" width="0" y="0" x="0"/>
+                <properties>
+                    <property name=""/>
+                    <property name="username"/>
+                    <property value="#[message.inboundProperties['nid']]" name="nodeId"/>
+                    <property value="http://www.mulesoft.org/schema/mule/drupal/read-node" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property name="password"/>
+                    <property value="Drupal" name="config-ref"/>
+                    <property value="21" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/json/object-to-json-transformer" name="Object to JSON" entity-id="Object to JSON#3">
+                <graphicalData height="0" width="0" y="0" x="0"/>
+                <properties>
+                    <property name="sourceClass"/>
+                    <property name="returnClass"/>
+                    <property name="ignoreBadInput"/>
+                    <property name="encoding"/>
+                    <property name="mapper-ref"/>
+                    <property name="mimeType"/>
+                    <property value="22" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="update-node" entity-id="bdec6f4b-f561-4e98-a472-5a5e5f473988">
+        <properties>
+            <property name="processingStrategy"/>
+            <property name="processingStrategy2"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property value="23" name="auxiliary;index"/>
+        </properties>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="compartment-lane#4">
+            <graphicalData height="0" width="0" y="0" x="0"/>
+            <endpoint message-exchange-pattern="RequestResponse" direction="Inbound" type="http://www.mulesoft.org/schema/mule/http/endpoint" name="HTTP" entity-id="HTTP#4">
+                <graphicalData height="0" width="0" y="0" x="0"/>
+                <properties>
+                    <property value="8081" name="port"/>
+                    <property value="localhost" name="host"/>
+                    <property name="businessEventsLabel"/>
+                    <property name="followRedirects"/>
+                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property name="keep-alive"/>
+                    <property name="contentType"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="password"/>
+                    <property value="request-response" name="exchange-pattern"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property name="ref"/>
+                    <property name="transformer-refs"/>
+                    <property name="httpLabel"/>
+                    <property name="address"/>
+                    <property value="drupal/node/update" name="path"/>
+                    <property name="encoding"/>
+                    <property name="responseTransformer-refs"/>
+                    <property name="method"/>
+                    <property name="user"/>
+                    <property name="responseTimeout"/>
+                    <property name="mimeType"/>
+                    <property value="24" name="auxiliary;index"/>
+                    <property name="connector-ref"/>
+                </properties>
+            </endpoint>
+            <pattern type="http://www.mulesoft.org/schema/mule/drupal/drupal-connector" name="update-node" entity-id="Drupal#6">
+                <graphicalData height="0" width="0" y="0" x="0"/>
+                <properties>
+                    <property name=""/>
+                    <property name="username"/>
+                    <property value="#[message.inboundProperties['nid']]" name="nodeId"/>
+                    <property value="http://www.mulesoft.org/schema/mule/drupal/update-custom-field-for-node" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="#[message.inboundProperties['field']]" name="fieldName"/>
+                    <property name="password"/>
+                    <property value="admin-user" name="config-ref"/>
+                    <property value="25" name="auxiliary;index"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/drupal/update-custom-field-for-node-custom-propertiess;0">
+                        <property value="26" name="auxiliary;index"/>
+                        <property value="26" name="auxiliary;wrapIn"/>
+                        <property-collection name="@http://www.mulesoft.org/schema/mule/drupal/update-custom-field-for-node-custom-properties;1">
+                            <property value="" name="value"/>
+                            <property value="value" name="key"/>
+                            <property value="#[message.inboundProperties['value']]" name="value-ref"/>
+                            <property value="27" name="auxiliary;index"/>
+                            <property value="27" name="auxiliary;wrapIn"/>
+                        </property-collection>
+                    </property-collection>
+                </properties>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/json/object-to-json-transformer" name="Object to JSON" entity-id="Object to JSON#4">
+                <graphicalData height="0" width="0" y="0" x="0"/>
+                <properties>
+                    <property name="sourceClass"/>
+                    <property name="returnClass"/>
+                    <property name="ignoreBadInput"/>
+                    <property name="encoding"/>
+                    <property name="mapper-ref"/>
+                    <property name="mimeType"/>
+                    <property value="28" name="auxiliary;index"/>
+                </properties>
+            </pattern>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="vocabulary-tree" entity-id="9bf907b1-cef3-40ae-a1bf-bec6fba2994b">
+        <properties>
+            <property name="updated"/>
+            <property value="" name="processingStrategy2"/>
+            <property value="" name="bussinessEventsLabel"/>
+            <property value="true" name="auxiliary;erased;processingStrategy2"/>
+            <property value="false" name="tracking:enable-default-events"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/ee/tracking/transaction;1179352816"/>
+        </properties>
+        <description></description>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="a8ba4df9-b6e8-4bdd-8e5a-21c9eacb8839">
+            <graphicalData height="0" width="0" y="0" x="0"/>
+            <endpoint message-exchange-pattern="RequestResponse" direction="Inbound" type="http://www.mulesoft.org/schema/mule/https/endpoint" name="HTTP" entity-id="70b38de6-c07e-4fd1-8fc2-ea356b173aa3">
+                <graphicalData height="0" width="0" y="0" x="0"/>
+                <properties>
+                    <property value="8081" name="port"/>
+                    <property value="true" name="auxiliary;erased;mimeType"/>
+                    <property value="" name="contentType"/>
+                    <property value="" name="password"/>
+                    <property value="false" name="tracking:enable-default-events"/>
+                    <property value="request-response" name="exchange-pattern"/>
+                    <property name="updated"/>
+                    <property value="true" name="auxiliary;erased;encoding"/>
+                    <property value="drupal/vocabulary" name="path"/>
+                    <property value="" name="encoding"/>
+                    <property value="" name="responseTransformer-refs"/>
+                    <property value="" name="mimeType"/>
+                    <property value="10000" name="responseTimeout"/>
+                    <property value="true" name="auxiliary;erased;contentType"/>
+                    <property value="localhost" name="host"/>
+                    <property value="" name="businessEventsLabel"/>
+                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="false" name="keep-alive"/>
+                    <property value="false" name="disableTransportTransformer"/>
+                    <property value="" name="ref"/>
+                    <property value="" name="transformer-refs"/>
+                    <property value="" name="httpLabel"/>
+                    <property value="" name="address"/>
+                    <property value="" name="user"/>
+                    <property value="" name="connector-ref"/>
+                </properties>
+                <description></description>
+            </endpoint>
+            <pattern type="http://www.mulesoft.org/schema/mule/drupal/drupal-connector" name="vocabulary-tree" entity-id="8574a578-aad8-418e-b07e-6c91e8d34748">
+                <graphicalData height="0" width="0" y="0" x="0"/>
+                <properties>
+                    <property value="" name=""/>
+                    <property value="" name="username"/>
+                    <property value="#[message.inboundProperties['vid']]" name="vocabularyId"/>
+                    <property name="updated"/>
+                    <property value="http://www.mulesoft.org/schema/mule/drupal/get-taxonomy-vocabulary-tree" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="-1" name="parent"/>
+                    <property value="0" name="maxdepth"/>
+                    <property value="" name="password"/>
+                    <property value="admin-user" name="config-ref"/>
+                </properties>
+                <description></description>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/json/object-to-json-transformer" name="Object to JSON" entity-id="c27126b5-0dde-48c5-9648-0f5efe34f856">
+                <graphicalData height="0" width="0" y="0" x="0"/>
+            </pattern>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="index-node" entity-id="a31d9feb-f8ba-4c21-8d26-bdbfe5c5fa89">
+        <properties>
+            <property name="updated"/>
+            <property value="" name="processingStrategy2"/>
+            <property value="" name="bussinessEventsLabel"/>
+            <property value="false" name="tracking:enable-default-events"/>
+            <property value="true" name="auxiliary;erased;processingStrategy2"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/ee/tracking/transaction;1320627917"/>
+        </properties>
+        <description></description>
+        <lane isChoiceOtherwiseLane="false" index="0" hadOnlyOneElement="false" entity-id="51814176-628d-4322-9858-6d56fb95771d">
+            <graphicalData height="0" width="0" y="0" x="0"/>
+            <endpoint message-exchange-pattern="RequestResponse" direction="Inbound" type="http://www.mulesoft.org/schema/mule/https/endpoint" name="HTTP" entity-id="b6e9dbbe-9884-4bd5-8580-c283b0f7e14a">
+                <graphicalData height="169" width="68" y="1259" x="19"/>
+                <properties>
+                    <property value="8081" name="port"/>
+                    <property value="true" name="auxiliary;erased;mimeType"/>
+                    <property value="" name="contentType"/>
+                    <property value="" name="password"/>
+                    <property value="false" name="tracking:enable-default-events"/>
+                    <property value="request-response" name="exchange-pattern"/>
+                    <property name="updated"/>
+                    <property value="true" name="auxiliary;erased;encoding"/>
+                    <property value="drupal/node/index" name="path"/>
+                    <property value="" name="encoding"/>
+                    <property value="" name="responseTransformer-refs"/>
+                    <property value="" name="mimeType"/>
+                    <property value="10000" name="responseTimeout"/>
+                    <property value="true" name="auxiliary;erased;contentType"/>
+                    <property value="localhost" name="host"/>
+                    <property value="" name="businessEventsLabel"/>
+                    <property value="http://www.mulesoft.org/schema/mule/http/endpoint" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="false" name="keep-alive"/>
+                    <property value="false" name="disableTransportTransformer"/>
+                    <property value="" name="ref"/>
+                    <property value="" name="transformer-refs"/>
+                    <property value="" name="httpLabel"/>
+                    <property value="" name="address"/>
+                    <property value="" name="user"/>
+                    <property value="" name="connector-ref"/>
+                </properties>
+                <description></description>
+            </endpoint>
+            <pattern type="http://www.mulesoft.org/schema/mule/drupal/drupal-connector" name="index-node" entity-id="221cb78b-654a-4508-85b3-e07e067cb271">
+                <graphicalData height="67" width="68" y="1259" x="147"/>
+                <properties>
+                    <property value="" name=""/>
+                    <property value="0" name="pagesize"/>
+                    <property value="" name="username"/>
+                    <property name="updated"/>
+                    <property value="http://www.mulesoft.org/schema/mule/drupal/index-nodes" name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute"/>
+                    <property value="-1" name="startPage"/>
+                    <property value="admin-user" name="config-ref"/>
+                    <property value="" name="password"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/drupal/index-nodes-fieldss;1">
+                        <property-collection name="@http://www.mulesoft.org/schema/mule/drupal/index-nodes-fields;100649831">
+                            <property value="title" name="value"/>
+                        </property-collection>
+                        <property-collection name="@http://www.mulesoft.org/schema/mule/drupal/index-nodes-fields;1718628273">
+                            <property value="nid" name="value"/>
+                        </property-collection>
+                    </property-collection>
+                </properties>
+                <description></description>
+            </pattern>
+            <pattern type="http://www.mulesoft.org/schema/mule/json/object-to-json-transformer" name="Object to JSON" entity-id="ad6d263f-1c0e-4c22-a35b-ca95cbf760d3">
+                <graphicalData height="0" width="0" y="0" x="0"/>
+            </pattern>
+        </lane>
+    </flow>
+</mule-configuration>
