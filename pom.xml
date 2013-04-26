@@ -16,7 +16,8 @@
 
     <properties>
         <devkit.studio.package.skip>false</devkit.studio.package.skip>
-        <category>Community</category>
+        <category>Standard</category>
+        <licensePath>LICENSE.md</licensePath>
     </properties>
    
     <dependencies>
