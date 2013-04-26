@@ -205,21 +205,33 @@
     <li class="api apilevel-">
   <a href="../java/org/mule/modules/drupal/package-summary.html">org.mule.modules.drupal</a></li>
     <li class="api apilevel-">
+  <a href="../java/org/mule/modules/drupal/adapter/package-summary.html">org.mule.modules.drupal.adapter</a></li>
+    <li class="api apilevel-">
   <a href="../java/org/mule/modules/drupal/adapters/package-summary.html">org.mule.modules.drupal.adapters</a></li>
     <li class="api apilevel-">
   <a href="../java/org/mule/modules/drupal/agents/package-summary.html">org.mule.modules.drupal.agents</a></li>
+    <li class="api apilevel-">
+  <a href="../java/org/mule/modules/drupal/basic/package-summary.html">org.mule.modules.drupal.basic</a></li>
+    <li class="api apilevel-">
+  <a href="../java/org/mule/modules/drupal/callback/package-summary.html">org.mule.modules.drupal.callback</a></li>
     <li class="api apilevel-">
   <a href="../java/org/mule/modules/drupal/client/package-summary.html">org.mule.modules.drupal.client</a></li>
     <li class="api apilevel-">
   <a href="../java/org/mule/modules/drupal/config/package-summary.html">org.mule.modules.drupal.config</a></li>
     <li class="api apilevel-">
+  <a href="../java/org/mule/modules/drupal/connection/package-summary.html">org.mule.modules.drupal.connection</a></li>
+    <li class="api apilevel-">
   <a href="../java/org/mule/modules/drupal/connectivity/package-summary.html">org.mule.modules.drupal.connectivity</a></li>
+    <li class="api apilevel-">
+  <a href="../java/org/mule/modules/drupal/devkit/package-summary.html">org.mule.modules.drupal.devkit</a></li>
     <li class="api apilevel-">
   <a href="../java/org/mule/modules/drupal/model/package-summary.html">org.mule.modules.drupal.model</a></li>
     <li class="api apilevel-">
   <a href="../java/org/mule/modules/drupal/model/holders/package-summary.html">org.mule.modules.drupal.model.holders</a></li>
     <li class="api apilevel-">
   <a href="../java/org/mule/modules/drupal/model/transformers/package-summary.html">org.mule.modules.drupal.model.transformers</a></li>
+    <li class="api apilevel-">
+  <a href="../java/org/mule/modules/drupal/oauth/package-summary.html">org.mule.modules.drupal.oauth</a></li>
     <li class="api apilevel-">
   <a href="../java/org/mule/modules/drupal/process/package-summary.html">org.mule.modules.drupal.process</a></li>
     <li class="api apilevel-">
@@ -278,9 +290,11 @@
     <a href="#letter_D">D</a>
     <a href="#letter_F">F</a>
     <a href="#letter_G">G</a>
+    <a href="#letter_H">H</a>
     <a href="#letter_I">I</a>
     <a href="#letter_M">M</a>
     <a href="#letter_N">N</a>
+    <a href="#letter_O">O</a>
     <a href="#letter_P">P</a>
     <a href="#letter_R">R</a>
     <a href="#letter_S">S</a>
@@ -344,6 +358,18 @@
     
     
         <tr class="alt-color api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/basic/Capabilities.html">Capabilities</a></td>
+            <td class="jd-descrcol" width="100%">This interface is implemented for every org.mule.api.annotations.Module annotated class, to dynamically query what its capabilities are.&nbsp;</td>
+        </tr>
+    
+    
+        <tr class=" api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/basic/Capability.html">Capability</a></td>
+            <td class="jd-descrcol" width="100%">Enumeration of possible capabilities of Mule modules.&nbsp;</td>
+        </tr>
+    
+    
+        <tr class="alt-color api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/model/Comment.html">Comment</a></td>
             <td class="jd-descrcol" width="100%">Class that represents a comment.&nbsp;</td>
         </tr>
@@ -364,6 +390,18 @@
         <tr class=" api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/model/CommentRequest.html">CommentRequest</a></td>
             <td class="jd-descrcol" width="100%">Container for the Comment requests&nbsp;</td>
+        </tr>
+    
+    
+        <tr class="alt-color api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/connection/Connection.html">Connection</a></td>
+            <td class="jd-descrcol" width="100%">&nbsp;</td>
+        </tr>
+    
+    
+        <tr class=" api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/connection/ConnectionManager.html">ConnectionManager</a>&lt;K,&nbsp;C&nbsp;extends&nbsp;<a href="../java/org/mule/modules/drupal/connection/Connection.html">Connection</a>&gt;</td>
+            <td class="jd-descrcol" width="100%">Wrapper around org.mule.api.annotations.Connector annotated class that will infuse it with connection management capabilities.&nbsp;</td>
         </tr>
     
     
@@ -624,7 +662,7 @@
     
         <tr class="alt-color api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/adapters/DrupalConnectorConnectionIdentifierAdapter.html">DrupalConnectorConnectionIdentifierAdapter</a></td>
-            <td class="jd-descrcol" width="100%">A <code>DrupalConnectorConnectionIdentifierAdapter</code> is a wrapper around <code><a href="../java/org/mule/modules/drupal/DrupalConnector.html">DrupalConnector</a></code> that implements org.mule.api.Connection interface.&nbsp;</td>
+            <td class="jd-descrcol" width="100%">A <code>DrupalConnectorConnectionIdentifierAdapter</code> is a wrapper around <code><a href="../java/org/mule/modules/drupal/DrupalConnector.html">DrupalConnector</a></code> that implements org.mule.devkit.dynamic.api.helper.Connection interface.&nbsp;</td>
         </tr>
     
     
@@ -779,6 +817,25 @@
 </table>
 
 
+<h2 id="letter_H">H</h2>
+<table class="jd-sumtable">
+    
+    
+        <tr class="alt-color api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/callback/HttpCallback.html">HttpCallback</a></td>
+            <td class="jd-descrcol" width="100%">&nbsp;</td>
+        </tr>
+    
+    
+        <tr class=" api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/adapter/HttpCallbackAdapter.html">HttpCallbackAdapter</a></td>
+            <td class="jd-descrcol" width="100%">&nbsp;</td>
+        </tr>
+    
+    
+</table>
+
+
 <h2 id="letter_I">I</h2>
 <table class="jd-sumtable">
     
@@ -874,6 +931,12 @@
         </tr>
     
     
+        <tr class="alt-color api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/basic/MetadataAware.html">MetadataAware</a></td>
+            <td class="jd-descrcol" width="100%">This interface is implemented for every org.mule.api.annotations.Module and org.mule.api.annotations.Connector annotated class and its purpose is to define a contract to query the annotated class about its metadata.&nbsp;</td>
+        </tr>
+    
+    
 </table>
 
 
@@ -911,6 +974,44 @@
         </tr>
     
     
+        <tr class=" api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/oauth/NotAuthorizedException.html">NotAuthorizedException</a></td>
+            <td class="jd-descrcol" width="100%">&nbsp;</td>
+        </tr>
+    
+    
+</table>
+
+
+<h2 id="letter_O">O</h2>
+<table class="jd-sumtable">
+    
+    
+        <tr class="alt-color api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/oauth/OAuth1Adapter.html">OAuth1Adapter</a></td>
+            <td class="jd-descrcol" width="100%">&nbsp;</td>
+        </tr>
+    
+    
+        <tr class=" api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/oauth/OAuth2Adapter.html">OAuth2Adapter</a></td>
+            <td class="jd-descrcol" width="100%">&nbsp;</td>
+        </tr>
+    
+    
+        <tr class="alt-color api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/oauth/OAuthAdapter.html">OAuthAdapter</a></td>
+            <td class="jd-descrcol" width="100%">&nbsp;</td>
+        </tr>
+    
+    
+        <tr class=" api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/oauth/OAuthManager.html">OAuthManager</a>&lt;C&nbsp;extends&nbsp;<a href="../java/org/mule/modules/drupal/oauth/OAuthAdapter.html">OAuthAdapter</a>&gt;</td>
+            <td class="jd-descrcol" width="100%">Wrapper around org.mule.api.annotations.oauth.OAuth annotated class that will infuse it with
+ access token management capabilities.&nbsp;</td>
+        </tr>
+    
+    
 </table>
 
 
@@ -919,8 +1020,38 @@
     
     
         <tr class="alt-color api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/adapter/PoolManager.html">PoolManager</a></td>
+            <td class="jd-descrcol" width="100%">&nbsp;</td>
+        </tr>
+    
+    
+        <tr class=" api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/process/ProcessAdapter.html">ProcessAdapter</a>&lt;O&gt;</td>
+            <td class="jd-descrcol" width="100%">&nbsp;</td>
+        </tr>
+    
+    
+        <tr class="alt-color api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/process/ProcessCallback.html">ProcessCallback</a>&lt;T,&nbsp;O&gt;</td>
+            <td class="jd-descrcol" width="100%">Callback with logic to execute within a controlled environment provided by <code><a href="../java/org/mule/modules/drupal/process/ProcessTemplate.html">ProcessTemplate</a></code>&nbsp;</td>
+        </tr>
+    
+    
+        <tr class=" api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/process/ProcessCallbackProcessInterceptor.html">ProcessCallbackProcessInterceptor</a>&lt;T,&nbsp;O&gt;</td>
             <td class="jd-descrcol" width="100%">&nbsp;</td>
+        </tr>
+    
+    
+        <tr class="alt-color api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/process/ProcessInterceptor.html">ProcessInterceptor</a>&lt;T,&nbsp;O&gt;</td>
+            <td class="jd-descrcol" width="100%">&nbsp;</td>
+        </tr>
+    
+    
+        <tr class=" api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/process/ProcessTemplate.html">ProcessTemplate</a>&lt;T,&nbsp;O&gt;</td>
+            <td class="jd-descrcol" width="100%">ProcessTemplate provides a processing context for message processing.&nbsp;</td>
         </tr>
     
     
@@ -1016,6 +1147,12 @@
     
     
         <tr class="alt-color api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/oauth/RestoreAccessTokenCallback.html">RestoreAccessTokenCallback</a></td>
+            <td class="jd-descrcol" width="100%">&nbsp;</td>
+        </tr>
+    
+    
+        <tr class=" api apilevel-" >
             <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/process/RetryProcessInterceptor.html">RetryProcessInterceptor</a>&lt;T,&nbsp;O&gt;</td>
             <td class="jd-descrcol" width="100%">&nbsp;</td>
         </tr>
@@ -1026,6 +1163,32 @@
 
 <h2 id="letter_S">S</h2>
 <table class="jd-sumtable">
+    
+    
+        <tr class="alt-color api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/oauth/SaveAccessTokenCallback.html">SaveAccessTokenCallback</a></td>
+            <td class="jd-descrcol" width="100%">&nbsp;</td>
+        </tr>
+    
+    
+        <tr class=" api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/callback/SourceCallback.html">SourceCallback</a></td>
+            <td class="jd-descrcol" width="100%">Callback interface used by org.mule.api.annotations.Source annotated methods to dispatch messages.&nbsp;</td>
+        </tr>
+    
+    
+        <tr class="alt-color api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/devkit/SplashScreenAgent.html">SplashScreenAgent</a></td>
+            <td class="jd-descrcol" width="100%">Marks DevKit org.mule.api.agent.Agent implementations to take care of logging information at Mule app level mainly for troubleshooting purposes.&nbsp;</td>
+        </tr>
+    
+    
+        <tr class=" api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/callback/StopSourceCallback.html">StopSourceCallback</a></td>
+            <td class="jd-descrcol" width="100%">Callback returned by methods that are annotated with @Source
+ <p/>
+ It will be executed when the MessageSource is being stopped.&nbsp;</td>
+        </tr>
     
     
         <tr class="alt-color api apilevel-" >
@@ -1088,6 +1251,36 @@
 
 <h2 id="letter_U">U</h2>
 <table class="jd-sumtable">
+    
+    
+        <tr class="alt-color api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/oauth/UnableToAcquireAccessTokenException.html">UnableToAcquireAccessTokenException</a></td>
+            <td class="jd-descrcol" width="100%">Exception thrown when the access token needed for accessing a protected resource cannot be acquired
+ 
+&nbsp;</td>
+        </tr>
+    
+    
+        <tr class=" api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/connection/UnableToAcquireConnectionException.html">UnableToAcquireConnectionException</a></td>
+            <td class="jd-descrcol" width="100%">Exception thrown when the connection needed for executing an
+  operation is null.&nbsp;</td>
+        </tr>
+    
+    
+        <tr class="alt-color api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/oauth/UnableToAcquireRequestTokenException.html">UnableToAcquireRequestTokenException</a></td>
+            <td class="jd-descrcol" width="100%">Exception thrown when the request token needed for building the authorization URL cannot be acquired
+ 
+&nbsp;</td>
+        </tr>
+    
+    
+        <tr class=" api apilevel-" >
+            <td class="jd-linkcol"><a href="../java/org/mule/modules/drupal/connection/UnableToReleaseConnectionException.html">UnableToReleaseConnectionException</a></td>
+            <td class="jd-descrcol" width="100%">Exception thrown when the release connection operation of the
+  connection manager fails.&nbsp;</td>
+        </tr>
     
     
         <tr class="alt-color api apilevel-" >
