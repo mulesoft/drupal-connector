@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:facebook="http://www.mulesoft.org/schema/mule/facebook"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:drupal="http://www.mulesoft.org/schema/mule/drupal"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/drupal/current/mule-drupal.xsd">
+
+	<context:property-placeholder location="
+	automation-credentials.properties " />
+
+	<drupal:config name="myConfig" username="${drupal.config.username}"
+		password="${drupal.config.password}" server="${drupal.config.server}"
+		port="${drupal.config.port}" apiUrl="${drupal.config.apiUrl}"
+		nodeEndpoint="${drupal.config.nodeEndpoint}" fileEndpoint="${drupal.config.file}"
+		taxonomyTermEndpoint="${drupal.config.taxonomyTermEndpoint}"
+		taxonomyVocabularyEndpoint="${drupal.config.taxonomyVocabularyEndpoint}"
+		userEndpoint="${drupal.config.user}" />
+
+
+
+	<flow name="create-node">
+		<drupal:create-node config-ref="myConfig">
+			<drupal:node title="#[payload.title]" type="#[payload.type]">
+				<drupal:body>
+					<drupal:und>
+						<drupal:und>
+							<value>#[payload.content]</value>
+						</drupal:und>
+					</drupal:und>
+				</drupal:body>
+			</drupal:node>
+		</drupal:create-node>
+	</flow>
+
+	<flow name="delete-node">
+		<drupal:delete-node nodeId="#[payload.nodeId]" />
+	</flow>
+
+	<flow name="read-node">
+		<drupal:read-node nodeId="#[payload.nodeId]" />
+	</flow>
+
+	<flow name="index-nodes">
+		<drupal:index-nodes>
+			<drupal:fields>
+				<drupal:field>nid</drupal:field>
+				<drupal:field>type</drupal:field>
+				<drupal:field>title</drupal:field>
+			</drupal:fields>
+		</drupal:index-nodes>
+	</flow>
+
+
+	<flow name="update-node">
+		<drupal:update-node>
+			<drupal:node title="#[payload.titleForUpdate]" nid="#[payload.nodeId]" />
+		</drupal:update-node>
+	</flow>
+
+	<flow name="update-custom-field-for-node">
+		<!-- the custom-property body is the content -->
+		<drupal:update-custom-field-for-node
+			nodeId="#[payload.nodeId]" fieldName="body">
+			<drupal:custom-properties>
+				<value>#[payload.customproperty]</value>
+			</drupal:custom-properties>
+		</drupal:update-custom-field-for-node>
+	</flow>
+
+	<flow name="create-comment">
+		<drupal:create-comment>
+			<drupal:comment subject="#[payload.subject]" nid="#[payload.nid]">
+				<drupal:comment-body>
+					<drupal:und>
+						<drupal:und>
+							<value>#[payload.und]</value>
+						</drupal:und>
+					</drupal:und>
+				</drupal:comment-body>
+			</drupal:comment>
+		</drupal:create-comment>
+	</flow>
+
+	<flow name="delete-comment">
+		<drupal:delete-comment commentId="#[payload.commentId]" />
+	</flow>
+</mule>

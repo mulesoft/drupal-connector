@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>automation-credentials.properties</value>
+		</property>
+	</bean>
+
+
+	<!-- create-node -->
+	<util:map id="createNodeTestData" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="title" value="My Title" />
+		<entry key="content" value="Hello this is the body content" />
+		<entry key="type" value="article" />
+	</util:map>
+
+	<!-- delete-node -->
+	<util:map id="deleteNodeTestData" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="title" value="My Title" />
+		<entry key="content" value="Hello this is the body content" />
+		<entry key="type" value="article" />
+	</util:map>
+
+	<!-- update-node -->
+	<util:map id="updateNodeTestData" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="title" value="My Title" />
+		<entry key="content" value="Hello this is the body content" />
+		<entry key="type" value="article" />
+		<entry key="titleForUpdate" value="My Updated Title" />
+	</util:map>
+	
+	<!-- read-node -->
+	<util:map id="readNodeTestData" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="title" value="My Title" />
+		<entry key="content" value="Hello this is the body content" />
+		<entry key="type" value="article" />
+	</util:map>
+	
+	
+	<!-- read-node -->
+	<util:map id="updateCustomFieldForNodeTestData" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="title" value="My Title" />
+		<entry key="content" value="Hello this is the body content" />
+		<entry key="type" value="article" />
+		<entry key="customproperty" value="Hello 123" />
+	</util:map>
+	
+	<!-- craete-comment -->
+	<util:map id="createCommentTestData" map-class="java.util.HashMap"
+		key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="title" value="My Title" />
+		<entry key="content" value="Hello this is the body content" />
+		<entry key="type" value="article" />
+		<entry key="subject" value="Hello 123" />
+		<entry key="und" value="abc 123" />
+	</util:map>
+</beans>
