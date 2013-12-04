@@ -1,13 +1,16 @@
 package org.mule.modules.drupal.automation.testcases;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Rule;
 import org.junit.rules.Timeout;
-import org.mule.modules.tests.ConnectorTestCase;
-import org.mule.modules.drupal.client.DrupalException;
 import org.mule.modules.drupal.model.Comment;
+import org.mule.modules.drupal.model.CustomField;
 import org.mule.modules.drupal.model.Node;
+import org.mule.modules.tests.ConnectorTestCase;
 
 public class DrupalTestParent extends ConnectorTestCase {
 	// Set global timeout of tests to 10minutes
@@ -44,6 +47,11 @@ public class DrupalTestParent extends ConnectorTestCase {
 		return runFlowAndGetPayload("create-comment");
 	}
 	
+	protected Comment createComment(Comment comment) throws Exception {
+		upsertOnTestRunMessage("ref", comment);
+		return runFlowAndGetPayload("create-comment-by-reference");
+	}
+	
 	protected void deleteComment(Integer commentId) throws Exception{
 		upsertOnTestRunMessage("commentId", commentId);
 		runFlowAndGetPayload("delete-comment");
@@ -53,6 +61,23 @@ public class DrupalTestParent extends ConnectorTestCase {
 		upsertOnTestRunMessage("nodeId", nodeId);
 		
 		return runFlowAndGetPayload("read-node");
+	}
+	
+	public static Comment generateComment(String subject, String body) {
+		Comment comment = new Comment();
+		comment.setSubject(subject);
+		
+		HashMap<String, Object> undEntry = new HashMap<String, Object>();
+		undEntry.put("value", body);
+
+		ArrayList<Map> und = new ArrayList<Map>();
+		und.add(undEntry);
+		
+		CustomField commentBody = new CustomField();
+		commentBody.setUnd(und);
+		
+		comment.setCommentBody(commentBody);
+		return comment;
 	}
 
 }

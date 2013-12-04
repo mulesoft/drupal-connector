@@ -41,6 +41,10 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 		<drupal:read-node config-ref="Drupal" nodeId="#[payload.nodeId]" />
 	</flow>
 
+	<flow name="count-all-comments">
+		<drupal:count-all-comments config-ref="Drupal" nodeId="#[payload.nodeId]" />
+	</flow>
+
 	<flow name="index-nodes">
 		<drupal:index-nodes config-ref="Drupal">
 			<drupal:fields>
@@ -81,7 +85,13 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 			</drupal:comment>
 		</drupal:create-comment>
 	</flow>
-
+	
+	<flow name="create-comment-by-reference">
+		<drupal:create-comment config-ref="Drupal">
+			<drupal:comment ref="#[payload.ref]" />
+		</drupal:create-comment>
+	</flow>
+	
 	<flow name="delete-comment">
 		<drupal:delete-comment config-ref="Drupal" commentId="#[payload.commentId]" />
 	</flow>

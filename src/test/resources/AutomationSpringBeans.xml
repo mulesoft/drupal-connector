@@ -68,4 +68,28 @@
 		<entry key="subject" value="Hello 123" />
 		<entry key="und" value="abc 123" />
 	</util:map>
+	
+	<util:map id="countAllCommentsTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="title" value="My Node Title" />
+		<entry key="content" value="My Node content" />
+		<entry key="type" value="article" />
+		<entry key="comments">
+			<list value-type="org.mule.modules.drupal.model.Comment">
+				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
+					<constructor-arg index="0" value="My First Comment Subject" />
+					<constructor-arg index="1" value="My First Comment" />
+				</bean>
+				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
+					<constructor-arg index="0" value="My Second Comment Subject" />
+					<constructor-arg index="1" value="My Second Comment" />
+				</bean>
+				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
+					<constructor-arg index="0" value="My Third Comment Subject" />
+					<constructor-arg index="1" value="My Third Comment" />
+				</bean>
+			</list>
+		</entry>
+	</util:map>
+	
+	
 </beans>
