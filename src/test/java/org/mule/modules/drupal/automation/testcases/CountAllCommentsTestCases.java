@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.mule.modules.drupal.model.Comment;
 import org.mule.modules.drupal.model.Node;
 import org.mule.modules.tests.ConnectorTestUtils;
@@ -40,6 +41,7 @@ public class CountAllCommentsTestCases extends DrupalTestParent {
 		upsertOnTestRunMessage("commentIds", commentIds);
 	}
 	
+	@Category({RegressionTests.class})
 	@Test
 	public void testCountAllComments() {
 		try {
