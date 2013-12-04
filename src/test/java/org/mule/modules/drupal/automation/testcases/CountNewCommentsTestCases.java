@@ -8,18 +8,19 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mule.modules.drupal.model.Comment;
 import org.mule.modules.drupal.model.Node;
 import org.mule.modules.tests.ConnectorTestUtils;
 
-public class CountAllCommentsTestCases extends DrupalTestParent {
+public class CountNewCommentsTestCases extends DrupalTestParent {
 
 	@Before
 	public void setUp() throws Exception {
-		initializeTestRunMessage("countAllCommentsTestData");
-		
+		initializeTestRunMessage("countNewCommentsTestData");
+
 		String nodeTitle = getTestRunMessageValue("title");
 		String nodeContent = getTestRunMessageValue("content");
 		String nodeType = getTestRunMessageValue("type");
@@ -43,12 +44,56 @@ public class CountAllCommentsTestCases extends DrupalTestParent {
 	
 	@Category({RegressionTests.class})
 	@Test
-	public void testCountAllComments() {
+	public void testCountNewComments_AllComments() {
 		try {
 			List<Integer> commentIds = getTestRunMessageValue("commentIds");
 			
-			int count = (Integer) runFlowAndGetPayload("count-all-comments");
+			int count = (Integer) runFlowAndGetPayload("count-new-comments");
 			assertEquals(count, commentIds.size());
+		}
+		catch (Exception e) {
+			fail(ConnectorTestUtils.getStackTrace(e));
+		}
+	}
+	
+	@Category({RegressionTests.class})
+	@Test
+	@Ignore
+	public void testCountNewComments_NoComments() {
+		try {
+			Thread.sleep(10000);
+			
+			// Overwrite the "since" attribute such that we do not retrieve any new comments
+			upsertOnTestRunMessage("since", 1);
+			
+			int count = (Integer) runFlowAndGetPayload("count-new-comments");
+			assertEquals(count, 0);
+		}
+		catch (Exception e) {
+			fail(ConnectorTestUtils.getStackTrace(e));
+		}
+	}
+
+	@Category({RegressionTests.class})
+	@Test
+	@Ignore
+	public void testCountNewComments_OnlyOneComment() {
+		try {
+			// Overwrite the "since" attribute such that we retrieve comments which are
+			// created after this point
+			upsertOnTestRunMessage("since", System.currentTimeMillis());
+			
+			List<Integer> commentIds = getTestRunMessageValue("commentIds");
+			Integer nodeId = getTestRunMessageValue("nodeId");
+			
+			Comment comment = generateComment("New Comment", "This is a new comment");
+			comment.setNid(nodeId);
+			
+			Comment newComment = createComment(comment);
+			commentIds.add(newComment.getCid());
+			
+			int count = (Integer) runFlowAndGetPayload("count-new-comments");
+			assertEquals(count, 1);
 		}
 		catch (Exception e) {
 			fail(ConnectorTestUtils.getStackTrace(e));

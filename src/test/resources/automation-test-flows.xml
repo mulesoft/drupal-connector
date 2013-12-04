@@ -44,6 +44,10 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 	<flow name="count-all-comments">
 		<drupal:count-all-comments config-ref="Drupal" nodeId="#[payload.nodeId]" />
 	</flow>
+	
+	<flow name="count-new-comments">
+		<drupal:count-new-comments config-ref="Drupal" nodeId="#[payload.nodeId]" since="#[payload.since]" />
+	</flow>
 
 	<flow name="index-nodes">
 		<drupal:index-nodes config-ref="Drupal">
