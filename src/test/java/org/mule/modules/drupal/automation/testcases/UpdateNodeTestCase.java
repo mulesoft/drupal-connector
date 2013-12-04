@@ -1,10 +1,11 @@
 package org.mule.modules.drupal.automation.testcases;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.mule.modules.drupal.model.Node;
 
 public class UpdateNodeTestCase extends DrupalTestParent {
@@ -22,6 +23,7 @@ public class UpdateNodeTestCase extends DrupalTestParent {
 		upsertOnTestRunMessage("nodeId", node.getNid());
 	}
 	
+	@Category({RegressionTests.class})
 	@Test
 	public void testUpdateNode() throws Exception{
 		String titleForUpdate = getTestRunMessageValue("titleForUpdate");

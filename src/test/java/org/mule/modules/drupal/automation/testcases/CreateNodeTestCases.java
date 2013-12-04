@@ -43,7 +43,7 @@ public class CreateNodeTestCases extends DrupalTestParent {
 	}
 	
 	@After
-	public void TearDown() throws Exception{
+	public void tearDown() throws Exception{
 		Integer nodeId = Integer.parseInt(getTestRunMessageValue("nodeId").toString()); 
 		deleteNode(nodeId);
 	}

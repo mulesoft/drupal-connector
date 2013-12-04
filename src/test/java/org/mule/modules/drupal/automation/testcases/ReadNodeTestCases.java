@@ -5,7 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.mule.modules.drupal.model.Node;
+import org.mule.modules.tests.ConnectorTestUtils;
 
 public class ReadNodeTestCases extends DrupalTestParent {
 
@@ -22,11 +24,17 @@ public class ReadNodeTestCases extends DrupalTestParent {
 		upsertOnTestRunMessage("nodeId", node.getNid());
 	}
 	
+	@Category({SmokeTests.class, RegressionTests.class})
 	@Test
-	public void testReadNode() throws Exception{
-		Integer nodeId = getTestRunMessageValue("nodeId");
-		Node node =readNode(nodeId);
-		assertEquals(node.getTitle(),getTestRunMessageValue("title"));
+	public void testReadNode() {
+		try {
+			Integer nodeId = getTestRunMessageValue("nodeId");
+			Node node =readNode(nodeId);
+			assertEquals(node.getTitle(),getTestRunMessageValue("title"));
+		}
+		catch (Exception e) {
+			fail(ConnectorTestUtils.getStackTrace(e));
+		}
 	}
 	
 	

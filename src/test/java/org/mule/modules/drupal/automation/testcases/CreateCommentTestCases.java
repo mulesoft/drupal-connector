@@ -1,12 +1,14 @@
 package org.mule.modules.drupal.automation.testcases;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mule.modules.drupal.model.Comment;
 import org.mule.modules.drupal.model.Node;
+import org.mule.modules.tests.ConnectorTestUtils;
 
 public class CreateCommentTestCases extends DrupalTestParent  {
 
@@ -23,12 +25,17 @@ public class CreateCommentTestCases extends DrupalTestParent  {
 	}
 	
 	@Test
-	public void testCreateComment() throws Exception{
-		Integer nodeId = getTestRunMessageValue("nid");
-		String commentSubject = getTestRunMessageValue("subject");
-		String commentContent =  getTestRunMessageValue("und");
-		Comment comment = createComment(commentSubject, commentContent, nodeId);
-		assertEquals(comment.getSubject(), getTestRunMessageValue("subject"));
+	public void testCreateComment() {
+		try {
+			Integer nodeId = getTestRunMessageValue("nid");
+			String commentSubject = getTestRunMessageValue("subject");
+			String commentContent =  getTestRunMessageValue("und");
+			Comment comment = createComment(commentSubject, commentContent, nodeId);
+			assertEquals(comment.getSubject(), getTestRunMessageValue("subject"));
+		}
+		catch (Exception e) {
+			fail(ConnectorTestUtils.getStackTrace(e));
+		}
 	}
 	
 	

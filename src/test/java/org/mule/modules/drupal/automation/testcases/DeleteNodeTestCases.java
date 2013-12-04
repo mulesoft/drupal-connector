@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.mule.modules.drupal.model.Node;
 import org.mule.modules.tests.ConnectorTestUtils;
 
@@ -25,12 +26,13 @@ public class DeleteNodeTestCases extends DrupalTestParent {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Category({SmokeTests.class, RegressionTests.class })
 	@Test
 	public void testDeleteNode() {
 		try {
-			Integer nodeId = Integer.parseInt(getTestRunMessageValue("nodeId")
-					.toString());
+			Integer nodeId = Integer.parseInt(getTestRunMessageValue("nodeId").toString());
 			deleteNode(nodeId);
+			
 			List<Node> nodes = indexNodes();
 			for (Node curNode : nodes) {
 				if (curNode.getNid() == nodeId) {
