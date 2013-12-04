@@ -24,8 +24,14 @@ public class UpdateNodeTestCase extends DrupalTestParent {
 	
 	@Test
 	public void testUpdateNode() throws Exception{
-		Node node =runFlowAndGetPayload("update-node");
-		assertEquals(getTestRunMessageValue("titleForUpdate"),node.getTitle());
+		String titleForUpdate = getTestRunMessageValue("titleForUpdate");
+		
+		Node node = runFlowAndGetPayload("update-node");
+
+		Node updatedNode = readNode(node.getNid());
+		
+		assertEquals(updatedNode.getNid(), node.getNid());
+		assertEquals(titleForUpdate, updatedNode.getTitle());
 	}
 	
 	

@@ -9,10 +9,9 @@
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/drupal/current/mule-drupal.xsd">
 
-	<context:property-placeholder location="
-	automation-credentials.properties " />
+	<context:property-placeholder location="automation-credentials.properties " />
 
-	<drupal:config name="myConfig" username="${drupal.config.username}"
+	<drupal:config name="Drupal" username="${drupal.config.username}"
 		password="${drupal.config.password}" server="${drupal.config.server}"
 		port="${drupal.config.port}" apiUrl="${drupal.config.apiUrl}"
 		nodeEndpoint="${drupal.config.nodeEndpoint}" fileEndpoint="${drupal.config.file}"
@@ -20,10 +19,8 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 		taxonomyVocabularyEndpoint="${drupal.config.taxonomyVocabularyEndpoint}"
 		userEndpoint="${drupal.config.user}" />
 
-
-
 	<flow name="create-node">
-		<drupal:create-node config-ref="myConfig">
+		<drupal:create-node config-ref="Drupal">
 			<drupal:node title="#[payload.title]" type="#[payload.type]">
 				<drupal:body>
 					<drupal:und>
@@ -37,15 +34,15 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 	</flow>
 
 	<flow name="delete-node">
-		<drupal:delete-node nodeId="#[payload.nodeId]" />
+		<drupal:delete-node config-ref="Drupal" nodeId="#[payload.nodeId]" />
 	</flow>
 
 	<flow name="read-node">
-		<drupal:read-node nodeId="#[payload.nodeId]" />
+		<drupal:read-node config-ref="Drupal" nodeId="#[payload.nodeId]" />
 	</flow>
 
 	<flow name="index-nodes">
-		<drupal:index-nodes>
+		<drupal:index-nodes config-ref="Drupal">
 			<drupal:fields>
 				<drupal:field>nid</drupal:field>
 				<drupal:field>type</drupal:field>
@@ -56,14 +53,14 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 
 
 	<flow name="update-node">
-		<drupal:update-node>
+		<drupal:update-node config-ref="Drupal">
 			<drupal:node title="#[payload.titleForUpdate]" nid="#[payload.nodeId]" />
 		</drupal:update-node>
 	</flow>
 
 	<flow name="update-custom-field-for-node">
 		<!-- the custom-property body is the content -->
-		<drupal:update-custom-field-for-node
+		<drupal:update-custom-field-for-node config-ref="Drupal"
 			nodeId="#[payload.nodeId]" fieldName="body">
 			<drupal:custom-properties>
 				<value>#[payload.customproperty]</value>
@@ -72,7 +69,7 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 	</flow>
 
 	<flow name="create-comment">
-		<drupal:create-comment>
+		<drupal:create-comment config-ref="Drupal">
 			<drupal:comment subject="#[payload.subject]" nid="#[payload.nid]">
 				<drupal:comment-body>
 					<drupal:und>
@@ -86,6 +83,6 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 	</flow>
 
 	<flow name="delete-comment">
-		<drupal:delete-comment commentId="#[payload.commentId]" />
+		<drupal:delete-comment config-ref="Drupal" commentId="#[payload.commentId]" />
 	</flow>
 </mule>

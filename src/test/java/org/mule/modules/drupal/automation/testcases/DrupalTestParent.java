@@ -48,5 +48,11 @@ public class DrupalTestParent extends ConnectorTestCase {
 		upsertOnTestRunMessage("commentId", commentId);
 		runFlowAndGetPayload("delete-comment");
 	}
+	
+	protected Node readNode(String nodeId) throws Exception {
+		upsertOnTestRunMessage("nodeId", nodeId);
+		
+		return runFlowAndGetPayload("read-node");
+	}
 
 }
