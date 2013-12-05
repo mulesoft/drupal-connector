@@ -122,6 +122,12 @@
 		<entry key="fileName" value="My Image File" />
 	</util:map>
 	
+	<!-- delete-file -->
+	<util:map id="deleteFileTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="filePath" value="images.jpg" />
+		<entry key="fileName" value="My Image File To Delete" />
+	</util:map>
+	
 	<!-- read-file -->
 	<util:map id="readFileTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
 		<entry key="filePath" value="images.jpg" />
