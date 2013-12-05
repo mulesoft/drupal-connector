@@ -141,4 +141,15 @@
 		<entry key="email" value="mule.soft@mulesoft.com" />
 	</util:map>
 	
+	<!-- delete-user -->
+	<util:map id="deleteUserTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="user">
+			<bean class="org.mule.modules.drupal.model.User">
+				<property name="name" value="MuleSoft" />
+				<property name="password" value="soft123" />
+				<property name="mail" value="mule.soft@mulesoft.com" />
+			</bean>
+		</entry>
+	</util:map>
+	
 </beans>
