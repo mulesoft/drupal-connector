@@ -1,5 +1,7 @@
 package org.mule.modules.drupal.automation.testcases;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +14,8 @@ import org.mule.modules.drupal.model.CustomField;
 import org.mule.modules.drupal.model.File;
 import org.mule.modules.drupal.model.Node;
 import org.mule.modules.tests.ConnectorTestCase;
+import org.mule.util.Base64;
+import org.mule.util.IOUtils;
 
 public class DrupalTestParent extends ConnectorTestCase {
 	// Set global timeout of tests to 10minutes
@@ -99,4 +103,18 @@ public class DrupalTestParent extends ConnectorTestCase {
 		return comment;
 	}
 
+	protected File generateFile(String fileName, String filePath) throws IOException {
+		File file = new File();
+		file.setFilename(fileName);
+
+		InputStream fileStream = getClass().getClassLoader().getResourceAsStream(filePath);
+		byte[] fileBytes = IOUtils.toByteArray(fileStream);
+		
+		String base64encode = Base64.encodeBytes(fileBytes);
+		file.setContent(base64encode);
+		file.setFilesize(fileBytes.length);
+		
+		return file;
+	}
+	
 }

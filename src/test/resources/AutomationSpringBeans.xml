@@ -122,4 +122,10 @@
 		<entry key="fileName" value="My Image File" />
 	</util:map>
 	
+	<!-- read-file -->
+	<util:map id="readFileTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="filePath" value="images.jpg" />
+		<entry key="fileName" value="My Read File Image File" />
+	</util:map>
+	
 </beans>
