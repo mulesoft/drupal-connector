@@ -22,11 +22,7 @@ public class CreateUserTestCases extends DrupalTestParent {
 	@Test
 	public void testCreateUser() {
 		try {
-			String name = getTestRunMessageValue("name");
-			String email = getTestRunMessageValue("email");
-			String password = getTestRunMessageValue("password");
-			
-			User user = generateUser(name, email, password);
+			User user = getTestRunMessageValue("user");
 			User createdUser = createUser(user);
 			
 			Integer userId = createdUser.getUid();
