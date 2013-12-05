@@ -114,4 +114,12 @@
 		</entry>
 	</util:map>
 	
+	<!-- create-file -->
+	<util:map id="createFileTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<!-- The path of the file relative to the classpath -->
+		<entry key="filePath" value="images.jpg" />
+		<!-- The name of the file. Can be anything. -->
+		<entry key="fileName" value="My Image File" />
+	</util:map>
+	
 </beans>

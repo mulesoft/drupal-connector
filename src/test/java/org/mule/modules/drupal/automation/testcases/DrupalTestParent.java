@@ -9,6 +9,7 @@ import org.junit.Rule;
 import org.junit.rules.Timeout;
 import org.mule.modules.drupal.model.Comment;
 import org.mule.modules.drupal.model.CustomField;
+import org.mule.modules.drupal.model.File;
 import org.mule.modules.drupal.model.Node;
 import org.mule.modules.tests.ConnectorTestCase;
 
@@ -61,6 +62,24 @@ public class DrupalTestParent extends ConnectorTestCase {
 		upsertOnTestRunMessage("nodeId", nodeId);
 		
 		return runFlowAndGetPayload("read-node");
+	}
+	
+	protected File createFile(File file) throws Exception {
+		upsertOnTestRunMessage("ref", file);
+		
+		return runFlowAndGetPayload("create-file");
+	}
+	
+	protected File readFile(Integer fileId) throws Exception {
+		upsertOnTestRunMessage("fileId", fileId);
+		
+		return runFlowAndGetPayload("read-file");
+	}
+	
+	protected boolean deleteFile(Integer fileId) throws Exception {
+		upsertOnTestRunMessage("fileId", fileId);
+		
+		return runFlowAndGetPayload("delete-file");
 	}
 	
 	public static Comment generateComment(String subject, String body) {

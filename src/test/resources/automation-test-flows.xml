@@ -99,4 +99,18 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 	<flow name="delete-comment">
 		<drupal:delete-comment config-ref="Drupal" commentId="#[payload.commentId]" />
 	</flow>
+	
+	<flow name="create-file">
+		<drupal:create-file config-ref="Drupal">
+			<drupal:file ref="#[payload.ref]" />
+		</drupal:create-file>
+	</flow>
+	
+	<flow name="read-file">
+		<drupal:read-file config-ref="Drupal" fileId="#[payload.fileId]" />
+	</flow>
+	
+	<flow name="delete-file">
+		<drupal:delete-file config-ref="Drupal" fileId="#[payload.fileId]" />
+	</flow>
 </mule>
