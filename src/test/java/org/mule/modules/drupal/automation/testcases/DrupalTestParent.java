@@ -13,6 +13,7 @@ import org.mule.modules.drupal.model.Comment;
 import org.mule.modules.drupal.model.CustomField;
 import org.mule.modules.drupal.model.File;
 import org.mule.modules.drupal.model.Node;
+import org.mule.modules.drupal.model.User;
 import org.mule.modules.tests.ConnectorTestCase;
 import org.mule.util.Base64;
 import org.mule.util.IOUtils;
@@ -86,6 +87,24 @@ public class DrupalTestParent extends ConnectorTestCase {
 		return runFlowAndGetPayload("delete-file");
 	}
 	
+	protected User createUser(User user) throws Exception {
+		upsertOnTestRunMessage("userRef", user);
+		
+		return runFlowAndGetPayload("create-user");
+	}
+	
+	protected User readUser(Integer userId) throws Exception {
+		upsertOnTestRunMessage("userId", userId);
+		
+		return runFlowAndGetPayload("read-user");
+	}
+	
+	protected void deleteUser(Integer userId) throws Exception {
+		upsertOnTestRunMessage("userId", userId);
+		
+		runFlowAndGetPayload("delete-user");
+	}
+	
 	public static Comment generateComment(String subject, String body) {
 		Comment comment = new Comment();
 		comment.setSubject(subject);
@@ -101,6 +120,14 @@ public class DrupalTestParent extends ConnectorTestCase {
 		
 		comment.setCommentBody(commentBody);
 		return comment;
+	}
+	
+	protected static User generateUser(String name, String mail, String password) {
+		User user = new User();
+		user.setName(name);
+		user.setMail(mail);
+		user.setPassword(password);
+		return user;
 	}
 
 	protected File generateFile(String fileName, String filePath) throws IOException {

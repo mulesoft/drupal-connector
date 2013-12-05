@@ -113,4 +113,19 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 	<flow name="delete-file">
 		<drupal:delete-file config-ref="Drupal" fileId="#[payload.fileId]" />
 	</flow>
+	
+	<flow name="create-user">
+		<drupal:create-user config-ref="Drupal">
+			<drupal:user ref="#[payload.userRef]" />
+		</drupal:create-user>
+	</flow>
+	
+	<flow name="read-user">
+		<drupal:read-user config-ref="Drupal" userId="#[payload.userId]" />
+	</flow>
+
+	<flow name="delete-user">
+		<drupal:delete-user config-ref="Drupal" userId="#[payload.userId]" />
+	</flow>
+
 </mule>
