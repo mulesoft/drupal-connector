@@ -104,6 +104,12 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 		<drupal:read-comment config-ref="Drupal" commentId="#[payload.commentId]" />
 	</flow>
 	
+	<flow name="update-comment">
+		<drupal:update-comment config-ref="Drupal">
+			<drupal:comment ref="#[payload.commentRef]" />
+		</drupal:update-comment>
+	</flow>
+	
 	<flow name="create-file">
 		<drupal:create-file config-ref="Drupal">
 			<drupal:file ref="#[payload.ref]" />
