@@ -127,5 +127,11 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 	<flow name="delete-user">
 		<drupal:delete-user config-ref="Drupal" userId="#[payload.userId]" />
 	</flow>
+	
+	<flow name="register-user">
+		<drupal:register-user config-ref="Drupal">
+			<drupal:user ref="#[payload.userRef]" />
+		</drupal:register-user>
+	</flow>
 
 </mule>

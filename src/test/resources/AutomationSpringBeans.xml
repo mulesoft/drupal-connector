@@ -167,4 +167,15 @@
 		</entry>
 	</util:map>
 	
+	<!-- register-user -->
+	<util:map id="registerUserTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="userRef">
+			<bean class="org.mule.modules.drupal.model.User">
+				<property name="name" value="MuleSoft" />
+				<property name="password" value="soft123" />
+				<property name="mail" value="mule.soft@mulesoft.com" />
+			</bean>
+		</entry>
+	</util:map>
+	
 </beans>
