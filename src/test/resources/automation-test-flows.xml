@@ -133,5 +133,11 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 			<drupal:user ref="#[payload.userRef]" />
 		</drupal:register-user>
 	</flow>
+	
+	<flow name="update-user">
+		<drupal:update-user config-ref="Drupal">
+			<drupal:user ref="#[payload.userRef]" />
+		</drupal:update-user>
+	</flow>
 
 </mule>

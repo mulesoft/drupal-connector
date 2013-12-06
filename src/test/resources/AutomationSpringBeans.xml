@@ -178,4 +178,22 @@
 		</entry>
 	</util:map>
 	
+	<!-- update-user -->
+	<util:map id="updateUserTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="user">
+			<bean class="org.mule.modules.drupal.model.User">
+				<property name="name" value="MuleSoft" />
+				<property name="password" value="soft123" />
+				<property name="mail" value="mule.soft@mulesoft.com" />
+			</bean>
+		</entry>
+		<entry key="updatedUser">
+			<bean class="org.mule.modules.drupal.model.User">
+				<property name="name" value="Google" />
+				<property name="password" value="goog123" />
+				<property name="mail" value="goo.gle@google.com" />
+			</bean>
+		</entry>
+	</util:map>
+	
 </beans>
