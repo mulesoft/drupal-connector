@@ -30,7 +30,7 @@ public class DrupalTestParent extends ConnectorTestCase {
 		upsertOnTestRunMessage("type", type);
 		return runFlowAndGetPayload("create-node");
 	}
-
+	
 	protected void deleteNode(Integer nodeId) throws Exception {
 		upsertOnTestRunMessage("nodeId", nodeId);
 		runFlowAndGetPayload("delete-node");
@@ -53,14 +53,25 @@ public class DrupalTestParent extends ConnectorTestCase {
 		return runFlowAndGetPayload("create-comment");
 	}
 	
+	protected Comment createComment(Comment comment, Integer nodeId) throws Exception {
+		comment.setNid(nodeId);
+		return createComment(comment);
+	}
+	
 	protected Comment createComment(Comment comment) throws Exception {
 		upsertOnTestRunMessage("ref", comment);
 		return runFlowAndGetPayload("create-comment-by-reference");
 	}
 	
-	protected void deleteComment(Integer commentId) throws Exception{
+	protected void deleteComment(Integer commentId) throws Exception {
 		upsertOnTestRunMessage("commentId", commentId);
 		runFlowAndGetPayload("delete-comment");
+	}
+	
+	protected Comment readComment(Integer commentId) throws Exception {
+		upsertOnTestRunMessage("commentId", commentId);
+		
+		return runFlowAndGetPayload("read-comment");
 	}
 	
 	protected Node readNode(String nodeId) throws Exception {

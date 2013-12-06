@@ -100,6 +100,10 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 		<drupal:delete-comment config-ref="Drupal" commentId="#[payload.commentId]" />
 	</flow>
 	
+	<flow name="read-comment">
+		<drupal:read-comment config-ref="Drupal" commentId="#[payload.commentId]" />
+	</flow>
+	
 	<flow name="create-file">
 		<drupal:create-file config-ref="Drupal">
 			<drupal:file ref="#[payload.ref]" />
