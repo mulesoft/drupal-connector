@@ -127,6 +127,19 @@
 		</entry>
 	</util:map>
 	
+	<!-- read-comment -->
+	<util:map id="readCommentTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="title" value="My Read Node Title" />
+		<entry key="content" value="My Read Node Content" />
+		<entry key="type" value="article" />
+		<entry key="comment">
+			<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
+				<constructor-arg index="0" value="My Read Node Comment Subject" />
+				<constructor-arg index="1" value="My Read Node Comment" />
+			</bean>
+		</entry>
+	</util:map>
+	
 	<!-- create-file -->
 	<util:map id="createFileTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
 		<!-- The path of the file relative to the classpath -->
