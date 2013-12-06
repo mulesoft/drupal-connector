@@ -114,6 +114,25 @@
 		</entry>
 	</util:map>
 	
+	<!-- get-comments-for-node -->
+	<util:map id="getCommentsForNodeTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="title" value="My Node Title" />
+		<entry key="content" value="My Node content" />
+		<entry key="type" value="article" />
+		<entry key="comments">
+			<list value-type="org.mule.modules.drupal.model.Comment">
+				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
+					<constructor-arg index="0" value="First Comment Subject" />
+					<constructor-arg index="1" value="First Comment" />
+				</bean>
+				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
+					<constructor-arg index="0" value="Second Comment Subject" />
+					<constructor-arg index="1" value="Second Comment" />
+				</bean>
+			</list>
+		</entry>
+	</util:map>
+	
 	<!-- delete-comment -->
 	<util:map id="deleteCommentTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
 		<entry key="title" value="My Node Title" />

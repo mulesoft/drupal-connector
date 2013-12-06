@@ -110,6 +110,10 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 		</drupal:update-comment>
 	</flow>
 	
+	<flow name="get-comments-for-node">
+		<drupal:get-comments-for-node config-ref="Drupal" nodeId="#[payload.nodeId]" />
+	</flow>
+	
 	<flow name="create-file">
 		<drupal:create-file config-ref="Drupal">
 			<drupal:file ref="#[payload.ref]" />
