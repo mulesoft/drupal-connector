@@ -198,6 +198,13 @@
 		<entry key="fileName" value="My Read File Image File" />
 	</util:map>
 	
+	<!-- update-file -->
+	<util:map id="updateFileTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="filePath" value="images.jpg" />
+		<entry key="fileName" value="My Update File Image File" />
+		<entry key="newFileName" value="My Updated File Name" />
+	</util:map>
+	
 	<!-- create-user -->
 	<util:map id="createUserTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
 		<entry key="user">
