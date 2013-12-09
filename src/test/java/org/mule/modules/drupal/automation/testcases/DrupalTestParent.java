@@ -13,6 +13,8 @@ import org.mule.modules.drupal.model.Comment;
 import org.mule.modules.drupal.model.CustomField;
 import org.mule.modules.drupal.model.File;
 import org.mule.modules.drupal.model.Node;
+import org.mule.modules.drupal.model.TaxonomyTerm;
+import org.mule.modules.drupal.model.TaxonomyVocabulary;
 import org.mule.modules.drupal.model.User;
 import org.mule.modules.tests.ConnectorTestCase;
 import org.mule.util.Base64;
@@ -114,6 +116,42 @@ public class DrupalTestParent extends ConnectorTestCase {
 		upsertOnTestRunMessage("userId", userId);
 		
 		runFlowAndGetPayload("delete-user");
+	}
+
+	protected TaxonomyVocabulary createTaxonomyVocabulary(TaxonomyVocabulary vocabulary) throws Exception {
+		upsertOnTestRunMessage("taxonomyVocabularyRef", vocabulary);
+		
+		return runFlowAndGetPayload("create-taxonomy-vocabulary");
+	}
+	
+	protected void deleteTaxonomyVocabulary(Integer vocabularyId) throws Exception {
+		upsertOnTestRunMessage("taxonomyVocId", vocabularyId);
+		
+		runFlowAndGetPayload("delete-taxonomy-vocabulary");
+	}
+	
+	protected TaxonomyVocabulary readTaxonomyVocabulary(Integer vocabularyId) throws Exception {
+		upsertOnTestRunMessage("vocabularyId", vocabularyId);
+		
+		return runFlowAndGetPayload("read-taxonomy-vocabulary");
+	}
+	
+	protected TaxonomyTerm createTaxonomyTerm(TaxonomyTerm term) throws Exception {
+		upsertOnTestRunMessage("taxonomyTermRef", term);
+		
+		return runFlowAndGetPayload("create-taxonomy-term");
+	}
+	
+	protected void deleteTaxonomyTerm(Integer termId) throws Exception {
+		upsertOnTestRunMessage("taxonomyTermId", termId);
+		
+		runFlowAndGetPayload("delete-taxonomy-term");
+	}
+	
+	protected TaxonomyTerm readTaxonomyTerm(Integer termId) throws Exception {
+		upsertOnTestRunMessage("taxonomyTermId", termId);
+		
+		return runFlowAndGetPayload("read-taxonomy-term");
 	}
 	
 	public static Comment generateComment(String subject, String body) {

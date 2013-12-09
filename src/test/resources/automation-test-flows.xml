@@ -160,4 +160,32 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 		</drupal:update-user>
 	</flow>
 
+	<flow name="create-taxonomy-term">
+		<drupal:create-taxonomy-term config-ref="Drupal">
+			<drupal:taxonomy-term ref="#[payload.taxonomyTermRef]" />
+		</drupal:create-taxonomy-term>
+	</flow>
+
+	<flow name="delete-taxonomy-term">
+		<drupal:delete-taxonomy-term config-ref="Drupal" taxonomyTermId="#[payload.taxonomyTermId]" />
+	</flow>
+	
+	<flow name="read-taxonomy-term">
+		<drupal:read-taxonomy-term config-ref="Drupal" taxonomyTermId="#[payload.taxonomyTermId]" />
+	</flow>
+	
+	<flow name="create-taxonomy-vocabulary">
+		<drupal:create-taxonomy-vocabulary config-ref="Drupal">
+			<drupal:taxonomy-vocabulary ref="#[payload.taxonomyVocabularyRef]" />
+		</drupal:create-taxonomy-vocabulary>
+	</flow>
+	
+	<flow name="delete-taxonomy-vocabulary">
+		<drupal:delete-taxonomy-vocabulary config-ref="Drupal" taxonomyVocId="#[payload.taxonomyVocId]" />
+	</flow>
+	
+	<flow name="read-taxonomy-vocabulary">
+		<drupal:read-taxonomy-vocabulary config-ref="Drupal" vocabularyId="#[payload.vocabularyId]" />
+	</flow>
+
 </mule>
