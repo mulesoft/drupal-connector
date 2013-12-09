@@ -267,4 +267,25 @@
 		</entry>
 	</util:map>
 	
+	<!-- create-taxonomy-term -->
+	<util:map id="createTaxonomyTermTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="taxonomyTerm">
+			<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+				<property name="name" value="My Term" />
+				<property name="description" value="This is my Taxonomy Term" />
+			</bean>
+		</entry>
+	</util:map>
+	
+	<!-- create-taxonomy-vocabulary -->
+	<util:map id="createTaxonomyVocabularyTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="taxonomyVocabulary">
+			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+				<property name="name" value="My Vocabulary" />
+				<property name="description" value="This is my Taxonomy Vocabulary entry." />
+				<property name="machineName" value="createTaxonomyVocabularyEntry" />
+			</bean>
+		</entry>
+	</util:map>
+	
 </beans>
