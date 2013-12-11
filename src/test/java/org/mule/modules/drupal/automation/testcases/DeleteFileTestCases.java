@@ -16,11 +16,8 @@ public class DeleteFileTestCases extends DrupalTestParent {
 	@Before
 	public void setUp() throws Exception {
 		initializeTestRunMessage("deleteFileTestData");
-	
-		String fileName = getTestRunMessageValue("fileName");
-		String filePath = getTestRunMessageValue("filePath");
-		
-		File file = generateFile(fileName, filePath);
+
+		File file = getTestRunMessageValue("file");
 		
 		File createdFile = createFile(file);
 		upsertOnTestRunMessage("fileId", createdFile.getFid());

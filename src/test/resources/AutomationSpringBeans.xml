@@ -192,8 +192,14 @@
 	
 	<!-- delete-file -->
 	<util:map id="deleteFileTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="filePath" value="images.jpg" />
-		<entry key="fileName" value="My Image File To Delete" />
+		<entry key="file">
+			<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateFile">
+				<!-- The name of the file. Can be anything. -->
+				<constructor-arg index="0" value="My Image File To Delete" />
+				<!-- The path of the file relative to the classpath -->
+				<constructor-arg index="1" value="images.jpg" />
+			</bean>
+		</entry>
 	</util:map>
 	
 	<!-- read-file -->
