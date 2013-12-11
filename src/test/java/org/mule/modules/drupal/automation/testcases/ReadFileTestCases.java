@@ -16,10 +16,7 @@ public class ReadFileTestCases extends DrupalTestParent {
 	public void setUp() throws Exception {
 		initializeTestRunMessage("readFileTestData");
 		
-		String fileName = getTestRunMessageValue("fileName");
-		String filePath = getTestRunMessageValue("filePath");
-		
-		File file = generateFile(fileName, filePath);
+		File file = getTestRunMessageValue("file");
 
 		File createdFile = createFile(file);
 		upsertOnTestRunMessage("file", createdFile);
