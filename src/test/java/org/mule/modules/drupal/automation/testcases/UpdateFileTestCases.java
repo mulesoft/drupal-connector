@@ -16,9 +16,7 @@ public class UpdateFileTestCases extends DrupalTestParent {
 	public void setUp() throws Exception {
 		initializeTestRunMessage("updateFileTestData");
 
-		String fileName = getTestRunMessageValue("fileName");
-		String filePath = getTestRunMessageValue("filePath");
-		File file = generateFile(fileName, filePath);
+		File file = getTestRunMessageValue("file");
 		
 		file = createFile(file);
 		upsertOnTestRunMessage("file", file);
