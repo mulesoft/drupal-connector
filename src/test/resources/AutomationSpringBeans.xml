@@ -180,10 +180,14 @@
 	
 	<!-- create-file -->
 	<util:map id="createFileTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<!-- The path of the file relative to the classpath -->
-		<entry key="filePath" value="images.jpg" />
-		<!-- The name of the file. Can be anything. -->
-		<entry key="fileName" value="My Image File" />
+		<entry key="file">
+			<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateFile">
+				<!-- The name of the file. Can be anything. -->
+				<constructor-arg index="0" value="My Image File" />
+				<!-- The path of the file relative to the classpath -->
+				<constructor-arg index="1" value="images.jpg" />
+			</bean>
+		</entry>
 	</util:map>
 	
 	<!-- delete-file -->

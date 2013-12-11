@@ -23,22 +23,6 @@ public class CreateFileTestCases extends DrupalTestParent {
 	@Before
 	public void setUp() throws Exception {
 		initializeTestRunMessage("createFileTestData");
-	
-		String fileName = getTestRunMessageValue("fileName");
-		String filePath = getTestRunMessageValue("filePath");
-		
-		File file = new File();
-		
-		// Do not load large files here, you may run out of memory
-		InputStream fileStream = getClass().getClassLoader().getResourceAsStream(filePath);
-		byte[] byteArray = IOUtils.toByteArray(fileStream);
-		String fileContent = Base64.encodeBytes(byteArray);
-		
-		file.setContent(fileContent);;
-		file.setFilename(fileName);
-		file.setFilesize(byteArray.length);
-		
-		upsertOnTestRunMessage("file", file);
 	}
 	
 	@Category({SmokeTests.class, RegressionTests.class})
