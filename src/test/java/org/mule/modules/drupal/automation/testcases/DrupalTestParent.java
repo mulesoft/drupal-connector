@@ -179,11 +179,11 @@ public class DrupalTestParent extends ConnectorTestCase {
 		return user;
 	}
 
-	protected File generateFile(String fileName, String filePath) throws IOException {
+	protected static File generateFile(String fileName, String filePath) throws IOException {
 		File file = new File();
 		file.setFilename(fileName);
 
-		InputStream fileStream = getClass().getClassLoader().getResourceAsStream(filePath);
+		InputStream fileStream = DrupalTestParent.class.getClassLoader().getResourceAsStream(filePath);
 		byte[] fileBytes = IOUtils.toByteArray(fileStream);
 		
 		String base64encode = Base64.encodeBytes(fileBytes);
