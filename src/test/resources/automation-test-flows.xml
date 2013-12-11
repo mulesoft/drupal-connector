@@ -188,4 +188,8 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 		<drupal:read-taxonomy-vocabulary config-ref="Drupal" vocabularyId="#[payload.vocabularyId]" />
 	</flow>
 
+	<flow name="get-files-for-node">
+		<drupal:get-files-for-node config-ref="Drupal" nodeId="#[payload.nodeId]" />
+	</flow>
+
 </mule>
