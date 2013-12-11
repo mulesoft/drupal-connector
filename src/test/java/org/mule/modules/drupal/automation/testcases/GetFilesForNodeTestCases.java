@@ -31,21 +31,12 @@ public class GetFilesForNodeTestCases extends DrupalTestParent {
 		//set nodeId for tearDown
 		upsertOnTestRunMessage("nodeId", node.getNid());
 		
-		List<Map<String, Object>> files = getTestRunMessageValue("files");
+		List<File> files = getTestRunMessageValue("files");
+
+		// TODO: Attach file to node here
 		
 		List<File> createdFiles = new ArrayList<File>();
 		List<Integer> createdFilesIds = new ArrayList<Integer>();
-		
-		for (Map<String, Object> fileMap : files) {
-			String fileName = (String) fileMap.get("filename");
-			String filePath = (String) fileMap.get("filepath");
-			File file = generateFile(fileName, filePath);
-			
-			// TODO: Attach file to node here
-			
-			createdFiles.add(file);
-			createdFilesIds.add(file.getFid());
-		}
 		
 		upsertOnTestRunMessage("createdFiles", createdFiles);
 		upsertOnTestRunMessage("createdFilesIds", createdFilesIds);

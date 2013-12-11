@@ -317,19 +317,19 @@
 		<entry key="content" value="Hello this is the body content" />
 		<entry key="type" value="article" />
 		<entry key="files">
-			<list value-type="java.util.HashMap">
-				<map key-type="java.lang.String" value-type="java.lang.Object">
-					<entry key="filename" value="First file" />
-					<entry key="filepath" value="images.jpg" />
-				</map>
-				<map>
-					<entry key="filename" value="Second file" />
-					<entry key="filepath" value="images.jpg" />
-				</map>
-				<map>
-					<entry key="filename" value="Third file" />
-					<entry key="filepath" value="images.jpg" />
-				</map>
+			<list value-type="org.mule.modules.drupal.model.File">
+				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateFile">
+					<constructor-arg index="0" value="First file" />
+					<constructor-arg index="1" value="images.jpg" />
+				</bean>
+				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateFile">
+					<constructor-arg index="0" value="Second file" />
+					<constructor-arg index="1" value="images.jpg" />
+				</bean>
+				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateFile">
+					<constructor-arg index="0" value="Third file" />
+					<constructor-arg index="1" value="images.jpg" />
+				</bean>
 			</list>
 		</entry>
 	</util:map>
