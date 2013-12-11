@@ -33,13 +33,18 @@ public class DrupalTestParent extends ConnectorTestCase {
 		return runFlowAndGetPayload("create-node");
 	}
 	
+	protected Node createNode(Node node) throws Exception {
+		upsertOnTestRunMessage("nodeRef", node);
+		
+		return runFlowAndGetPayload("create-node-by-ref");
+	}
+	
 	protected void deleteNode(Integer nodeId) throws Exception {
 		upsertOnTestRunMessage("nodeId", nodeId);
 		runFlowAndGetPayload("delete-node");
 	}
 
-	protected List<Node> indexNodes()
-			throws Exception {
+	protected List<Node> indexNodes() throws Exception {
 		return runFlowAndGetPayload("index-nodes");
 	}
 	
@@ -152,6 +157,26 @@ public class DrupalTestParent extends ConnectorTestCase {
 		upsertOnTestRunMessage("taxonomyTermId", termId);
 		
 		return runFlowAndGetPayload("read-taxonomy-term");
+	}
+	
+	public static Node generateNode(String title, String content, String type) {
+		Node node = new Node();
+		
+		node.setTitle(title);
+		node.setType(type);
+
+		HashMap<String, Object> undEntry = new HashMap<String, Object>();
+		undEntry.put("value", content);
+
+		ArrayList<Map> und = new ArrayList<Map>();
+		und.add(undEntry);
+		
+		CustomField nodeBody = new CustomField();
+		nodeBody.setUnd(und);
+		
+		node.setBody(nodeBody);
+		
+		return node;
 	}
 	
 	public static Comment generateComment(String subject, String body) {

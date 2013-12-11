@@ -333,5 +333,37 @@
 			</list>
 		</entry>
 	</util:map>
-	
+		
+	<!-- index-nodes -->
+	<util:map id="indexNodesTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="nodes">
+			<list value-type="org.mule.modules.drupal.model.Node">
+				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateNode">
+					<constructor-arg index="0" value="First node" />
+					<constructor-arg index="1" value="This is the content for the first node" />
+					<constructor-arg index="2" value="article" />
+				</bean>
+				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateNode">
+					<constructor-arg index="0" value="Second node" />
+					<constructor-arg index="1" value="This is the content for the second node" />
+					<constructor-arg index="2" value="article" />
+				</bean>
+				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateNode">
+					<constructor-arg index="0" value="Third node" />
+					<constructor-arg index="1" value="This is the content for the third node" />
+					<constructor-arg index="2" value="article" />
+				</bean>
+			</list>
+		</entry>
+		<entry key="fieldsRef">
+			<list value-type="java.lang.String">
+				<value>nid</value>
+				<value>title</value>
+				<value>type</value>
+			</list>
+		</entry>
+		<entry key="startPage" value="#{-1}" />
+		<entry key="pagesize" value="#{0}" />
+	</util:map>
+		
 </beans>

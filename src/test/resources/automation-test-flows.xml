@@ -32,6 +32,12 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 			</drupal:node>
 		</drupal:create-node>
 	</flow>
+	
+	<flow name="create-node-by-ref">
+		<drupal:create-node config-ref="Drupal">
+			<drupal:node ref="#[payload.nodeRef]" />
+		</drupal:create-node>
+	</flow>
 
 	<flow name="delete-node">
 		<drupal:delete-node config-ref="Drupal" nodeId="#[payload.nodeId]" />
@@ -50,12 +56,8 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 	</flow>
 
 	<flow name="index-nodes">
-		<drupal:index-nodes config-ref="Drupal">
-			<drupal:fields>
-				<drupal:field>nid</drupal:field>
-				<drupal:field>type</drupal:field>
-				<drupal:field>title</drupal:field>
-			</drupal:fields>
+		<drupal:index-nodes config-ref="Drupal" pagesize="#[payload.pagesize]" startPage="#[payload.startPage]">
+			<drupal:fields ref="#[payload.fieldsRef]" />
 		</drupal:index-nodes>
 	</flow>
 
