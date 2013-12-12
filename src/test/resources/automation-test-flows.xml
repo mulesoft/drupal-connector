@@ -112,6 +112,12 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 		</drupal:update-comment>
 	</flow>
 	
+	<flow name="index-comments">
+		<drupal:index-comments config-ref="Drupal" pagesize="#[payload.pagesize]" startPage="#[payload.startPage]">
+			<drupal:fields ref="#[payload.fieldsRef]" />
+		</drupal:index-comments>
+	</flow>
+	
 	<flow name="get-comments-for-node">
 		<drupal:get-comments-for-node config-ref="Drupal" nodeId="#[payload.nodeId]" />
 	</flow>
