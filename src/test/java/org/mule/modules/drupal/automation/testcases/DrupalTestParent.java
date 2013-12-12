@@ -99,10 +99,10 @@ public class DrupalTestParent extends ConnectorTestCase {
 		return runFlowAndGetPayload("read-file");
 	}
 	
-	protected boolean deleteFile(Integer fileId) throws Exception {
+	protected void deleteFile(Integer fileId) throws Exception {
 		upsertOnTestRunMessage("fileId", fileId);
 		
-		return runFlowAndGetPayload("delete-file");
+		runFlowAndGetPayload("delete-file");
 	}
 	
 	protected User createUser(User user) throws Exception {
