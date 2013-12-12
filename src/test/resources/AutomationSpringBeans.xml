@@ -366,4 +366,36 @@
 		<entry key="pagesize" value="#{0}" />
 	</util:map>
 		
+	<!-- index-users -->
+	<util:map id="indexUsersTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="users">
+			<list value-type="org.mule.modules.drupal.model.User">
+				<bean class="org.mule.modules.drupal.model.User">
+					<property name="name" value="John Doe" />
+					<property name="password" value="john.doe" />
+					<property name="mail" value="john.doe@mulesoft.com" />
+				</bean>				
+				<bean class="org.mule.modules.drupal.model.User">
+					<property name="name" value="Jane Doe" />
+					<property name="password" value="jane.doe" />
+					<property name="mail" value="jane.doe@mulesoft.com" />
+				</bean>
+				<bean class="org.mule.modules.drupal.model.User">
+					<property name="name" value="John Smith" />
+					<property name="password" value="john.smith" />
+					<property name="mail" value="john.smith@mulesoft.com" />
+				</bean>
+			</list>
+		</entry>
+		<entry key="fieldsRef">
+			<list value-type="java.lang.String">
+				<value>uid</value>
+				<value>name</value>
+				<value>mail</value>
+			</list>
+		</entry>
+		<entry key="startPage" value="#{-1}" />
+		<entry key="pagesize" value="#{0}" />
+	</util:map>
+		
 </beans>

@@ -162,6 +162,12 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 		</drupal:update-user>
 	</flow>
 
+	<flow name="index-users">
+		<drupal:index-users config-ref="Drupal" startPage="#[payload.startPage]" pagesize="#[payload.pagesize]">
+			<drupal:fields ref="#[payload.fieldsRef]" />
+		</drupal:index-users>
+	</flow>
+
 	<flow name="create-taxonomy-term">
 		<drupal:create-taxonomy-term config-ref="Drupal">
 			<drupal:taxonomy-term ref="#[payload.taxonomyTermRef]" />
