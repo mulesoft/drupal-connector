@@ -128,6 +128,16 @@ public class DrupalTestParent extends ConnectorTestCase {
 		
 		return runFlowAndGetPayload("create-taxonomy-vocabulary");
 	}
+
+	protected Integer createTaxonomyVocabularyAndGetBackId(TaxonomyVocabulary vocabulary) throws Exception {
+		createTaxonomyVocabulary(vocabulary);
+		
+		List<TaxonomyVocabulary> vocabularies = indexTaxonomyVocabulary();
+		TaxonomyVocabulary createdVocabulary = searchList(vocabularies, vocabulary.getMachineName());
+		
+		Integer vocabularyId = createdVocabulary.getVid();
+		return vocabularyId;
+	}
 	
 	protected void deleteTaxonomyVocabulary(Integer vocabularyId) throws Exception {
 		upsertOnTestRunMessage("taxonomyVocId", vocabularyId);
@@ -157,6 +167,25 @@ public class DrupalTestParent extends ConnectorTestCase {
 		upsertOnTestRunMessage("taxonomyTermId", termId);
 		
 		return runFlowAndGetPayload("read-taxonomy-term");
+	}
+	
+	protected List<TaxonomyVocabulary> indexTaxonomyVocabulary() throws Exception {
+		List<String> fields = new ArrayList<String>();
+		
+		fields.add("vid");
+		fields.add("name");
+		fields.add("machine_name");
+		fields.add("description");
+		
+		return indexTaxonomyVocabulary(-1, 0, fields);
+	}
+	
+	protected List<TaxonomyVocabulary> indexTaxonomyVocabulary(Integer pageSize, Integer startPage, List<String> fields) throws Exception {
+		upsertOnTestRunMessage("pagesize", pageSize);
+		upsertOnTestRunMessage("startPage", startPage);
+		upsertOnTestRunMessage("fieldsRef", fields);
+		
+		return runFlowAndGetPayload("index-taxonomy-vocabulary");
 	}
 	
 	public static Node generateNode(String title, String content, String type) {
@@ -217,5 +246,18 @@ public class DrupalTestParent extends ConnectorTestCase {
 		
 		return file;
 	}
+	
+	// Machine name is a field that is unique
+	protected TaxonomyVocabulary searchList(List<TaxonomyVocabulary> vocabularies, String machineName) {
+		TaxonomyVocabulary found = null;
+		for (TaxonomyVocabulary taxonomyVocabulary : vocabularies) {
+			if (machineName.equals(taxonomyVocabulary.getMachineName())) {
+				found = taxonomyVocabulary;
+				break;
+			}
+		}
+		return found;
+	}
+	
 	
 }
