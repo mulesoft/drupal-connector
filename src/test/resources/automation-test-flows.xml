@@ -205,5 +205,11 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 	<flow name="get-files-for-node">
 		<drupal:get-files-for-node config-ref="Drupal" nodeId="#[payload.nodeId]" />
 	</flow>
+	
+	<flow name="index-files">
+		<drupal:index-files config-ref="Drupal" startPage="#[payload.startPage]" pagesize="#[payload.pagesize]">
+			<drupal:fields ref="#[payload.fieldsRef]" />
+		</drupal:index-files>	
+	</flow>
 
 </mule>
