@@ -282,9 +282,10 @@ public class DrupalRestClient implements DrupalClient {
 			throw new DrupalException("Drupal returned "
 					+ status.getStatusCode());
 		} else {
+			String drupalError = response.getEntity(String.class);
 			throw new DrupalException(String.format(
-					"API returned status code %d, 200 was expected. Reason:%s",
-					status.getStatusCode(),status.getReasonPhrase()));
+					"API returned status code %d, 200 was expected. Reason:%s. Drupal Error: %s",
+					status.getStatusCode(),status.getReasonPhrase(),StringUtils.isEmpty(drupalError) ? "Unknown" : drupalError));
 		}
 	}
 
