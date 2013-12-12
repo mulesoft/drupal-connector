@@ -58,13 +58,11 @@ public class CountNewCommentsTestCases extends DrupalTestParent {
 	
 	@Category({RegressionTests.class})
 	@Test
-	@Ignore
+	//@Ignore
 	public void testCountNewComments_NoComments() {
 		try {
-			Thread.sleep(10000);
-			
 			// Overwrite the "since" attribute such that we do not retrieve any new comments
-			upsertOnTestRunMessage("since", 1);
+			upsertOnTestRunMessage("since", (int) (System.currentTimeMillis() / 1000L));
 			
 			int count = (Integer) runFlowAndGetPayload("count-new-comments");
 			assertEquals(count, 0);
@@ -76,18 +74,19 @@ public class CountNewCommentsTestCases extends DrupalTestParent {
 
 	@Category({RegressionTests.class})
 	@Test
-	@Ignore
+	//@Ignore
 	public void testCountNewComments_OnlyOneComment() {
 		try {
-			// Overwrite the "since" attribute such that we retrieve comments which are
-			// created after this point
-			upsertOnTestRunMessage("since", System.currentTimeMillis());
-			
 			List<Integer> commentIds = getTestRunMessageValue("commentIds");
 			Integer nodeId = getTestRunMessageValue("nodeId");
 			
 			Comment comment = generateComment("New Comment", "This is a new comment");
 			comment.setNid(nodeId);
+
+			// Overwrite the "since" attribute such that we retrieve comments which are
+			// created after this point
+			upsertOnTestRunMessage("since", (int) (System.currentTimeMillis() / 1000L));
+			Thread.sleep(5000);
 			
 			Comment newComment = createComment(comment);
 			commentIds.add(newComment.getCid());
