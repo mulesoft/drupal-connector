@@ -43,7 +43,12 @@ import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.ClientResponse.Status;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.multipart.FormDataMultiPart;
+import com.sun.jersey.multipart.file.FileDataBodyPart;
+import com.sun.jersey.multipart.impl.MultiPartWriter;
 /**
  * Drupal client to interact with the rest server provided with the service modulo.
  * 
@@ -68,12 +73,16 @@ public class DrupalRestClient implements DrupalClient {
 	
 	private static final String ACTION_GETTREE = "getTree";
 	private static final String ACTION_SELECTNODES = "selectNodes";
+	private static final String ACTION_ATTACHFILE = "attach_file";
 	
 	private String username;
 	private String password;
 	
 	public DrupalRestClient(String server, int port, String apiUrl) {
-		client = Client.create();
+    	ClientConfig config = new DefaultClientConfig();
+    	config.getClasses().add(MultiPartWriter.class);
+        
+    	client = Client.create(config);
 		this.server = server;
 		this.apiUrl = apiUrl;
 		this.port = port;
@@ -805,5 +814,48 @@ public class DrupalRestClient implements DrupalClient {
 		list = this.executeListRequest("GET", wr, listType,null);
 
 		return list;
+	}
+
+	@Override
+	public List<org.mule.modules.drupal.model.File> attachFilesToNode(List<java.io.File> files, int nodeId, String fieldName,
+			boolean attach) throws DrupalException {
+		
+		List<File> list = null;
+		
+		WebResource wr = this.getWebResource().path(DrupalCollection.Node.getEndpoint()).path(String.valueOf(nodeId)).path(ACTION_ATTACHFILE);
+
+		FormDataMultiPart multiPart = new FormDataMultiPart();
+
+		for (int i = 0; i < files.size(); i++) {
+			multiPart.bodyPart(new FileDataBodyPart("files["+(i+1)+"]", files.get(i), MediaType.APPLICATION_OCTET_STREAM_TYPE));
+		}
+		
+		multiPart.field("nid", Integer.toString(nodeId));
+		multiPart.field("field_name", fieldName);
+		multiPart.field("attach", Boolean.toString(attach));
+
+		Type listType = new TypeToken<List<File>>(){}.getType();
+		
+		WebResource.Builder builder = wr.type(MediaType.MULTIPART_FORM_DATA).entity(multiPart).accept(MediaType.APPLICATION_JSON_TYPE).cookie(sessionId);
+		
+		ClientResponse response = builder.method("POST", ClientResponse.class);
+		Status status = response.getClientResponseStatus();
+
+		if (status == Status.OK) {
+			String json = response.getEntity(String.class);
+			List<File> apiResponse = GsonFactory.getGson().fromJson(json,listType);
+			list= new ArrayList<File>(apiResponse);
+			
+			return list;
+			
+		} else if (status == Status.UNAUTHORIZED) {
+			throw new DrupalException("Drupal returned "
+					+ status.getStatusCode());
+		} else {
+			throw new DrupalException(String.format(
+					"API returned status code %d, 200 was expected",
+					status.getStatusCode()));
+		}
+		
 	}
 }

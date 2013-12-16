@@ -12,11 +12,11 @@ import java.util.List;
 
 import org.mule.api.ConnectionException;
 import org.mule.modules.drupal.model.Comment;
-import org.mule.modules.drupal.model.Node;
-import org.mule.modules.drupal.model.User;
-import org.mule.modules.drupal.model.TaxonomyTerm;
 import org.mule.modules.drupal.model.File;
+import org.mule.modules.drupal.model.Node;
+import org.mule.modules.drupal.model.TaxonomyTerm;
 import org.mule.modules.drupal.model.TaxonomyVocabulary;
+import org.mule.modules.drupal.model.User;
 
 /**
  * Interface of a Drupal Client to interact with the server.
@@ -47,6 +47,8 @@ public interface DrupalClient {
 	public TaxonomyVocabulary createTaxonomyVocabulary(TaxonomyVocabulary taxonomyVocabulary) throws DrupalException;
 
 	public User registerUser(User user) throws DrupalException;
+	
+	public List<File> attachFilesToNode(List<java.io.File> files, int nodeId, String fieldName, boolean attach) throws DrupalException;
 
 	//update
 	public Node updateNode(Node node) throws DrupalException;

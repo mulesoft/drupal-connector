@@ -195,3 +195,8 @@
         </drupal:custom-properties>
     </drupal:update-custom-field-for-node>
 <!-- END_INCLUDE(drupal:update-custom-field-for-node) -->
+<!-- BEGIN_INCLUDE(drupal:attach-files-to-node) -->
+	<drupal:attach-files-to-node nodeId="2" fieldName="field_image" attach="true">
+		<drupal:files ref="#[payload.files]" />
+	</drupal:attach-files-to-node>
+<!-- END_INCLUDE(drupal:attach-files-to-node) -->

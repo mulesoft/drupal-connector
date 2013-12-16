@@ -16,18 +16,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.mule.api.ConnectionException;
 import org.mule.api.annotations.Configurable;
-import org.mule.api.annotations.Connector;
 import org.mule.api.annotations.Connect;
-import org.mule.api.annotations.ValidateConnection;
 import org.mule.api.annotations.ConnectionIdentifier;
+import org.mule.api.annotations.Connector;
 import org.mule.api.annotations.Disconnect;
+import org.mule.api.annotations.Processor;
+import org.mule.api.annotations.ValidateConnection;
 import org.mule.api.annotations.display.Password;
 import org.mule.api.annotations.param.ConnectionKey;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
-import org.mule.api.ConnectionException;
-import org.mule.api.annotations.Processor;
 import org.mule.modules.drupal.client.DrupalClient;
 import org.mule.modules.drupal.client.DrupalClientFactory;
 import org.mule.modules.drupal.client.DrupalException;
@@ -735,6 +735,26 @@ public class DrupalConnector
 		nod.setCustomFields(map);
 		
 		client.updateNode(nod);
+	}
+	
+	/**
+	 * Attaches or overwrites file(s) to an existing node.
+	 * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:attach-files-to-node}
+	 *  
+	 * @param files The list of files that you want to upload. These should be java File objects that point 
+	 * to files on your file system.
+	 * @param nodeId  Node ID of the node the file(s) is being attached to.
+	 * @param fieldName Machine name of the field that is attached to the node.
+	 * @param attach Optional. Defaults to true. This means that files will be attached to the
+	 * node, alongside existing files. If the maximum number of files have already 
+	 * been uploaded to this node an error is given.
+	 * If false, it removes the files, and attaches the new files uploaded.
+	 * @return An list of File with only the "fid" and "url" attributes set.
+	 * @throws DrupalException When the server doesn't return code 200
+	 */
+	@Processor
+	public List<File> attachFilesToNode(List<java.io.File> files, int nodeId, String fieldName, @Optional @Default("true") boolean attach) throws DrupalException {
+		return client.attachFilesToNode(files, nodeId, fieldName, attach);
 	}
 	
 	public String getServer() {
