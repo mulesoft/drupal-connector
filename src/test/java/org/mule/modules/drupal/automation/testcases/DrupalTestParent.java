@@ -188,6 +188,25 @@ public class DrupalTestParent extends ConnectorTestCase {
 		return runFlowAndGetPayload("index-taxonomy-vocabulary");
 	}
 	
+	protected List<File> getFilesForNode(Integer nodeId) throws Exception {
+		upsertOnTestRunMessage("nodeId", nodeId);
+		
+		return runFlowAndGetPayload("get-files-for-node");
+	}
+	
+	protected List<File> attachFilesToNode(Integer nodeId, List<java.io.File>files, String fieldName) throws Exception {
+		return attachFilesToNode(nodeId, files, fieldName, true);
+	}
+	
+	protected List<File> attachFilesToNode(Integer nodeId, List<java.io.File> files, String fieldName, boolean attach) throws Exception {
+		upsertOnTestRunMessage("nodeId", nodeId);		
+		upsertOnTestRunMessage("fileRef", files);
+		upsertOnTestRunMessage("fieldName", fieldName);
+		upsertOnTestRunMessage("attach", attach);
+		
+		return runFlowAndGetPayload("attach-files-to-node");
+	}
+	
 	public static Node generateNode(String title, String content, String type) {
 		Node node = new Node();
 		

@@ -61,11 +61,17 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 		</drupal:index-nodes>
 	</flow>
 
-
 	<flow name="update-node">
 		<drupal:update-node config-ref="Drupal">
 			<drupal:node title="#[payload.titleForUpdate]" nid="#[payload.nodeId]" />
 		</drupal:update-node>
+	</flow>
+	
+	<flow name="attach-files-to-node">
+		<drupal:attach-files-to-node config-ref="Drupal" fieldName="#[payload.fieldName]"
+				nodeId="#[payload.nodeId]" attach="#[payload.attach]">
+			<drupal:files ref="#[payload.filesRef]" />
+		</drupal:attach-files-to-node>
 	</flow>
 
 	<flow name="update-custom-field-for-node">
