@@ -4,15 +4,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.mule.modules.drupal.model.File;
 import org.mule.modules.drupal.model.Node;
 import org.mule.modules.tests.ConnectorTestUtils;
 
@@ -22,40 +22,47 @@ public class GetFilesForNodeTestCases extends DrupalTestParent {
 	public void setUp() throws Exception {
 		initializeTestRunMessage("getFilesForNodeTestData");
 
-		String title = getTestRunMessageValue("title");
-		String content = getTestRunMessageValue("content");
-		String type = getTestRunMessageValue("type");
+		String fieldName = getTestRunMessageValue("fieldName");
 
-		Node node = createNode(title, content, type);
+		Node node = getTestRunMessageValue("node");
+		Node createdNode = createNode(node);
+		Integer nodeId = createdNode.getNid();
 
-		//set nodeId for tearDown
-		upsertOnTestRunMessage("nodeId", node.getNid());
+		upsertOnTestRunMessage("nodeId", nodeId);
 		
-		List<File> files = getTestRunMessageValue("files");
+		List<String> filePaths = getTestRunMessageValue("filePaths");
+		List<File> files = new ArrayList<File>();
 
-		// TODO: Attach file to node here
-		
-		List<File> createdFiles = new ArrayList<File>();
-		List<Integer> createdFilesIds = new ArrayList<Integer>();
-		
-		upsertOnTestRunMessage("createdFiles", createdFiles);
-		upsertOnTestRunMessage("createdFilesIds", createdFilesIds);
+		for (String filePath : filePaths) {
+			URI fileUri = getClass().getClassLoader().getResource(filePath).toURI();
+			File file = new File(fileUri);
+			files.add(file);
+		}
+
+		List<org.mule.modules.drupal.model.File> attachedFiles = attachFilesToNode(nodeId, files, fieldName);
+		upsertOnTestRunMessage("attachedFiles", attachedFiles);
 	}
 	
-	@Category({RegressionTests.class})
+	@Category({SmokeTests.class, RegressionTests.class})
 	@Test
 	public void testGetFilesForNode() {
 		try {
-			List<File> createdFiles = getTestRunMessageValue("createdFiles");
-			List<Integer> createdFilesIds = getTestRunMessageValue("createdFilesIds");
+			Integer nodeId = getTestRunMessageValue("nodeId");
 			
-			List<File> nodeFiles = runFlowAndGetPayload("get-files-for-node");
-			assertEquals(nodeFiles.size(), createdFiles.size());
-			
-			for (File nodeFile : nodeFiles) {
-				assertTrue(createdFilesIds.contains(nodeFile.getFid()));
-			}
-			
+			List<org.mule.modules.drupal.model.File> attachedFiles = getTestRunMessageValue("attachedFiles");
+			List<org.mule.modules.drupal.model.File> nodeFiles = getFilesForNode(nodeId);
+
+			assertEquals(nodeFiles.size(), attachedFiles.size());
+			for (org.mule.modules.drupal.model.File nodeFile : nodeFiles) {
+				boolean found = false;
+				for(org.mule.modules.drupal.model.File attachedFile : attachedFiles) {
+					if (attachedFile.getFid() == nodeFile.getFid()) {
+						found = true;
+						break;
+					}
+				}
+				assertTrue(found);
+			}			
 		}
 		catch (Exception e) {
 			fail(ConnectorTestUtils.getStackTrace(e));
@@ -66,11 +73,6 @@ public class GetFilesForNodeTestCases extends DrupalTestParent {
 	public void tearDown() throws Exception {
 		Integer nodeId = getTestRunMessageValue("nodeId");
 		deleteNode(nodeId);
-		
-		List<Integer> createdFilesIds = getTestRunMessageValue("createdFilesIds");
-		for (Integer fileId : createdFilesIds) {
-			deleteFile(fileId);			
-		}
 	}
 
 }

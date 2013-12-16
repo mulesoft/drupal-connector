@@ -37,7 +37,7 @@ public class AttachFilesToNodeTestCases extends DrupalTestParent {
 			files.add(file);
 		}
 		
-		upsertOnTestRunMessage("filesRef", files);		
+		upsertOnTestRunMessage("files", files);		
 	}
 	
 	@Category({SmokeTests.class, RegressionTests.class})
@@ -45,7 +45,7 @@ public class AttachFilesToNodeTestCases extends DrupalTestParent {
 	public void testAttachFilesToNode() {
 		try {
 			Integer nodeId = getTestRunMessageValue("nodeId");
-			List<File> files = getTestRunMessageValue("filesRef");
+			List<File> files = getTestRunMessageValue("files");
 			String fieldName = getTestRunMessageValue("fieldName");
 			boolean attach = Boolean.valueOf((String)getTestRunMessageValue("attach"));
 

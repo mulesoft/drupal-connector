@@ -200,7 +200,7 @@ public class DrupalTestParent extends ConnectorTestCase {
 	
 	protected List<File> attachFilesToNode(Integer nodeId, List<java.io.File> files, String fieldName, boolean attach) throws Exception {
 		upsertOnTestRunMessage("nodeId", nodeId);		
-		upsertOnTestRunMessage("fileRef", files);
+		upsertOnTestRunMessage("filesRef", files);
 		upsertOnTestRunMessage("fieldName", fieldName);
 		upsertOnTestRunMessage("attach", attach);
 		

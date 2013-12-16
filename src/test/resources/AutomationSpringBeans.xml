@@ -336,25 +336,20 @@
 	<!-- get-files-for-node -->
 	<util:map id="getFilesForNodeTestData" map-class="java.util.HashMap"
 		key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="title" value="My Title" />
-		<entry key="content" value="Hello this is the body content" />
-		<entry key="type" value="article" />
-		<entry key="files">
-			<list value-type="org.mule.modules.drupal.model.File">
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateFile">
-					<constructor-arg index="0" value="First file" />
-					<constructor-arg index="1" value="images.jpg" />
-				</bean>
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateFile">
-					<constructor-arg index="0" value="Second file" />
-					<constructor-arg index="1" value="images.jpg" />
-				</bean>
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateFile">
-					<constructor-arg index="0" value="Third file" />
-					<constructor-arg index="1" value="images.jpg" />
-				</bean>
+		<entry key="node">
+			<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateNode">
+				<constructor-arg index="0" value="My node containing files" />
+				<constructor-arg index="1" value="This is the node to which I am uploading files to" />
+				<constructor-arg index="2" value="article" />
+			</bean>
+		</entry>
+		<entry key="filePaths">
+			<list value-type="java.lang.String">
+				<value>images.jpg</value>
 			</list>
 		</entry>
+		<entry key="fieldName" value="field_image" />
+		<entry key="attach" value="true" />
 	</util:map>
 		
 	<!-- index-nodes -->
