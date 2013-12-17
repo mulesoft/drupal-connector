@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mule.modules.drupal.model.TaxonomyTerm;
+import org.mule.modules.drupal.model.TaxonomyVocabulary;
 import org.mule.modules.tests.ConnectorTestUtils;
 
 public class CreateTaxonomyTermTestCases extends DrupalTestParent {
@@ -16,13 +17,19 @@ public class CreateTaxonomyTermTestCases extends DrupalTestParent {
 	@Before
 	public void setUp() throws Exception {
 		initializeTestRunMessage("createTaxonomyTermTestData");
+		
+		TaxonomyVocabulary vocabulary = getTestRunMessageValue("taxonomyVocabulary");
+		Integer vocabularyId = createTaxonomyVocabularyAndGetBackId(vocabulary);
+		upsertOnTestRunMessage("vocabularyId", vocabularyId);
 	}
 	
 	@Category({SmokeTests.class, RegressionTests.class})
 	@Test
 	public void testCreateTaxonomyTerm() {
 		try {
+			Integer vocabularyId = getTestRunMessageValue("vocabularyId");
 			TaxonomyTerm term = getTestRunMessageValue("taxonomyTerm");
+			term.setVid(vocabularyId);
 			
 			TaxonomyTerm createdTerm = createTaxonomyTerm(term);
 			Integer termId = createdTerm.getTid();
@@ -42,8 +49,8 @@ public class CreateTaxonomyTermTestCases extends DrupalTestParent {
 	
 	@After
 	public void tearDown() throws Exception {
-		Integer termId = getTestRunMessageValue("termId");
-		deleteTaxonomyTerm(termId);		
+		Integer vocabularyId = getTestRunMessageValue("vocabularyId");
+		deleteTaxonomyVocabulary(vocabularyId);
 	}
 
 }

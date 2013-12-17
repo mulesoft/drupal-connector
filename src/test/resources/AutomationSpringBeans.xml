@@ -314,6 +314,13 @@
 	
 	<!-- create-taxonomy-term -->
 	<util:map id="createTaxonomyTermTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="taxonomyVocabulary">
+			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+				<property name="name" value="My Vocabulary" />
+				<property name="description" value="This is my Taxonomy Vocabulary entry containing Taxonomy Terms." />
+				<property name="machineName" value="taxonomyTermTaxonomyVocabularyEntry" />
+			</bean>
+		</entry>
 		<entry key="taxonomyTerm">
 			<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
 				<property name="name" value="My Term" />
