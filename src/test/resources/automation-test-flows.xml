@@ -207,6 +207,12 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 	<flow name="read-taxonomy-vocabulary">
 		<drupal:read-taxonomy-vocabulary config-ref="Drupal" vocabularyId="#[payload.vocabularyId]" />
 	</flow>
+	
+	<flow name="update-taxonomy-vocabulary">
+		<drupal:update-taxonomy-vocabulary config-ref="Drupal">
+			<drupal:taxonomy-vocabulary ref="#[payload.taxonomyVocabularyRef]" />
+		</drupal:update-taxonomy-vocabulary>
+	</flow>
 
 	<flow name="get-files-for-node">
 		<drupal:get-files-for-node config-ref="Drupal" nodeId="#[payload.nodeId]" />

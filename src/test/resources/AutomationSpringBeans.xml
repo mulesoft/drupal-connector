@@ -385,6 +385,24 @@
 		</entry>
 	</util:map>
 	
+	<!-- update-taxonomy-vocabulary -->
+	<util:map id="updateTaxonomyVocabularyTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="vocabulary">
+			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+				<property name="name" value="My Vocabulary to Update" />
+				<property name="description" value="This is a Taxonomy Vocabulary entry that I plan to update." />
+				<property name="machineName" value="toUpdateTaxonomyVocabularyEntry" />
+			</bean>
+		</entry>
+		<entry key="updatedVocabulary">
+			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+				<property name="name" value="My Updated Vocabulary" />
+				<property name="description" value="This is a Taxonomy Vocabulary entry that I have just updated." />
+				<property name="machineName" value="updatedTaxonomyVocabularyEntry" />
+			</bean>
+		</entry>
+	</util:map>
+	
 	<!-- get-files-for-node -->
 	<util:map id="getFilesForNodeTestData" map-class="java.util.HashMap"
 		key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
