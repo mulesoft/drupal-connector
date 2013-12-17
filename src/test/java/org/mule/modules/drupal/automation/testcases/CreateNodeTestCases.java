@@ -1,18 +1,23 @@
+/**
+ * (c) 2003-2012 MuleSoft, Inc. This software is protected under international
+ * copyright law. All use of this software is subject to MuleSoft's Master
+ * Subscription Agreement (or other Terms of Service) separately entered
+ * into between you and MuleSoft. If such an agreement is not in
+ * place, you may not use the software.
+ */
+
 package org.mule.modules.drupal.automation.testcases;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
-import javax.validation.constraints.AssertTrue;
-
 import org.junit.After;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.mule.modules.drupal.model.Node;
 import org.mule.modules.tests.ConnectorTestUtils;
-import org.mvel2.ast.AssertNode;
-import org.mvel2.util.Make.Map;
 
 public class CreateNodeTestCases extends DrupalTestParent {
 
