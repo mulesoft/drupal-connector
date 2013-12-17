@@ -367,6 +367,17 @@
 		</entry>
 	</util:map>
 	
+	<!-- read-taxonomy-vocabulary -->
+	<util:map id="readTaxonomyVocabularyTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="vocabulary">
+			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+				<property name="name" value="My Vocabulary to Read" />
+				<property name="description" value="This is a Taxonomy Vocabulary entry that I plan to retrieve." />
+				<property name="machineName" value="readTaxonomyVocabularyEntry" />
+			</bean>
+		</entry>
+	</util:map>
+	
 	<!-- get-files-for-node -->
 	<util:map id="getFilesForNodeTestData" map-class="java.util.HashMap"
 		key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
