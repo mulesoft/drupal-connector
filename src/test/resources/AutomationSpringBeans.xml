@@ -344,6 +344,29 @@
 		</entry>
 	</util:map>
 	
+	<!-- index-taxonomy-vocabulary -->
+	<util:map id="indexTaxonomyVocabularyTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="taxonomyVocabularies">
+			<list>
+				<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+					<property name="name" value="My First Taxonomy Vocabulary" />
+					<property name="description" value="This is my first Taxonomy Vocabulary entry." />
+					<property name="machineName" value="firstTaxonomyVocabularyEntry" />
+				</bean>
+				<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+					<property name="name" value="My Second Taxonomy Vocabulary" />
+					<property name="description" value="This is my second Taxonomy Vocabulary entry." />
+					<property name="machineName" value="secondTaxonomyVocabularyEntry" />
+				</bean>
+				<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+					<property name="name" value="My Third Vocabulary" />
+					<property name="description" value="This is my third Taxonomy Vocabulary entry." />
+					<property name="machineName" value="thirdTaxonomyVocabularyEntry" />
+				</bean>
+			</list>
+		</entry>
+	</util:map>
+	
 	<!-- get-files-for-node -->
 	<util:map id="getFilesForNodeTestData" map-class="java.util.HashMap"
 		key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
