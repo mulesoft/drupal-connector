@@ -415,20 +415,6 @@ public class DrupalConnector
 	}
 
 	/**
-	 * Update file
-	 * <p/>
-     * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:update-file}
-     * 
-	 * @param file File with new fields set
-	 * @return the same File
-	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned 
-	 */
-	@Processor
-	public File updateFile(@Optional @Default("#[payload]") File file) throws DrupalException {
-		return client.updateFile(file);
-	}
-
-	/**
 	 * Update the taxonomyVocabulary
 	 * <p/>
      * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:update-taxonomy-vocabulary}

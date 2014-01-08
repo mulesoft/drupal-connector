@@ -55,7 +55,6 @@ public interface DrupalClient {
 	public Comment updateComment(Comment comment) throws DrupalException;
 	public User updateUser(User user) throws DrupalException;
 	public TaxonomyTerm	updateTaxonomyTerm(TaxonomyTerm taxonomyTerm) throws DrupalException;
-	public File	updateFile(File file) throws DrupalException;
 	public TaxonomyVocabulary updateTaxonomyVocabulary(TaxonomyVocabulary taxonomyVocabulary) throws DrupalException;
 	
 	//delete

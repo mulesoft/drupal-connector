@@ -553,14 +553,6 @@ public class DrupalRestClient implements DrupalClient {
 	}
 
 	@Override
-	public File updateFile(File file) throws DrupalException {
-		
-		file = (File)update(DrupalCollection.File, file.getFid().toString(), file);
-		
-		return file;
-	}
-
-	@Override
 	public TaxonomyVocabulary updateTaxonomyVocabulary(
 			TaxonomyVocabulary taxonomyVocabulary) throws DrupalException {
 		
