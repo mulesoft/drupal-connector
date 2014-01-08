@@ -44,7 +44,7 @@ public interface DrupalClient {
 	public User createUser(User user) throws DrupalException;
 	public TaxonomyTerm	createTaxonomyTerm(TaxonomyTerm taxonomyTerm) throws DrupalException;
 	public File	createFile(File file) throws DrupalException;
-	public TaxonomyVocabulary createTaxonomyVocabulary(TaxonomyVocabulary taxonomyVocabulary) throws DrupalException;
+	public void createTaxonomyVocabulary(TaxonomyVocabulary taxonomyVocabulary) throws DrupalException;
 
 	public User registerUser(User user) throws DrupalException;
 	

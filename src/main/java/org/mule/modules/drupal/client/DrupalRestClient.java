@@ -416,19 +416,14 @@ public class DrupalRestClient implements DrupalClient {
 	}
 
 	@Override
-	public TaxonomyVocabulary createTaxonomyVocabulary(
+	public void createTaxonomyVocabulary(
 			TaxonomyVocabulary taxonomyVocabulary) throws DrupalException {
 		
 		TaxonomyVocabularyRequest rtv=new TaxonomyVocabularyRequest();
 		ArrayList<TaxonomyVocabulary> list=new ArrayList<TaxonomyVocabulary>();
 		list.add(taxonomyVocabulary);
 		rtv.setVocabulary(list);
-		TaxonomyVocabulary createdTV = (TaxonomyVocabulary) create(DrupalCollection.TaxonomyVocabulary, taxonomyVocabulary);
-		
-		if(createdTV!=null)
-			taxonomyVocabulary.setVid(createdTV.getVid());
-		
-		return taxonomyVocabulary;
+		create(DrupalCollection.TaxonomyVocabulary, taxonomyVocabulary);
 	}
 
 	@Override

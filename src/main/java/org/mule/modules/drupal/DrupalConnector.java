@@ -339,9 +339,9 @@ public class DrupalConnector
 	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned. Error 500 is thrown when the vocabulary already exists 
 	 */
 	@Processor
-	public TaxonomyVocabulary createTaxonomyVocabulary(
+	public void createTaxonomyVocabulary(
 			@Optional @Default("#[payload]") TaxonomyVocabulary taxonomyVocabulary) throws DrupalException {
-		return client.createTaxonomyVocabulary(taxonomyVocabulary);
+		client.createTaxonomyVocabulary(taxonomyVocabulary);
 	}
 
 	/**

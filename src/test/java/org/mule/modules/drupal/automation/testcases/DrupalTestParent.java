@@ -131,10 +131,10 @@ public class DrupalTestParent extends ConnectorTestCase {
 		runFlowAndGetPayload("delete-user");
 	}
 
-	protected TaxonomyVocabulary createTaxonomyVocabulary(TaxonomyVocabulary vocabulary) throws Exception {
+	protected void createTaxonomyVocabulary(TaxonomyVocabulary vocabulary) throws Exception {
 		upsertOnTestRunMessage("taxonomyVocabularyRef", vocabulary);
 		
-		return runFlowAndGetPayload("create-taxonomy-vocabulary");
+		runFlowAndGetPayload("create-taxonomy-vocabulary");
 	}
 
 	protected Integer createTaxonomyVocabularyAndGetBackId(TaxonomyVocabulary vocabulary) throws Exception {
