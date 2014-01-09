@@ -36,7 +36,7 @@ public class IndexUsersTestCases extends DrupalTestParent {
 		upsertOnTestRunMessage("userIds", userIds);
 	}
 	
-	@Category({RegressionTests.class})
+	@Category({SmokeTests.class, RegressionTests.class})
 	@Test
 	public void testIndexUsers() {
 		try {

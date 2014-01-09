@@ -47,7 +47,7 @@ public class IndexCommentsTestCases extends DrupalTestParent {
 		upsertOnTestRunMessage("commentIds", commentIds);
 	}
 	
-	@Category({RegressionTests.class})
+	@Category({SmokeTests.class, RegressionTests.class})
 	@Test
 	public void testIndexComments() {
 		try {

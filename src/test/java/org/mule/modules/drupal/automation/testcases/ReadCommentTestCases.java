@@ -41,7 +41,7 @@ public class ReadCommentTestCases extends DrupalTestParent {
 		upsertOnTestRunMessage("createdCommentId", commentId);
 	}
 	
-	@Category({SmokeTests.class, RegressionTests.class})
+	@Category({RegressionTests.class})
 	@Test
 	public void testReadComment_CommentExists() {
 		try {

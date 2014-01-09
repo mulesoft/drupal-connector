@@ -37,7 +37,7 @@ public class IndexFilesTestCases extends DrupalTestParent {
 		upsertOnTestRunMessage("createdFileIds", fileIds);
 	}
 	
-	@Category({RegressionTests.class})
+	@Category({SmokeTests.class, RegressionTests.class})
 	@Test
 	public void testIndexFiles() {
 		try {

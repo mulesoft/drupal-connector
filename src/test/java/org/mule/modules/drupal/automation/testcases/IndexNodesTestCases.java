@@ -43,7 +43,7 @@ public class IndexNodesTestCases extends DrupalTestParent {
 		upsertOnTestRunMessage("createdNodeIds", createdNodeIds);
 	}
 	
-	@Category({RegressionTests.class})
+	@Category({SmokeTests.class, RegressionTests.class})
 	@Test
 	public void testIndexNodes() {
 		try {

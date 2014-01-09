@@ -30,7 +30,7 @@ public class ReadTaxonomyVocabularyTestCases extends DrupalTestParent {
 		upsertOnTestRunMessage("vocabularyId", vocabularyId);
 	}
 	
-	@Category({RegressionTests.class})
+	@Category({SmokeTests.class, RegressionTests.class})
 	@Test
 	public void testReadTaxonomyVocabulary() {
 		try {
