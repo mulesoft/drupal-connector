@@ -436,10 +436,11 @@ public class DrupalConnector
      * 
 	 * @param nodeId Id of the node
 	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned 
+	 * @return Returns a boolean result indicating the success or failure of the API request
 	 */
 	@Processor
-	public void deleteNode(int nodeId) throws DrupalException {
-		client.deleteNode(nodeId);
+	public boolean deleteNode(int nodeId) throws DrupalException {
+		return client.deleteNode(nodeId);
 	}
 
 	/**
@@ -449,10 +450,11 @@ public class DrupalConnector
      * 
 	 * @param commentId Id of the comment
 	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned
+	 * @return Returns a boolean result indicating the success or failure of the API request
 	 */
 	@Processor
-	public void deleteComment(int commentId) throws DrupalException {
-		client.deleteComment(commentId);
+	public boolean deleteComment(int commentId) throws DrupalException {
+		return client.deleteComment(commentId);
 	}
 	/**
 	 * Delete a file. If the file is associated to any content, then it can not be deleted.
@@ -461,10 +463,11 @@ public class DrupalConnector
      * 
 	 * @param fileId Id of the file
 	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned
+	 * @return Returns a boolean result indicating the success or failure of the API request
 	 */
 	@Processor
-	public void deleteFile(int fileId) throws DrupalException {
-		client.deleteFile(fileId);
+	public boolean deleteFile(int fileId) throws DrupalException {
+		return client.deleteFile(fileId);
 	}
 
 	/**
@@ -500,10 +503,11 @@ public class DrupalConnector
      * 
 	 * @param userId Id of the User
 	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned
+	 * @return Returns a boolean result indicating the success or failure of the API request
 	 */
 	@Processor
-	public void deleteUser(int userId) throws DrupalException {
-		client.deleteUser(userId);
+	public boolean deleteUser(int userId) throws DrupalException {
+		return client.deleteUser(userId);
 	}
 	/**
 	 * Count all comments in a node

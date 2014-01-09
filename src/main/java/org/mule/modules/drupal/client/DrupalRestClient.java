@@ -38,6 +38,7 @@ import org.mule.modules.drupal.model.TaxonomyVocabulary;
 import org.mule.modules.drupal.model.TaxonomyVocabularyRequest;
 import org.mule.modules.drupal.model.User;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.Client;
@@ -267,6 +268,36 @@ public class DrupalRestClient implements DrupalClient {
 		}
 	}
 
+	private boolean executeDeleteRequest(WebResource r, DrupalCollection dc, Object entity) throws DrupalException {
+		WebResource.Builder builder = r.accept(MediaType.APPLICATION_JSON_TYPE).cookie(sessionId);
+
+		if (entity instanceof DrupalEntity) {
+			builder = builder.entity(GsonFactory.getGson().toJson(entity,DrupalEntity.class),
+					MediaType.APPLICATION_JSON_TYPE);
+		} else if (entity != null) {
+			builder = builder.entity(entity, MediaType.APPLICATION_JSON_TYPE);
+		}
+		
+		ClientResponse response = builder.method("DELETE", ClientResponse.class);
+		Status status = response.getClientResponseStatus();
+		
+		if (status == Status.OK) { 
+			String json = response.getEntity(String.class);
+			Gson gson = GsonFactory.getGson();
+			String[] parsed = gson.fromJson(json, String[].class);
+			return Boolean.valueOf(parsed[0]);
+		}
+		else if (status == Status.UNAUTHORIZED) {
+			throw new DrupalException("Drupal returned "
+					+ status.getStatusCode());
+		} else {
+			String drupalError = response.getEntity(String.class);
+			throw new DrupalException(String.format(
+					"API returned status code %d, 200 was expected. Reason:%s. Drupal Error: %s",
+					status.getStatusCode(),status.getReasonPhrase(),StringUtils.isEmpty(drupalError) ? "Unknown" : drupalError));
+		}
+	}
+	
 	private <T extends DrupalEntity> T executeRequest(String method, WebResource r,
 			DrupalCollection dc,Object entity) throws DrupalException {
 		WebResource.Builder builder = r.accept(MediaType.APPLICATION_JSON_TYPE)
@@ -469,13 +500,15 @@ public class DrupalRestClient implements DrupalClient {
 	}
 
 	@Override
-	public void deleteNode(int nodeId) throws DrupalException {
-		deleteOne(DrupalCollection.Node,nodeId);
+	public boolean deleteNode(int nodeId) throws DrupalException {
+		boolean result = deleteOne(DrupalCollection.Node,nodeId);
+		return result;
 	}
 	
 	@Override
-	public void deleteComment(int commentId) throws DrupalException {
-		deleteOne(DrupalCollection.Comment,commentId);		
+	public boolean deleteComment(int commentId) throws DrupalException {
+		Boolean result = deleteOne(DrupalCollection.Comment,commentId);		
+		return result;
 	}
 	
 	/**
@@ -492,12 +525,11 @@ public class DrupalRestClient implements DrupalClient {
 	 *         created entity
 	 * @throws DrupalException
 	 */
-	private DrupalEntity deleteOne(DrupalCollection collection, int objectId)
+	private Boolean deleteOne(DrupalCollection collection, int objectId)
 			throws DrupalException {
-		DrupalEntity response = this.executeRequest("DELETE",
+		Boolean response = this.executeDeleteRequest(
 				this.getWebResource().path(collection.getEndpoint())
 						.path(String.valueOf(objectId)), null,null);
-
 		return response;
 	}
 
@@ -511,13 +543,15 @@ public class DrupalRestClient implements DrupalClient {
 	}
 
 	@Override
-	public void deleteFile(int fileId) throws DrupalException {
-		deleteOne(DrupalCollection.File,fileId);
+	public boolean deleteFile(int fileId) throws DrupalException {
+		boolean result = deleteOne(DrupalCollection.File,fileId);
+		return result;
 	}
 
 	@Override
-	public void deleteUser(int userId) throws DrupalException {
-		deleteOne(DrupalCollection.User,userId);
+	public boolean deleteUser(int userId) throws DrupalException {
+		boolean result = deleteOne(DrupalCollection.User,userId);
+		return result;
 	}
 
 	@Override

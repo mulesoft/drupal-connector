@@ -58,12 +58,12 @@ public interface DrupalClient {
 	public TaxonomyVocabulary updateTaxonomyVocabulary(TaxonomyVocabulary taxonomyVocabulary) throws DrupalException;
 	
 	//delete
-	public void deleteNode(int nodeId) throws DrupalException;
-	public void deleteComment(int commentId) throws DrupalException;
-	public void deleteFile(int fileId) throws DrupalException;
+	public boolean deleteNode(int nodeId) throws DrupalException;
+	public boolean deleteComment(int commentId) throws DrupalException;
+	public boolean deleteFile(int fileId) throws DrupalException;
 	public void deleteTaxonomyVocabulary(int taxonomyVocId) throws DrupalException;
 	public void deleteTaxonomyTerm(int taxonomyTermId) throws DrupalException;
-	public void deleteUser(int userId) throws DrupalException;
+	public boolean deleteUser(int userId) throws DrupalException;
 	
 	public int countAllComments(int nodeId) throws DrupalException;
 	int countNewComments(int nodeId,int since) throws DrupalException;
