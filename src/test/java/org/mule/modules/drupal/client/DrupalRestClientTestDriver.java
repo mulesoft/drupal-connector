@@ -308,21 +308,7 @@ public class DrupalRestClientTestDriver {
 		user.setName(oldName);
 		client.updateUser(user);
 	}
-	
-	@Test
-	public void updateFile() throws DrupalException{
-		org.mule.modules.drupal.model.File file = client.readFile(properties.getProperty(FILE_ID));
-		assertEquals("Could not read file",file.getFid(),Integer.valueOf(properties.getProperty(FILE_ID)));
-		Integer oldStatus=file.getStatus();
-		Integer newStatus = (oldStatus.intValue() == 0) ? 1 : 0;
-		file.setStatus(newStatus);
-		client.updateFile(file);
-		file = client.readFile(properties.getProperty(FILE_ID));
-		assertEquals("Could not update File",newStatus,file.getStatus());		
-		file.setStatus(oldStatus);
-		client.updateFile(file);
-	}
-	
+
 	@Test
 	public void countAll() throws DrupalException{
 		int count = client.countAllComments(Integer.valueOf(properties.getProperty(NODE_ID)));
