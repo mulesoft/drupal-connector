@@ -18,7 +18,7 @@ import org.junit.experimental.categories.Category;
 import org.mule.modules.drupal.model.TaxonomyVocabulary;
 import org.mule.modules.tests.ConnectorTestUtils;
 
-public class UpdateTaxonomyVocabularyTestData extends DrupalTestParent {
+public class UpdateTaxonomyVocabularyTestCases extends DrupalTestParent {
 	
 	@Before
 	public void setUp() throws Exception {
