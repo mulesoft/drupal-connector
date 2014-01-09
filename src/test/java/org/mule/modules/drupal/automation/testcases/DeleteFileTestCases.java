@@ -36,7 +36,8 @@ public class DeleteFileTestCases extends DrupalTestParent {
 	public void testDeleteFile() {
 		try {
 			Integer fileId = getTestRunMessageValue("fileId");
-			deleteFile(fileId);
+			boolean result = deleteFile(fileId);
+			assertTrue(result);
 
 			// Show throw an exception
 			File retrievedFile = readFile(fileId);

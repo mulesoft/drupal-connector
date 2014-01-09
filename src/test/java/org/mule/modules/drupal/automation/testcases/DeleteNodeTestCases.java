@@ -40,7 +40,8 @@ public class DeleteNodeTestCases extends DrupalTestParent {
 	public void testDeleteNode() {
 		try {
 			Integer nodeId = Integer.parseInt(getTestRunMessageValue("nodeId").toString());
-			deleteNode(nodeId);
+			boolean result = deleteNode(nodeId);
+			assertTrue(result);
 			
 			Node node = readNode(nodeId);
 			fail("Node still present after delete. ID of the node still present is: "+ node.getNid());

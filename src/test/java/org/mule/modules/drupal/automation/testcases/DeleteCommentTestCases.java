@@ -48,7 +48,8 @@ public class DeleteCommentTestCases extends DrupalTestParent {
 	public void testDeleteComment() {
 		try {
 			Integer commentId = getTestRunMessageValue("commentId");
-			deleteComment(commentId);
+			boolean result = deleteComment(commentId);
+			assertTrue(result);
 
 			// Should throw an exception
 			Comment retrievedComment = readComment(commentId);

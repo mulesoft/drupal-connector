@@ -47,9 +47,9 @@ public class DrupalTestParent extends ConnectorTestCase {
 		return runFlowAndGetPayload("create-node-by-ref");
 	}
 	
-	protected void deleteNode(Integer nodeId) throws Exception {
+	protected Boolean deleteNode(Integer nodeId) throws Exception {
 		upsertOnTestRunMessage("nodeId", nodeId);
-		runFlowAndGetPayload("delete-node");
+		return runFlowAndGetPayload("delete-node");
 	}
 
 	protected List<Node> indexNodes() throws Exception {
@@ -78,9 +78,9 @@ public class DrupalTestParent extends ConnectorTestCase {
 		return runFlowAndGetPayload("create-comment-by-reference");
 	}
 	
-	protected void deleteComment(Integer commentId) throws Exception {
+	protected Boolean deleteComment(Integer commentId) throws Exception {
 		upsertOnTestRunMessage("commentId", commentId);
-		runFlowAndGetPayload("delete-comment");
+		return runFlowAndGetPayload("delete-comment");
 	}
 	
 	protected Comment readComment(Integer commentId) throws Exception {
@@ -107,10 +107,10 @@ public class DrupalTestParent extends ConnectorTestCase {
 		return runFlowAndGetPayload("read-file");
 	}
 	
-	protected void deleteFile(Integer fileId) throws Exception {
+	protected Boolean deleteFile(Integer fileId) throws Exception {
 		upsertOnTestRunMessage("fileId", fileId);
 		
-		runFlowAndGetPayload("delete-file");
+		return runFlowAndGetPayload("delete-file");
 	}
 	
 	protected User createUser(User user) throws Exception {
@@ -125,10 +125,10 @@ public class DrupalTestParent extends ConnectorTestCase {
 		return runFlowAndGetPayload("read-user");
 	}
 	
-	protected void deleteUser(Integer userId) throws Exception {
+	protected Boolean deleteUser(Integer userId) throws Exception {
 		upsertOnTestRunMessage("userId", userId);
 		
-		runFlowAndGetPayload("delete-user");
+		return runFlowAndGetPayload("delete-user");
 	}
 
 	protected void createTaxonomyVocabulary(TaxonomyVocabulary vocabulary) throws Exception {

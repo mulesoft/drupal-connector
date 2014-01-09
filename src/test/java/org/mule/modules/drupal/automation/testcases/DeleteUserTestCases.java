@@ -37,7 +37,8 @@ public class DeleteUserTestCases extends DrupalTestParent {
 	public void testDeleteUser() {
 		try {
 			Integer userId = getTestRunMessageValue("userId");
-			deleteUser(userId);
+			boolean result = deleteUser(userId);
+			assertTrue(result);
 			
 			// Should throw an exception
 			User retrievedUser = readUser(userId);
