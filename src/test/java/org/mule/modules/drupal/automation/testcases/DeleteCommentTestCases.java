@@ -11,6 +11,8 @@ package org.mule.modules.drupal.automation.testcases;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,20 +52,12 @@ public class DeleteCommentTestCases extends DrupalTestParent {
 			Integer commentId = getTestRunMessageValue("commentId");
 			boolean result = deleteComment(commentId);
 			assertTrue(result);
-
-			// Should throw an exception
-			Comment retrievedComment = readComment(commentId);
-
-			fail("An exception should have been thrown when reading the comment. "
-					+ "The delete comment was found, when it should have been deleted."
-					+ "ID of the deleted comment: "+retrievedComment.getCid());
-		}
-		catch (MessagingException e) {
-			if (e.getCause() instanceof DrupalException) {
-				DrupalException cause = (DrupalException) e.getCause();
-				assertTrue(cause.getMessage().contains("406") && cause.getMessage().contains("Not Acceptable"));
+			
+			// Get all comments. Check that none of them have the same commentId as the one we created/deleted
+			List<Comment> comments = indexComments();
+			for (Comment comment : comments) {
+				assertTrue(comment.getCid() != commentId);
 			}
-			else fail(ConnectorTestUtils.getStackTrace(e));
 		}
 		catch (Exception e) {
 			fail(ConnectorTestUtils.getStackTrace(e));

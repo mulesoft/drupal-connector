@@ -56,7 +56,7 @@ public class IndexUsersTestCases extends DrupalTestParent {
 			for (Integer userId : userIds) {
 				boolean found = false;
 				for (User user : retrievedUsers) {
-					if (user.getUid() == userId) {
+					if (user.getUid().intValue() == userId) {
 						found = true;
 						break;
 					}

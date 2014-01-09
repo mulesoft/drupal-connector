@@ -51,10 +51,6 @@ public class DrupalTestParent extends ConnectorTestCase {
 		upsertOnTestRunMessage("nodeId", nodeId);
 		return runFlowAndGetPayload("delete-node");
 	}
-
-	protected List<Node> indexNodes() throws Exception {
-		return runFlowAndGetPayload("index-nodes");
-	}
 	
 	protected Node readNode(Integer nodeId) throws Exception{
 		upsertOnTestRunMessage("nodeId", nodeId);
@@ -177,6 +173,78 @@ public class DrupalTestParent extends ConnectorTestCase {
 		return runFlowAndGetPayload("read-taxonomy-term");
 	}
 	
+	protected List<Comment> indexComments() throws Exception {
+		List<String> fields = new ArrayList<String>();
+		
+		fields.add("cid");		
+		fields.add("nid");		
+		fields.add("subject");	
+		fields.add("created");	
+		fields.add("changed");
+		
+		return indexComments(-1, 0, fields);
+	}
+
+	protected List<Comment> indexComments(Integer pageSize, Integer startPage, List<String> fields) throws Exception {
+		upsertOnTestRunMessage("pagesize", pageSize);
+		upsertOnTestRunMessage("startPage", startPage);
+		upsertOnTestRunMessage("fieldsRef", fields);
+		
+		return runFlowAndGetPayload("index-comments");
+	}
+	
+	protected List<File> indexFiles() throws Exception {
+		List<String> fields = new ArrayList<String>();
+		
+		fields.add("fid");
+		
+		return indexFiles(-1, 0, fields);
+	}
+	
+	protected List<File> indexFiles(int pageSize, int startPage, List<String> fields) throws Exception {
+		upsertOnTestRunMessage("pagesize", pageSize);
+		upsertOnTestRunMessage("startPage", startPage);
+		upsertOnTestRunMessage("fieldsRef", fields);
+		
+		return runFlowAndGetPayload("index-files");
+	}
+	
+	protected List<Node> indexNodes() throws Exception {
+		List<String> fields = new ArrayList<String>();
+		
+		fields.add("nid");
+		fields.add("title");
+		fields.add("type");
+		
+		return indexNodes(-1, 0, fields);
+	}
+
+	protected List<Node> indexNodes(int pageSize, int startPage, List<String> fields) throws Exception {
+		upsertOnTestRunMessage("pagesize", pageSize);
+		upsertOnTestRunMessage("startPage", startPage);
+		upsertOnTestRunMessage("fieldsRef", fields);
+		
+		return runFlowAndGetPayload("index-nodes");
+	}
+	
+	protected List<User> indexUsers() throws Exception {
+		List<String> fields = new ArrayList<String>();
+		
+		fields.add("uid");
+		fields.add("name");
+		fields.add("mail");
+		
+		return indexUsers(-1, 0, fields);
+	}
+	
+	protected List<User> indexUsers(int pageSize, int startPage, List<String> fields) throws Exception {
+		upsertOnTestRunMessage("pagesize", pageSize);
+		upsertOnTestRunMessage("startPage", startPage);
+		upsertOnTestRunMessage("fieldsRef", fields);
+				
+		return runFlowAndGetPayload("index-users");
+	}
+
 	protected List<TaxonomyVocabulary> indexTaxonomyVocabulary() throws Exception {
 		List<String> fields = new ArrayList<String>();
 		

@@ -16,12 +16,14 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.mule.modules.drupal.model.Node;
 import org.mule.modules.tests.ConnectorTestUtils;
 
 public class CreateNodeTestCases extends DrupalTestParent {
 
 	@SuppressWarnings("unchecked")
+	@Category({SmokeTests.class, RegressionTests.class})
 	@Test
 	public void testCreateNode() {
 		try {

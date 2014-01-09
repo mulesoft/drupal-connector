@@ -11,11 +11,11 @@ package org.mule.modules.drupal.automation.testcases;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.mule.api.MessagingException;
-import org.mule.modules.drupal.client.DrupalException;
 import org.mule.modules.drupal.model.User;
 import org.mule.modules.tests.ConnectorTestUtils;
 
@@ -40,17 +40,9 @@ public class DeleteUserTestCases extends DrupalTestParent {
 			boolean result = deleteUser(userId);
 			assertTrue(result);
 			
-			// Should throw an exception
-			User retrievedUser = readUser(userId);
-
-			fail("An exception should have been thrown when retrieving the user. "
-					+ "The user was found, when they should have been deleted."
-					+ "ID of the deleted user: "+retrievedUser.getUid());
-		}
-		catch (MessagingException e) {
-			if (e.getCause() instanceof DrupalException) {
-				DrupalException cause = (DrupalException) e.getCause();
-				assertTrue(cause.getMessage().contains("406") && cause.getMessage().contains("Not Acceptable"));
+			List<User> users = indexUsers();
+			for (User user : users) {
+				assertTrue(user.getUid() != userId);
 			}
 		}
 		catch (Exception e) {

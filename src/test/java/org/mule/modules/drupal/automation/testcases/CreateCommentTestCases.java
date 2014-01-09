@@ -14,6 +14,7 @@ import static org.junit.Assert.fail;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.mule.modules.drupal.model.Comment;
 import org.mule.modules.drupal.model.Node;
 import org.mule.modules.tests.ConnectorTestUtils;
@@ -32,6 +33,7 @@ public class CreateCommentTestCases extends DrupalTestParent  {
 		upsertOnTestRunMessage("nid", node.getNid());
 	}
 	
+	@Category({SmokeTests.class, RegressionTests.class})
 	@Test
 	public void testCreateComment() {
 		try {

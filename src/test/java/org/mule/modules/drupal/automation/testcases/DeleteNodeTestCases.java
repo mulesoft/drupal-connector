@@ -11,6 +11,8 @@ package org.mule.modules.drupal.automation.testcases;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -43,15 +45,10 @@ public class DeleteNodeTestCases extends DrupalTestParent {
 			boolean result = deleteNode(nodeId);
 			assertTrue(result);
 			
-			Node node = readNode(nodeId);
-			fail("Node still present after delete. ID of the node still present is: "+ node.getNid());
-		} 
-		catch (MessagingException e) {
-			if (e.getCause() instanceof DrupalException) {
-				DrupalException cause = (DrupalException) e.getCause();
-				assertTrue(cause.getMessage().contains("404") && cause.getMessage().contains("Not Found"));
+			List<Node> nodes = indexNodes();
+			for (Node node : nodes) {
+				assertTrue(node.getNid() != nodeId);
 			}
-			else fail(ConnectorTestUtils.getStackTrace(e));
 		}
 		catch (Exception e) {
 			fail(ConnectorTestUtils.getStackTrace(e));
