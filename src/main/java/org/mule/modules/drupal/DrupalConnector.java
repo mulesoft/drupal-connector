@@ -311,8 +311,8 @@ public class DrupalConnector
 	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned 
 	 */
 	@Processor
-	public TaxonomyTerm createTaxonomyTerm(@Optional @Default("#[payload]") TaxonomyTerm taxonomyTerm) throws DrupalException {
-		return client.createTaxonomyTerm(taxonomyTerm);
+	public void createTaxonomyTerm(@Optional @Default("#[payload]") TaxonomyTerm taxonomyTerm) throws DrupalException {
+		client.createTaxonomyTerm(taxonomyTerm);
 	}
 
 	/**

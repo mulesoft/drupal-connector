@@ -42,7 +42,7 @@ public interface DrupalClient {
 	public Node createNode(Node node) throws DrupalException;
 	public Comment createComment(Comment comment) throws DrupalException;
 	public User createUser(User user) throws DrupalException;
-	public TaxonomyTerm	createTaxonomyTerm(TaxonomyTerm taxonomyTerm) throws DrupalException;
+	public void	createTaxonomyTerm(TaxonomyTerm taxonomyTerm) throws DrupalException;
 	public File	createFile(File file) throws DrupalException;
 	public void createTaxonomyVocabulary(TaxonomyVocabulary taxonomyVocabulary) throws DrupalException;
 

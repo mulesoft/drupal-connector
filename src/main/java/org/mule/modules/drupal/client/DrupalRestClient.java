@@ -426,14 +426,8 @@ public class DrupalRestClient implements DrupalClient {
 	}
 
 	@Override
-	public TaxonomyTerm createTaxonomyTerm(TaxonomyTerm taxonomyTerm) throws DrupalException {
-
-		TaxonomyTerm createdTV = (TaxonomyTerm) create(DrupalCollection.TaxonomyTerm, taxonomyTerm);
-		if(createdTV!=null){
-			taxonomyTerm.setVid(createdTV.getVid());
-		}
-		return taxonomyTerm;
-
+	public void createTaxonomyTerm(TaxonomyTerm taxonomyTerm) throws DrupalException {
+		create(DrupalCollection.TaxonomyTerm, taxonomyTerm);
 	}
 
 	@Override
