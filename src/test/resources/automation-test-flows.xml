@@ -224,4 +224,10 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
         </drupal:index-taxonomy-vocabulary>
 	</flow>
 
+	<flow name="index-taxonomy-terms">
+		<drupal:index-taxonomy-terms config-ref="Drupal" pagesize="#[payload.pagesize]" startPage="#[payload.startPage]">
+			<drupal:fields ref="#[payload.fieldsRef]" />
+		</drupal:index-taxonomy-terms>
+	</flow>
+
 </mule>

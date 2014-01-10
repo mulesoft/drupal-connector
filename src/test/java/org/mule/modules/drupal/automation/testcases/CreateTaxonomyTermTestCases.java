@@ -39,16 +39,13 @@ public class CreateTaxonomyTermTestCases extends DrupalTestParent {
 			TaxonomyTerm term = getTestRunMessageValue("taxonomyTerm");
 			term.setVid(vocabularyId);
 			
-			TaxonomyTerm createdTerm = createTaxonomyTerm(term);
-			Integer termId = createdTerm.getTid();
+			Integer termId = createTaxonomyTermAndGetBackId(term);
 			assertTrue(termId >= 0);
 
 			upsertOnTestRunMessage("termId", termId);
 			
 			TaxonomyTerm retrievedTerm = readTaxonomyTerm(termId);
 			assertEquals(retrievedTerm.getTid(), termId);
-			assertEquals(retrievedTerm.getName(), createdTerm.getName());
-			assertEquals(retrievedTerm.getDescription(), createdTerm.getDescription());
 		}
 		catch (Exception e) {
 			fail(ConnectorTestUtils.getStackTrace(e));

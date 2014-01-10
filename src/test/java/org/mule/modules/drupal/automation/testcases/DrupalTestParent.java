@@ -155,10 +155,39 @@ public class DrupalTestParent extends ConnectorTestCase {
 		return runFlowAndGetPayload("read-taxonomy-vocabulary");
 	}
 	
-	protected TaxonomyTerm createTaxonomyTerm(TaxonomyTerm term) throws Exception {
+	protected void createTaxonomyTerm(TaxonomyTerm term) throws Exception {
 		upsertOnTestRunMessage("taxonomyTermRef", term);
 		
-		return runFlowAndGetPayload("create-taxonomy-term");
+		runFlowAndGetPayload("create-taxonomy-term");
+	}
+	
+	protected Integer createTaxonomyTermAndGetBackId(TaxonomyTerm term) throws Exception {
+		createTaxonomyTerm(term);
+		
+		String name = term.getName();
+		List<TaxonomyTerm> indexTaxonomyTerms = indexTaxonomyTerms();
+				
+		TaxonomyTerm found = searchList(indexTaxonomyTerms, name);
+		return found.getTid();
+	}
+
+	protected List<TaxonomyTerm> indexTaxonomyTerms() throws Exception {
+		List<String> fields = new ArrayList<String>();
+		
+		fields.add("tid");
+		fields.add("vid");
+		fields.add("name");
+		fields.add("description");
+		
+		return indexTaxonomyTerms(-1, 0, fields);
+	}
+	
+	protected List<TaxonomyTerm> indexTaxonomyTerms(Integer pageSize, Integer startPage, List<String> fields) throws Exception {
+		upsertOnTestRunMessage("pagesize", pageSize);
+		upsertOnTestRunMessage("startPage", startPage);
+		upsertOnTestRunMessage("fieldsRef", fields);
+		
+		return runFlowAndGetPayload("index-taxonomy-terms");
 	}
 	
 	protected void deleteTaxonomyTerm(Integer termId) throws Exception {
@@ -344,14 +373,21 @@ public class DrupalTestParent extends ConnectorTestCase {
 	
 	// Machine name is a field that is unique
 	protected TaxonomyVocabulary searchList(List<TaxonomyVocabulary> vocabularies, String machineName) {
-		TaxonomyVocabulary found = null;
 		for (TaxonomyVocabulary taxonomyVocabulary : vocabularies) {
 			if (machineName.equals(taxonomyVocabulary.getMachineName())) {
-				found = taxonomyVocabulary;
-				break;
+				return taxonomyVocabulary;
 			}
 		}
-		return found;
+		return null;
+	}
+	
+	protected TaxonomyTerm searchList(List<TaxonomyTerm> terms, String name) {
+		for (TaxonomyTerm taxonomyTerm : terms) {
+			if (taxonomyTerm.getName().equals(name)) {
+				return taxonomyTerm;
+			}
+		}
+		return null;
 	}
 	
 	
