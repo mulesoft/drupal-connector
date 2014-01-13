@@ -24,6 +24,7 @@ import org.mule.modules.drupal.automation.testcases.CreateUserTestCases;
 import org.mule.modules.drupal.automation.testcases.DeleteCommentTestCases;
 import org.mule.modules.drupal.automation.testcases.DeleteFileTestCases;
 import org.mule.modules.drupal.automation.testcases.DeleteNodeTestCases;
+import org.mule.modules.drupal.automation.testcases.DeleteTaxonomyTermTestCases;
 import org.mule.modules.drupal.automation.testcases.DeleteTaxonomyVocabularyTestCases;
 import org.mule.modules.drupal.automation.testcases.DeleteUserTestCases;
 import org.mule.modules.drupal.automation.testcases.GetCommentsForNodeTestCases;
@@ -61,6 +62,7 @@ import org.mule.modules.drupal.automation.testcases.UpdateUserTestCases;
 	DeleteCommentTestCases.class,
 	DeleteFileTestCases.class,
 	DeleteNodeTestCases.class,
+	DeleteTaxonomyTermTestCases.class,
 	DeleteTaxonomyVocabularyTestCases.class,
 	DeleteUserTestCases.class,
 	GetCommentsForNodeTestCases.class,
