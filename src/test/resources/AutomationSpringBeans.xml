@@ -350,6 +350,29 @@
 		</entry>
 	</util:map>
 	
+	<!-- update-taxonomy-term -->
+	<util:map id="updateTaxonomyTermTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="taxonomyVocabulary">
+			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+				<property name="name" value="My Read-Taxonomy-Term Vocabulary" />
+				<property name="description" value="This is my Taxonomy Vocabulary entry containing Taxonomy Terms that I am about to read." />
+				<property name="machineName" value="taxonomyTermTaxonomyVocabularyEntry" />
+			</bean>
+		</entry>
+		<entry key="taxonomyTerm">
+			<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+				<property name="name" value="My Un-updated Taxonomy Term" />
+				<property name="description" value="This is my Taxonomy Term that I am going to update" />
+			</bean>
+		</entry>
+		<entry key="updatedTaxonomyTerm">
+		    <bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+		        <property name="name" value="My Updated Taxonomy Term" />
+		        <property name="description" value="This is my updated Taxonomy Term" />
+		    </bean>
+		</entry>
+	</util:map>
+	
 	<!-- create-taxonomy-vocabulary -->
 	<util:map id="createTaxonomyVocabularyTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
 		<entry key="taxonomyVocabulary">

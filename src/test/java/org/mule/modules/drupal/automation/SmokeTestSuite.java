@@ -32,6 +32,7 @@ import org.mule.modules.drupal.automation.testcases.IndexTaxonomyVocabularyTestC
 import org.mule.modules.drupal.automation.testcases.IndexUsersTestCases;
 import org.mule.modules.drupal.automation.testcases.ReadFileTestCases;
 import org.mule.modules.drupal.automation.testcases.ReadNodeTestCases;
+import org.mule.modules.drupal.automation.testcases.ReadTaxonomyTermTestCases;
 import org.mule.modules.drupal.automation.testcases.ReadTaxonomyVocabularyTestCases;
 import org.mule.modules.drupal.automation.testcases.ReadUserTestCases;
 import org.mule.modules.drupal.automation.testcases.SmokeTests;
@@ -59,6 +60,7 @@ import org.mule.modules.drupal.automation.testcases.SmokeTests;
 	IndexUsersTestCases.class,
 	ReadFileTestCases.class,
 	ReadNodeTestCases.class,
+	ReadTaxonomyTermTestCases.class,
 	ReadTaxonomyVocabularyTestCases.class,
 	ReadUserTestCases.class,
 })

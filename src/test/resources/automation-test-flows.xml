@@ -188,6 +188,12 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 		<drupal:read-taxonomy-term config-ref="Drupal" taxonomyTermId="#[payload.taxonomyTermId]" />
 	</flow>
 	
+	<flow name="update-taxonomy-term">
+		<drupal:update-taxonomy-term config-ref="Drupal">
+			<drupal:taxonomy-term ref="#[payload.taxonomyTermRef]" />
+		</drupal:update-taxonomy-term>
+	</flow>
+	
 	<flow name="create-taxonomy-vocabulary">
 		<drupal:create-taxonomy-vocabulary config-ref="Drupal">
 			<drupal:taxonomy-vocabulary ref="#[payload.taxonomyVocabularyRef]" />

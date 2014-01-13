@@ -11,11 +11,12 @@ import org.mule.modules.drupal.model.TaxonomyTerm;
 import org.mule.modules.drupal.model.TaxonomyVocabulary;
 import org.mule.modules.tests.ConnectorTestUtils;
 
-public class ReadTaxonomyTermTestCases extends DrupalTestParent {
+public class UpdateTaxonomyTermTestCases extends DrupalTestParent {
 	
 	@Before
 	public void setUp() throws Exception {
-		initializeTestRunMessage("readTaxonomyTermTestData");
+		initializeTestRunMessage("updateTaxonomyTermTestData");
+		
 		TaxonomyVocabulary vocabulary = getTestRunMessageValue("taxonomyVocabulary");
 		Integer vocabularyId = createTaxonomyVocabularyAndGetBackId(vocabulary);
 		upsertOnTestRunMessage("vocabularyId", vocabularyId);
@@ -23,22 +24,28 @@ public class ReadTaxonomyTermTestCases extends DrupalTestParent {
 		TaxonomyTerm term = getTestRunMessageValue("taxonomyTerm");
 		term.setVid(vocabularyId);
 		Integer termId = createTaxonomyTermAndGetBackId(term);
-		
 		upsertOnTestRunMessage("term", term);
 		upsertOnTestRunMessage("termId", termId);
 	}
 	
-	@Category({SmokeTests.class, RegressionTests.class})
+	@Category({RegressionTests.class})
 	@Test
-	public void testReadTaxonomyTerm() {
+	public void testUpdateTaxonomyTerm() {
 		try {
-			TaxonomyTerm term = getTestRunMessageValue("term");
-			Integer termId = getTestRunMessageValue("termId");
+			int vocabularyId = getTestRunMessageValue("vocabularyId");
+			int termId = getTestRunMessageValue("termId");
+			TaxonomyTerm updatedTerm = getTestRunMessageValue("updatedTaxonomyTerm");
+			updatedTerm.setTid(termId);
+			updatedTerm.setVid(vocabularyId);
+			upsertOnTestRunMessage("taxonomyTermRef", updatedTerm);
+			
+			runFlowAndGetPayload("update-taxonomy-term");
 			
 			TaxonomyTerm retrievedTerm = readTaxonomyTerm(termId);
-			assertEquals(retrievedTerm.getTid(), termId);
-			assertEquals(retrievedTerm.getName(), term.getName());
-			assertEquals(retrievedTerm.getDescription(), term.getDescription());
+			assertEquals(retrievedTerm.getTid(), updatedTerm.getTid());
+			assertEquals(retrievedTerm.getVid(), updatedTerm.getVid());
+			assertEquals(retrievedTerm.getName(), updatedTerm.getName());
+			assertEquals(retrievedTerm.getDescription(), updatedTerm.getDescription());
 		}
 		catch (Exception e) {
 			fail(ConnectorTestUtils.getStackTrace(e));
