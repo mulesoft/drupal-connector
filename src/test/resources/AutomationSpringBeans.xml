@@ -657,4 +657,32 @@
 		<entry key="pagesize" value="#{0}" />
 	</util:map>
 	
+	<!-- get-taxonomy-vocabulary-tree -->
+	<util:map id="getTaxonomyVocabularyTreeTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+	    <entry key="taxonomyVocabulary">
+			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+				<property name="name" value="My Get-Taxonomy-Vocabulary-Tree Vocabulary" />
+				<property name="description" value="This is my Taxonomy Vocabulary entry containing Taxonomy Terms in my tree." />
+				<property name="machineName" value="taxonomyTermTaxonomyVocabularyEntry" />
+			</bean>
+		</entry>
+		<entry key="taxonomyTerms">
+		    <list value-type="org.mule.modules.drupal.model.TaxonomyTerm">
+				<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+					<property name="name" value="My First Tree Taxonomy Term" />
+					<property name="description" value="This is the first Taxonomy Term that is going to be in the tree" />
+				</bean>
+				<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+					<property name="name" value="My Second Tree Taxonomy Term" />
+					<property name="description" value="This is the second Taxonomy Term that is going to be in the tree" />
+				</bean>
+				<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+					<property name="name" value="My Third Tree Taxonomy Term" />
+					<property name="description" value="This is the third Taxonomy Term that is going to be in the tree" />
+				</bean>
+		    </list>
+		</entry>
+		<entry key="parent" value="-1" />
+		<entry key="maxdepth" value="0" />
+	</util:map>
 </beans>

@@ -29,6 +29,7 @@ import org.mule.modules.drupal.automation.testcases.DeleteTaxonomyVocabularyTest
 import org.mule.modules.drupal.automation.testcases.DeleteUserTestCases;
 import org.mule.modules.drupal.automation.testcases.GetCommentsForNodeTestCases;
 import org.mule.modules.drupal.automation.testcases.GetFilesForNodeTestCases;
+import org.mule.modules.drupal.automation.testcases.GetTaxonomyVocabularyTreeTestCases;
 import org.mule.modules.drupal.automation.testcases.IndexCommentsTestCases;
 import org.mule.modules.drupal.automation.testcases.IndexFilesTestCases;
 import org.mule.modules.drupal.automation.testcases.IndexNodesTestCases;
@@ -70,6 +71,7 @@ import org.mule.modules.drupal.automation.testcases.UpdateUserTestCases;
 	DeleteUserTestCases.class,
 	GetCommentsForNodeTestCases.class,
 	GetFilesForNodeTestCases.class,
+	GetTaxonomyVocabularyTreeTestCases.class,
 	IndexCommentsTestCases.class,
 	IndexFilesTestCases.class,
 	IndexNodesTestCases.class,

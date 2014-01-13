@@ -235,5 +235,14 @@ http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/d
 			<drupal:fields ref="#[payload.fieldsRef]" />
 		</drupal:index-taxonomy-terms>
 	</flow>
+	
+	<flow name="get-nodes-with-term">
+		<drupal:get-nodes-with-term config-ref="Drupal" taxonomyTermId="#[payload.taxonomyTermId]" />
+	</flow>
+	
+	<flow name="get-taxonomy-vocabulary-tree">
+		<drupal:get-taxonomy-vocabulary-tree config-ref="Drupal" maxdepth="#[payload.maxdepth]"
+			parent="#[payload.parent]" vocabularyId="#[payload.vocabularyId]" />
+	</flow>
 
 </mule>

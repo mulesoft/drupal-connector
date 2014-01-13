@@ -390,5 +390,25 @@ public class DrupalTestParent extends ConnectorTestCase {
 		return null;
 	}
 	
+	protected void addTermToNode(Node node, int termId) {
+		if (node.getCustomFields() == null) {
+			node.setCustomFields(new HashMap<String, CustomField>());
+		}
+		
+		CustomField field = node.getCustomFields().get("field_tags");
+		
+		if (field == null) {
+			field = new CustomField();
+			List<Map> und = new ArrayList<Map>();
+			field.setUnd(und);
+		}
+		
+		List<Map> und = field.getUnd();
+		Map<String, Object> termEntry = new HashMap<String, Object>();
+		termEntry.put("tid", termId);
+		und.add(termEntry);
+		
+		node.getCustomFields().put("field_tags", field);
+	}
 	
 }
