@@ -373,6 +373,42 @@
 		</entry>
 	</util:map>
 	
+	<!-- get-nodes-with-term -->
+	<util:map id="getNodesWithTermTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+		<entry key="taxonomyVocabulary">
+			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+				<property name="name" value="My Get-Nodes-With-Term Vocabulary" />
+				<property name="description" value="This is my Taxonomy Vocabulary entry containing Taxonomy Terms that I am about to assign to nodes." />
+				<property name="machineName" value="taxonomyTermTaxonomyVocabularyEntry" />
+			</bean>
+		</entry>
+		<entry key="taxonomyTerm">
+			<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+				<property name="name" value="My node Taxonomy Term" />
+				<property name="description" value="This is my Taxonomy Term that I am going to assign to nodes." />
+			</bean>
+		</entry>
+		<entry key="nodes">
+			<list value-type="org.mule.modules.drupal.model.Node">
+				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateNode">
+					<constructor-arg index="0" value="First node" />
+					<constructor-arg index="1" value="This is the content for the first node" />
+					<constructor-arg index="2" value="article" />
+				</bean>
+				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateNode">
+					<constructor-arg index="0" value="Second node" />
+					<constructor-arg index="1" value="This is the content for the second node" />
+					<constructor-arg index="2" value="article" />
+				</bean>
+				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateNode">
+					<constructor-arg index="0" value="Third node" />
+					<constructor-arg index="1" value="This is the content for the third node" />
+					<constructor-arg index="2" value="article" />
+				</bean>
+			</list>
+		</entry>
+	</util:map>	
+	
 	<!-- create-taxonomy-vocabulary -->
 	<util:map id="createTaxonomyVocabularyTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
 		<entry key="taxonomyVocabulary">
@@ -498,6 +534,33 @@
 		<entry key="pagesize" value="#{0}" />
 	</util:map>
 		
+	<!-- index-taxonomy-terms -->
+	<util:map id="indexTaxonomyTermsTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+	    <entry key="taxonomyVocabulary">
+			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+				<property name="name" value="My Get-Nodes-With-Term Vocabulary" />
+				<property name="description" value="This is my Taxonomy Vocabulary entry containing Taxonomy Terms that I am about to assign to nodes." />
+				<property name="machineName" value="taxonomyTermTaxonomyVocabularyEntry" />
+			</bean>
+		</entry>
+		<entry key="taxonomyTerms">
+		    <list value-type="org.mule.modules.drupal.model.TaxonomyTerm">
+				<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+					<property name="name" value="My First Indexed Taxonomy Term" />
+					<property name="description" value="This is the first Taxonomy Term that is going to be indexed" />
+				</bean>
+				<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+					<property name="name" value="My Second Indexed Taxonomy Term" />
+					<property name="description" value="This is the second Taxonomy Term that is going to be indexed" />
+				</bean>
+				<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+					<property name="name" value="My Third Indexed Taxonomy Term" />
+					<property name="description" value="This is the third Taxonomy Term that is going to be indexed" />
+				</bean>
+		    </list>
+		</entry>
+	</util:map>
+	
 	<!-- index-users -->
 	<util:map id="indexUsersTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
 		<entry key="users">

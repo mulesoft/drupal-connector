@@ -32,6 +32,7 @@ import org.mule.modules.drupal.automation.testcases.GetFilesForNodeTestCases;
 import org.mule.modules.drupal.automation.testcases.IndexCommentsTestCases;
 import org.mule.modules.drupal.automation.testcases.IndexFilesTestCases;
 import org.mule.modules.drupal.automation.testcases.IndexNodesTestCases;
+import org.mule.modules.drupal.automation.testcases.IndexTaxonomyTermsTestCases;
 import org.mule.modules.drupal.automation.testcases.IndexTaxonomyVocabularyTestCases;
 import org.mule.modules.drupal.automation.testcases.IndexUsersTestCases;
 import org.mule.modules.drupal.automation.testcases.ReadCommentTestCases;
@@ -72,6 +73,7 @@ import org.mule.modules.drupal.automation.testcases.UpdateUserTestCases;
 	IndexCommentsTestCases.class,
 	IndexFilesTestCases.class,
 	IndexNodesTestCases.class,
+	IndexTaxonomyTermsTestCases.class,
 	IndexTaxonomyVocabularyTestCases.class,
 	IndexUsersTestCases.class,
 	ReadCommentTestCases.class,

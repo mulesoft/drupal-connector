@@ -28,6 +28,7 @@ import org.mule.modules.drupal.automation.testcases.GetFilesForNodeTestCases;
 import org.mule.modules.drupal.automation.testcases.IndexCommentsTestCases;
 import org.mule.modules.drupal.automation.testcases.IndexFilesTestCases;
 import org.mule.modules.drupal.automation.testcases.IndexNodesTestCases;
+import org.mule.modules.drupal.automation.testcases.IndexTaxonomyTermsTestCases;
 import org.mule.modules.drupal.automation.testcases.IndexTaxonomyVocabularyTestCases;
 import org.mule.modules.drupal.automation.testcases.IndexUsersTestCases;
 import org.mule.modules.drupal.automation.testcases.ReadFileTestCases;
@@ -56,6 +57,7 @@ import org.mule.modules.drupal.automation.testcases.SmokeTests;
 	IndexCommentsTestCases.class,
 	IndexFilesTestCases.class,
 	IndexNodesTestCases.class,
+	IndexTaxonomyTermsTestCases.class,
 	IndexTaxonomyVocabularyTestCases.class,
 	IndexUsersTestCases.class,
 	ReadFileTestCases.class,
