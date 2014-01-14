@@ -1,3 +1,11 @@
+/**
+ * (c) 2003-2012 MuleSoft, Inc. This software is protected under international
+ * copyright law. All use of this software is subject to MuleSoft's Master
+ * Subscription Agreement (or other Terms of Service) separately entered
+ * into between you and MuleSoft. If such an agreement is not in
+ * place, you may not use the software.
+ */
+
 package org.mule.modules.drupal.automation.testcases;
 
 import static org.junit.Assert.assertTrue;
@@ -43,12 +51,13 @@ public class GetNodesWithTermTestCases extends DrupalTestParent {
 		upsertOnTestRunMessage("nodeIds", nodeIds);
 	}
 	
+	// Test fails because terms are not being assigned to nodes on Drupal's end
 	@Category({RegressionTests.class})
 	@Test
 	public void testGetNodesWithTerm() {
 		try {
 			List<Integer> nodeIds = getTestRunMessageValue("nodeIds");
-			int termId = getTestRunMessageValue("termId");
+			Integer termId = getTestRunMessageValue("termId");
 			
 			upsertOnTestRunMessage("taxonomyTermId", termId);
 			List<Node> nodesWithTerm = runFlowAndGetPayload("get-nodes-with-term");
