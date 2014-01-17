@@ -52,7 +52,7 @@ public interface DrupalClient {
 
 	//update
 	public Node updateNode(Node node) throws DrupalException;
-	public Comment updateComment(Comment comment) throws DrupalException;
+	public int updateComment(Comment comment) throws DrupalException;
 	public User updateUser(User user) throws DrupalException;
 	public TaxonomyTerm	updateTaxonomyTerm(TaxonomyTerm taxonomyTerm) throws DrupalException;
 	public TaxonomyVocabulary updateTaxonomyVocabulary(TaxonomyVocabulary taxonomyVocabulary) throws DrupalException;

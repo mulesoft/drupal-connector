@@ -237,7 +237,47 @@ public class DrupalRestClient implements DrupalClient {
 				this.getWebResource().path(collection.getEndpoint()).path(objectId)
 						, collection,entity);
 		return response;
+	}
+	
+	/**
+	 * Specific method to update a comment. Generic method {@link org.mule.modules.drupal.client.DrupalRestClient#update}
+	 * cannot be used since Drupal returns back an Integer representing the ID of the updated comment.
+	 * @param objectId The ID of the entity to update.
+	 * @param entity The updated comment.
+	 * @return An integer containing the ID of the updated comment.
+	 * @throws DrupalException
+	 */
+	private int updateComment(String objectId, @Optional @Default("#[payload]") Comment entity) throws DrupalException {
+		WebResource r = getWebResource().path(DrupalCollection.Comment.getEndpoint()).path(objectId);
+		WebResource.Builder builder = r.accept(MediaType.APPLICATION_JSON_TYPE)
+				.cookie(sessionId);
+
+		if (entity instanceof DrupalEntity) {
+			builder = builder.entity(GsonFactory.getGson().toJson(entity,DrupalEntity.class),
+					MediaType.APPLICATION_JSON_TYPE);
+		} else if (entity != null) {
+			builder = builder.entity(entity, MediaType.APPLICATION_JSON_TYPE);
 		}
+		
+		ClientResponse response = builder.method("PUT", ClientResponse.class);
+		Status status = response.getClientResponseStatus();
+
+		if (status == Status.OK) {
+			String json = response.getEntity(String.class);
+			
+			Gson gson = GsonFactory.getGson();
+			Integer[] parsed = gson.fromJson(json, Integer[].class);
+			return parsed[0];
+		} else if (status == Status.UNAUTHORIZED) {
+			throw new DrupalException("Drupal returned "
+					+ status.getStatusCode());
+		} else {
+			String drupalError = response.getEntity(String.class);
+			throw new DrupalException(String.format(
+					"API returned status code %d, 200 was expected. Reason:%s. Drupal Error: %s",
+					status.getStatusCode(),status.getReasonPhrase(),StringUtils.isEmpty(drupalError) ? "Unknown" : drupalError));
+		}
+	}
 
 	private <T> List<T> executeListRequest(String method, WebResource r, Type listType, Map<String, String> params) throws DrupalException {
 		WebResource.Builder builder = r.accept(MediaType.APPLICATION_JSON_TYPE)
@@ -557,11 +597,9 @@ public class DrupalRestClient implements DrupalClient {
 	}
 
 	@Override
-	public Comment updateComment(Comment comment) throws DrupalException {
-		
-		comment = (Comment)update(DrupalCollection.Comment, comment.getCid().toString(), comment);
-		
-		return comment;
+	public int updateComment(Comment comment) throws DrupalException {
+		int commentId = updateComment(comment.getCid().toString(), comment);
+		return commentId;
 	}
 
 	@Override

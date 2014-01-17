@@ -378,11 +378,11 @@ public class DrupalConnector
      * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:update-comment}
      * 
 	 * @param comment Comment with new fields set
-	 * @return the same comment
+	 * @return the ID of the comment which was just updated
 	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned 
 	 */
 	@Processor
-	public Comment updateComment(@Optional @Default("#[payload]") Comment comment) throws DrupalException {
+	public Integer updateComment(@Optional @Default("#[payload]") Comment comment) throws DrupalException {
 		return client.updateComment(comment);
 	}
 

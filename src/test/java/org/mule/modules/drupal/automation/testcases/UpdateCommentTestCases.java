@@ -51,10 +51,8 @@ public class UpdateCommentTestCases extends DrupalTestParent {
 			
 			upsertOnTestRunMessage("commentRef", toUpdate);
 			
-			Comment returnedComment = runFlowAndGetPayload("update-comment");
-			assertEquals(returnedComment.getCid(), commentId);
-			assertEquals(returnedComment.getName(), toUpdate.getName());
-			assertEquals(returnedComment.getMail(), toUpdate.getMail());
+			Integer updatedCommentId = runFlowAndGetPayload("update-comment");
+			assertEquals(commentId, updatedCommentId);
 		}
 		catch (Exception e) {
 			fail(ConnectorTestUtils.getStackTrace(e));
