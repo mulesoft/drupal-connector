@@ -180,6 +180,7 @@
 				<constructor-arg index="1" value="My Read Node Comment" />
 			</bean>
 		</entry>
+		<entry key="nonExistentCommentId" value="#{-1}" />
 	</util:map>
 	
 	<!-- update-comment -->

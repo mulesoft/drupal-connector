@@ -392,14 +392,51 @@ public class DrupalRestClient implements DrupalClient {
 		}
 		return apiResponse;
 	}
+	
+	/*
+	 * Cannot use template methods to execute readComment API request since Drupal returns back "[false]"
+	 * when attempting to read a comment which does not exist. We have to get around this by manually checking
+	 * for such a response. If we manage to parse said response, we will throw a Drupal exception letting the
+	 * user know that a comment with the given ID does not exist.
+	 * 
+	 * If some other form of Json is returned, we will throw a generic exception with the Json exception message.
+	 */
+	public Comment readComment (String commentId) throws DrupalException {
+		WebResource r = this.getWebResource().path(DrupalCollection.Comment.getEndpoint()).path(commentId);
+		WebResource.Builder builder = r.accept(MediaType.APPLICATION_JSON_TYPE).cookie(sessionId);
 
-	@Override
-	public Comment readComment(String commentId) throws DrupalException {
-		Comment comment = null;
-		
-		comment = (Comment) readOne(DrupalCollection.Comment, commentId);
+		ClientResponse response = builder.method("GET", ClientResponse.class);
+		Status status = response.getClientResponseStatus();
 
-		return comment;
+		if (status == Status.OK) {
+			String json = response.getEntity(String.class);
+			Gson gson = GsonFactory.getGson();
+
+			try {
+				Comment comment = (Comment) gson.fromJson(json, DrupalCollection.Comment.getType());
+				
+				// Check custom fields
+				DrupalEntity tempEntity = gson.fromJson(json, DrupalEntity.class);
+				
+				comment.setCustomFields(tempEntity.getCustomFields());
+				return comment;
+			}
+			catch (JsonSyntaxException e) {
+				Boolean[] parsed = gson.fromJson(json, Boolean[].class);
+				if (!parsed[0]) {
+					throw new DrupalException("Comment with ID "+commentId+" not found.");
+				}
+				else throw new DrupalException (e.getMessage());
+			}
+		} else if (status == Status.UNAUTHORIZED) {
+			throw new DrupalException("Drupal returned "
+					+ status.getStatusCode());
+		} else {
+			String drupalError = response.getEntity(String.class);
+			throw new DrupalException(String.format(
+					"API returned status code %d, 200 was expected. Reason:%s. Drupal Error: %s",
+					status.getStatusCode(),status.getReasonPhrase(),StringUtils.isEmpty(drupalError) ? "Unknown" : drupalError));
+		}
 	}
 
 	@Override

@@ -9,12 +9,15 @@
 package org.mule.modules.drupal.automation.testcases;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.mule.api.MessagingException;
+import org.mule.modules.drupal.client.DrupalException;
 import org.mule.modules.drupal.model.Comment;
 import org.mule.modules.drupal.model.Node;
 import org.mule.modules.tests.ConnectorTestUtils;
@@ -41,7 +44,7 @@ public class ReadCommentTestCases extends DrupalTestParent {
 		upsertOnTestRunMessage("createdCommentId", commentId);
 	}
 	
-	@Category({RegressionTests.class})
+	@Category({SmokeTests.class, RegressionTests.class})
 	@Test
 	public void testReadComment_CommentExists() {
 		try {
@@ -61,12 +64,22 @@ public class ReadCommentTestCases extends DrupalTestParent {
 	@Category({SmokeTests.class, RegressionTests.class})
 	@Test
 	public void testReadComment_CommentDoesNotExist() {
+		int nonExistentCommentId = getTestRunMessageValue("nonExistentCommentId");
 		try {
-			Comment retrievedComment = readComment(-1);
+			Comment retrievedComment = readComment(nonExistentCommentId);
 			
 			fail("An exception should have been thrown when reading the comment. "
 					+ "The delete comment was found, when it should have been deleted."
 					+ "ID of the deleted comment: "+retrievedComment.getCid());
+		}
+		catch (MessagingException e) {
+			if (e.getCause() instanceof DrupalException) {
+				DrupalException cause = (DrupalException) e.getCause();
+				assertTrue(cause.getMessage().contains(nonExistentCommentId + " not found"));
+			}
+			else {
+				fail(ConnectorTestUtils.getStackTrace(e));
+			}
 		}
 		catch (Exception e) {
 			fail(ConnectorTestUtils.getStackTrace(e));
