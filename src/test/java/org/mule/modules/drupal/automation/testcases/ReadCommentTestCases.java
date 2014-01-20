@@ -64,7 +64,7 @@ public class ReadCommentTestCases extends DrupalTestParent {
 	@Category({SmokeTests.class, RegressionTests.class})
 	@Test
 	public void testReadComment_CommentDoesNotExist() {
-		int nonExistentCommentId = getTestRunMessageValue("nonExistentCommentId");
+		Integer nonExistentCommentId = getTestRunMessageValue("nonExistentCommentId");
 		try {
 			Comment retrievedComment = readComment(nonExistentCommentId);
 			
