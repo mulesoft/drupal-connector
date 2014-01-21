@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:facebook="http://www.mulesoft.org/schema/mule/facebook"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:drupal="http://www.mulesoft.org/schema/mule/drupal"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/drupal/current/mule-drupal.xsd">
+
+	<context:property-placeholder location="automation-credentials.properties " />
+
+	<drupal:config name="Drupal" username="${drupal.config.username}"
+		password="${drupal.config.password}" server="${drupal.config.server}"
+		port="${drupal.config.port}" apiUrl="${drupal.config.apiUrl}"
+		nodeEndpoint="${drupal.config.nodeEndpoint}" fileEndpoint="${drupal.config.file}"
+		taxonomyTermEndpoint="${drupal.config.taxonomyTermEndpoint}"
+		taxonomyVocabularyEndpoint="${drupal.config.taxonomyVocabularyEndpoint}"
+		userEndpoint="${drupal.config.user}" />
+
+	<flow name="create-node">
+		<drupal:create-node config-ref="Drupal">
+			<drupal:node title="#[payload.title]" type="#[payload.type]">
+				<drupal:body>
+					<drupal:und>
+						<drupal:und>
+							<value>#[payload.content]</value>
+						</drupal:und>
+					</drupal:und>
+				</drupal:body>
+			</drupal:node>
+		</drupal:create-node>
+	</flow>
+	
+	<flow name="create-node-by-ref">
+		<drupal:create-node config-ref="Drupal">
+			<drupal:node ref="#[payload.nodeRef]" />
+		</drupal:create-node>
+	</flow>
+
+	<flow name="delete-node">
+		<drupal:delete-node config-ref="Drupal" nodeId="#[payload.nodeId]" />
+	</flow>
+
+	<flow name="read-node">
+		<drupal:read-node config-ref="Drupal" nodeId="#[payload.nodeId]" />
+	</flow>
+
+	<flow name="count-all-comments">
+		<drupal:count-all-comments config-ref="Drupal" nodeId="#[payload.nodeId]" />
+	</flow>
+	
+	<flow name="count-new-comments">
+		<drupal:count-new-comments config-ref="Drupal" nodeId="#[payload.nodeId]" since="#[payload.since]" />
+	</flow>
+
+	<flow name="index-nodes">
+		<drupal:index-nodes config-ref="Drupal" pagesize="#[payload.pagesize]" startPage="#[payload.startPage]">
+			<drupal:fields ref="#[payload.fieldsRef]" />
+		</drupal:index-nodes>
+	</flow>
+
+	<flow name="update-node">
+		<drupal:update-node config-ref="Drupal">
+			<drupal:node title="#[payload.titleForUpdate]" nid="#[payload.nodeId]" />
+		</drupal:update-node>
+	</flow>
+	
+	<flow name="attach-files-to-node">
+		<drupal:attach-files-to-node config-ref="Drupal" fieldName="#[payload.fieldName]"
+				nodeId="#[payload.nodeId]" attach="#[payload.attach]">
+			<drupal:files ref="#[payload.filesRef]" />
+		</drupal:attach-files-to-node>
+	</flow>
+
+	<flow name="update-custom-field-for-node">
+		<!-- the custom-property body is the content -->
+		<drupal:update-custom-field-for-node config-ref="Drupal"
+			nodeId="#[payload.nodeId]" fieldName="body">
+			<drupal:custom-properties>
+				<value>#[payload.customproperty]</value>
+			</drupal:custom-properties>
+		</drupal:update-custom-field-for-node>
+	</flow>
+
+	<flow name="create-comment">
+		<drupal:create-comment config-ref="Drupal">
+			<drupal:comment subject="#[payload.subject]" nid="#[payload.nid]">
+				<drupal:comment-body>
+					<drupal:und>
+						<drupal:und>
+							<value>#[payload.und]</value>
+						</drupal:und>
+					</drupal:und>
+				</drupal:comment-body>
+			</drupal:comment>
+		</drupal:create-comment>
+	</flow>
+	
+	<flow name="create-comment-by-reference">
+		<drupal:create-comment config-ref="Drupal">
+			<drupal:comment ref="#[payload.ref]" />
+		</drupal:create-comment>
+	</flow>
+	
+	<flow name="delete-comment">
+		<drupal:delete-comment config-ref="Drupal" commentId="#[payload.commentId]" />
+	</flow>
+	
+	<flow name="read-comment">
+		<drupal:read-comment config-ref="Drupal" commentId="#[payload.commentId]" />
+	</flow>
+	
+	<flow name="update-comment">
+		<drupal:update-comment config-ref="Drupal">
+			<drupal:comment ref="#[payload.commentRef]" />
+		</drupal:update-comment>
+	</flow>
+	
+	<flow name="index-comments">
+		<drupal:index-comments config-ref="Drupal" pagesize="#[payload.pagesize]" startPage="#[payload.startPage]">
+			<drupal:fields ref="#[payload.fieldsRef]" />
+		</drupal:index-comments>
+	</flow>
+	
+	<flow name="get-comments-for-node">
+		<drupal:get-comments-for-node config-ref="Drupal" nodeId="#[payload.nodeId]" />
+	</flow>
+	
+	<flow name="create-file">
+		<drupal:create-file config-ref="Drupal">
+			<drupal:file ref="#[payload.ref]" />
+		</drupal:create-file>
+	</flow>
+	
+	<flow name="read-file">
+		<drupal:read-file config-ref="Drupal" fileId="#[payload.fileId]" />
+	</flow>
+	
+	<flow name="delete-file">
+		<drupal:delete-file config-ref="Drupal" fileId="#[payload.fileId]" />
+	</flow>
+	
+	<flow name="create-user">
+		<drupal:create-user config-ref="Drupal">
+			<drupal:user ref="#[payload.userRef]" />
+		</drupal:create-user>
+	</flow>
+	
+	<flow name="read-user">
+		<drupal:read-user config-ref="Drupal" userId="#[payload.userId]" />
+	</flow>
+
+	<flow name="delete-user">
+		<drupal:delete-user config-ref="Drupal" userId="#[payload.userId]" />
+	</flow>
+	
+	<flow name="register-user">
+		<drupal:register-user config-ref="Drupal">
+			<drupal:user ref="#[payload.userRef]" />
+		</drupal:register-user>
+	</flow>
+	
+	<flow name="update-user">
+		<drupal:update-user config-ref="Drupal">
+			<drupal:user ref="#[payload.userRef]" />
+		</drupal:update-user>
+	</flow>
+
+	<flow name="index-users">
+		<drupal:index-users config-ref="Drupal" startPage="#[payload.startPage]" pagesize="#[payload.pagesize]">
+			<drupal:fields ref="#[payload.fieldsRef]" />
+		</drupal:index-users>
+	</flow>
+
+	<flow name="create-taxonomy-term">
+		<drupal:create-taxonomy-term config-ref="Drupal">
+			<drupal:taxonomy-term ref="#[payload.taxonomyTermRef]" />
+		</drupal:create-taxonomy-term>
+	</flow>
+
+	<flow name="delete-taxonomy-term">
+		<drupal:delete-taxonomy-term config-ref="Drupal" taxonomyTermId="#[payload.taxonomyTermId]" />
+	</flow>
+	
+	<flow name="read-taxonomy-term">
+		<drupal:read-taxonomy-term config-ref="Drupal" taxonomyTermId="#[payload.taxonomyTermId]" />
+	</flow>
+	
+	<flow name="update-taxonomy-term">
+		<drupal:update-taxonomy-term config-ref="Drupal">
+			<drupal:taxonomy-term ref="#[payload.taxonomyTermRef]" />
+		</drupal:update-taxonomy-term>
+	</flow>
+	
+	<flow name="create-taxonomy-vocabulary">
+		<drupal:create-taxonomy-vocabulary config-ref="Drupal">
+			<drupal:taxonomy-vocabulary ref="#[payload.taxonomyVocabularyRef]" />
+		</drupal:create-taxonomy-vocabulary>
+	</flow>
+	
+	<flow name="delete-taxonomy-vocabulary">
+		<drupal:delete-taxonomy-vocabulary config-ref="Drupal" taxonomyVocId="#[payload.taxonomyVocId]" />
+	</flow>
+	
+	<flow name="read-taxonomy-vocabulary">
+		<drupal:read-taxonomy-vocabulary config-ref="Drupal" vocabularyId="#[payload.vocabularyId]" />
+	</flow>
+	
+	<flow name="update-taxonomy-vocabulary">
+		<drupal:update-taxonomy-vocabulary config-ref="Drupal">
+			<drupal:taxonomy-vocabulary ref="#[payload.taxonomyVocabularyRef]" />
+		</drupal:update-taxonomy-vocabulary>
+	</flow>
+
+	<flow name="get-files-for-node">
+		<drupal:get-files-for-node config-ref="Drupal" nodeId="#[payload.nodeId]" />
+	</flow>
+	
+	<flow name="index-files">
+		<drupal:index-files config-ref="Drupal" startPage="#[payload.startPage]" pagesize="#[payload.pagesize]">
+			<drupal:fields ref="#[payload.fieldsRef]" />
+		</drupal:index-files>	
+	</flow>
+	
+	<flow name="index-taxonomy-vocabulary">
+		<drupal:index-taxonomy-vocabulary config-ref="Drupal" pagesize="#[payload.pagesize]" startPage="#[payload.startPage]">
+            <drupal:fields ref="#[payload.fieldsRef]"/>
+        </drupal:index-taxonomy-vocabulary>
+	</flow>
+
+	<flow name="index-taxonomy-terms">
+		<drupal:index-taxonomy-terms config-ref="Drupal" pagesize="#[payload.pagesize]" startPage="#[payload.startPage]">
+			<drupal:fields ref="#[payload.fieldsRef]" />
+		</drupal:index-taxonomy-terms>
+	</flow>
+	
+	<flow name="get-nodes-with-term">
+		<drupal:get-nodes-with-term config-ref="Drupal" taxonomyTermId="#[payload.taxonomyTermId]" />
+	</flow>
+	
+	<flow name="get-taxonomy-vocabulary-tree">
+		<drupal:get-taxonomy-vocabulary-tree config-ref="Drupal" maxdepth="#[payload.maxdepth]"
+			parent="#[payload.parent]" vocabularyId="#[payload.vocabularyId]" />
+	</flow>
+
+</mule>

@@ -38,12 +38,18 @@ import org.mule.modules.drupal.model.TaxonomyVocabulary;
 import org.mule.modules.drupal.model.TaxonomyVocabularyRequest;
 import org.mule.modules.drupal.model.User;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.ClientResponse.Status;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.multipart.FormDataMultiPart;
+import com.sun.jersey.multipart.file.FileDataBodyPart;
+import com.sun.jersey.multipart.impl.MultiPartWriter;
 /**
  * Drupal client to interact with the rest server provided with the service modulo.
  * 
@@ -68,12 +74,16 @@ public class DrupalRestClient implements DrupalClient {
 	
 	private static final String ACTION_GETTREE = "getTree";
 	private static final String ACTION_SELECTNODES = "selectNodes";
+	private static final String ACTION_ATTACHFILE = "attach_file";
 	
 	private String username;
 	private String password;
 	
 	public DrupalRestClient(String server, int port, String apiUrl) {
-		client = Client.create();
+    	ClientConfig config = new DefaultClientConfig();
+    	config.getClasses().add(MultiPartWriter.class);
+        
+    	client = Client.create(config);
 		this.server = server;
 		this.apiUrl = apiUrl;
 		this.port = port;
@@ -227,7 +237,47 @@ public class DrupalRestClient implements DrupalClient {
 				this.getWebResource().path(collection.getEndpoint()).path(objectId)
 						, collection,entity);
 		return response;
+	}
+	
+	/**
+	 * Specific method to update a comment. Generic method {@link org.mule.modules.drupal.client.DrupalRestClient#update}
+	 * cannot be used since Drupal returns back an Integer representing the ID of the updated comment.
+	 * @param objectId The ID of the entity to update.
+	 * @param entity The updated comment.
+	 * @return An integer containing the ID of the updated comment.
+	 * @throws DrupalException
+	 */
+	private int updateComment(String objectId, @Optional @Default("#[payload]") Comment entity) throws DrupalException {
+		WebResource r = getWebResource().path(DrupalCollection.Comment.getEndpoint()).path(objectId);
+		WebResource.Builder builder = r.accept(MediaType.APPLICATION_JSON_TYPE)
+				.cookie(sessionId);
+
+		if (entity instanceof DrupalEntity) {
+			builder = builder.entity(GsonFactory.getGson().toJson(entity,DrupalEntity.class),
+					MediaType.APPLICATION_JSON_TYPE);
+		} else if (entity != null) {
+			builder = builder.entity(entity, MediaType.APPLICATION_JSON_TYPE);
 		}
+		
+		ClientResponse response = builder.method("PUT", ClientResponse.class);
+		Status status = response.getClientResponseStatus();
+
+		if (status == Status.OK) {
+			String json = response.getEntity(String.class);
+			
+			Gson gson = GsonFactory.getGson();
+			Integer[] parsed = gson.fromJson(json, Integer[].class);
+			return parsed[0];
+		} else if (status == Status.UNAUTHORIZED) {
+			throw new DrupalException("Drupal returned "
+					+ status.getStatusCode());
+		} else {
+			String drupalError = response.getEntity(String.class);
+			throw new DrupalException(String.format(
+					"API returned status code %d, 200 was expected. Reason:%s. Drupal Error: %s",
+					status.getStatusCode(),status.getReasonPhrase(),StringUtils.isEmpty(drupalError) ? "Unknown" : drupalError));
+		}
+	}
 
 	private <T> List<T> executeListRequest(String method, WebResource r, Type listType, Map<String, String> params) throws DrupalException {
 		WebResource.Builder builder = r.accept(MediaType.APPLICATION_JSON_TYPE)
@@ -258,6 +308,36 @@ public class DrupalRestClient implements DrupalClient {
 		}
 	}
 
+	private boolean executeDeleteRequest(WebResource r, DrupalCollection dc, Object entity) throws DrupalException {
+		WebResource.Builder builder = r.accept(MediaType.APPLICATION_JSON_TYPE).cookie(sessionId);
+
+		if (entity instanceof DrupalEntity) {
+			builder = builder.entity(GsonFactory.getGson().toJson(entity,DrupalEntity.class),
+					MediaType.APPLICATION_JSON_TYPE);
+		} else if (entity != null) {
+			builder = builder.entity(entity, MediaType.APPLICATION_JSON_TYPE);
+		}
+		
+		ClientResponse response = builder.method("DELETE", ClientResponse.class);
+		Status status = response.getClientResponseStatus();
+		
+		if (status == Status.OK) { 
+			String json = response.getEntity(String.class);
+			Gson gson = GsonFactory.getGson();
+			String[] parsed = gson.fromJson(json, String[].class);
+			return Boolean.valueOf(parsed[0]);
+		}
+		else if (status == Status.UNAUTHORIZED) {
+			throw new DrupalException("Drupal returned "
+					+ status.getStatusCode());
+		} else {
+			String drupalError = response.getEntity(String.class);
+			throw new DrupalException(String.format(
+					"API returned status code %d, 200 was expected. Reason:%s. Drupal Error: %s",
+					status.getStatusCode(),status.getReasonPhrase(),StringUtils.isEmpty(drupalError) ? "Unknown" : drupalError));
+		}
+	}
+	
 	private <T extends DrupalEntity> T executeRequest(String method, WebResource r,
 			DrupalCollection dc,Object entity) throws DrupalException {
 		WebResource.Builder builder = r.accept(MediaType.APPLICATION_JSON_TYPE)
@@ -282,9 +362,10 @@ public class DrupalRestClient implements DrupalClient {
 			throw new DrupalException("Drupal returned "
 					+ status.getStatusCode());
 		} else {
+			String drupalError = response.getEntity(String.class);
 			throw new DrupalException(String.format(
-					"API returned status code %d, 200 was expected. Reason:%s",
-					status.getStatusCode(),status.getReasonPhrase()));
+					"API returned status code %d, 200 was expected. Reason:%s. Drupal Error: %s",
+					status.getStatusCode(),status.getReasonPhrase(),StringUtils.isEmpty(drupalError) ? "Unknown" : drupalError));
 		}
 	}
 
@@ -311,14 +392,51 @@ public class DrupalRestClient implements DrupalClient {
 		}
 		return apiResponse;
 	}
+	
+	/*
+	 * Cannot use template methods to execute readComment API request since Drupal returns back "[false]"
+	 * when attempting to read a comment which does not exist. We have to get around this by manually checking
+	 * for such a response. If we manage to parse said response, we will throw a Drupal exception letting the
+	 * user know that a comment with the given ID does not exist.
+	 * 
+	 * If some other form of Json is returned, we will throw a generic exception with the Json exception message.
+	 */
+	public Comment readComment (String commentId) throws DrupalException {
+		WebResource r = this.getWebResource().path(DrupalCollection.Comment.getEndpoint()).path(commentId);
+		WebResource.Builder builder = r.accept(MediaType.APPLICATION_JSON_TYPE).cookie(sessionId);
 
-	@Override
-	public Comment readComment(String commentId) throws DrupalException {
-		Comment comment = null;
-		
-		comment = (Comment) readOne(DrupalCollection.Comment, commentId);
+		ClientResponse response = builder.method("GET", ClientResponse.class);
+		Status status = response.getClientResponseStatus();
 
-		return comment;
+		if (status == Status.OK) {
+			String json = response.getEntity(String.class);
+			Gson gson = GsonFactory.getGson();
+
+			try {
+				Comment comment = (Comment) gson.fromJson(json, DrupalCollection.Comment.getType());
+				
+				// Check custom fields
+				DrupalEntity tempEntity = gson.fromJson(json, DrupalEntity.class);
+				
+				comment.setCustomFields(tempEntity.getCustomFields());
+				return comment;
+			}
+			catch (JsonSyntaxException e) {
+				Boolean[] parsed = gson.fromJson(json, Boolean[].class);
+				if (!parsed[0]) {
+					throw new DrupalException("Comment with ID "+commentId+" not found.");
+				}
+				else throw new DrupalException (e.getMessage());
+			}
+		} else if (status == Status.UNAUTHORIZED) {
+			throw new DrupalException("Drupal returned "
+					+ status.getStatusCode());
+		} else {
+			String drupalError = response.getEntity(String.class);
+			throw new DrupalException(String.format(
+					"API returned status code %d, 200 was expected. Reason:%s. Drupal Error: %s",
+					status.getStatusCode(),status.getReasonPhrase(),StringUtils.isEmpty(drupalError) ? "Unknown" : drupalError));
+		}
 	}
 
 	@Override
@@ -385,14 +503,8 @@ public class DrupalRestClient implements DrupalClient {
 	}
 
 	@Override
-	public TaxonomyTerm createTaxonomyTerm(TaxonomyTerm taxonomyTerm) throws DrupalException {
-
-		TaxonomyTerm createdTV = (TaxonomyTerm) create(DrupalCollection.TaxonomyTerm, taxonomyTerm);
-		if(createdTV!=null){
-			taxonomyTerm.setVid(createdTV.getVid());
-		}
-		return taxonomyTerm;
-
+	public void createTaxonomyTerm(TaxonomyTerm taxonomyTerm) throws DrupalException {
+		create(DrupalCollection.TaxonomyTerm, taxonomyTerm);
 	}
 
 	@Override
@@ -406,19 +518,14 @@ public class DrupalRestClient implements DrupalClient {
 	}
 
 	@Override
-	public TaxonomyVocabulary createTaxonomyVocabulary(
+	public void createTaxonomyVocabulary(
 			TaxonomyVocabulary taxonomyVocabulary) throws DrupalException {
 		
 		TaxonomyVocabularyRequest rtv=new TaxonomyVocabularyRequest();
 		ArrayList<TaxonomyVocabulary> list=new ArrayList<TaxonomyVocabulary>();
 		list.add(taxonomyVocabulary);
 		rtv.setVocabulary(list);
-		TaxonomyVocabulary createdTV = (TaxonomyVocabulary) create(DrupalCollection.TaxonomyVocabulary, taxonomyVocabulary);
-		
-		if(createdTV!=null)
-			taxonomyVocabulary.setVid(createdTV.getVid());
-		
-		return taxonomyVocabulary;
+		create(DrupalCollection.TaxonomyVocabulary, taxonomyVocabulary);
 	}
 
 	@Override
@@ -464,13 +571,15 @@ public class DrupalRestClient implements DrupalClient {
 	}
 
 	@Override
-	public void deleteNode(int nodeId) throws DrupalException {
-		deleteOne(DrupalCollection.Node,nodeId);
+	public boolean deleteNode(int nodeId) throws DrupalException {
+		boolean result = deleteOne(DrupalCollection.Node,nodeId);
+		return result;
 	}
 	
 	@Override
-	public void deleteComment(int commentId) throws DrupalException {
-		deleteOne(DrupalCollection.Comment,commentId);		
+	public boolean deleteComment(int commentId) throws DrupalException {
+		Boolean result = deleteOne(DrupalCollection.Comment,commentId);		
+		return result;
 	}
 	
 	/**
@@ -487,12 +596,11 @@ public class DrupalRestClient implements DrupalClient {
 	 *         created entity
 	 * @throws DrupalException
 	 */
-	private DrupalEntity deleteOne(DrupalCollection collection, int objectId)
+	private Boolean deleteOne(DrupalCollection collection, int objectId)
 			throws DrupalException {
-		DrupalEntity response = this.executeRequest("DELETE",
+		Boolean response = this.executeDeleteRequest(
 				this.getWebResource().path(collection.getEndpoint())
 						.path(String.valueOf(objectId)), null,null);
-
 		return response;
 	}
 
@@ -506,13 +614,15 @@ public class DrupalRestClient implements DrupalClient {
 	}
 
 	@Override
-	public void deleteFile(int fileId) throws DrupalException {
-		deleteOne(DrupalCollection.File,fileId);
+	public boolean deleteFile(int fileId) throws DrupalException {
+		boolean result = deleteOne(DrupalCollection.File,fileId);
+		return result;
 	}
 
 	@Override
-	public void deleteUser(int userId) throws DrupalException {
-		deleteOne(DrupalCollection.User,userId);
+	public boolean deleteUser(int userId) throws DrupalException {
+		boolean result = deleteOne(DrupalCollection.User,userId);
+		return result;
 	}
 
 	@Override
@@ -524,11 +634,9 @@ public class DrupalRestClient implements DrupalClient {
 	}
 
 	@Override
-	public Comment updateComment(Comment comment) throws DrupalException {
-		
-		comment = (Comment)update(DrupalCollection.Comment, comment.getCid().toString(), comment);
-		
-		return comment;
+	public int updateComment(Comment comment) throws DrupalException {
+		int commentId = updateComment(comment.getCid().toString(), comment);
+		return commentId;
 	}
 
 	@Override
@@ -545,14 +653,6 @@ public class DrupalRestClient implements DrupalClient {
 		taxonomyTerm = (TaxonomyTerm)update(DrupalCollection.TaxonomyTerm, taxonomyTerm.getTid().toString(), taxonomyTerm);
 		
 		return taxonomyTerm;
-	}
-
-	@Override
-	public File updateFile(File file) throws DrupalException {
-		
-		file = (File)update(DrupalCollection.File, file.getFid().toString(), file);
-		
-		return file;
 	}
 
 	@Override
@@ -804,5 +904,48 @@ public class DrupalRestClient implements DrupalClient {
 		list = this.executeListRequest("GET", wr, listType,null);
 
 		return list;
+	}
+
+	@Override
+	public List<org.mule.modules.drupal.model.File> attachFilesToNode(List<java.io.File> files, int nodeId, String fieldName,
+			boolean attach) throws DrupalException {
+		
+		List<File> list = null;
+		
+		WebResource wr = this.getWebResource().path(DrupalCollection.Node.getEndpoint()).path(String.valueOf(nodeId)).path(ACTION_ATTACHFILE);
+
+		FormDataMultiPart multiPart = new FormDataMultiPart();
+
+		for (int i = 0; i < files.size(); i++) {
+			multiPart.bodyPart(new FileDataBodyPart("files["+(i+1)+"]", files.get(i), MediaType.APPLICATION_OCTET_STREAM_TYPE));
+		}
+		
+		multiPart.field("nid", Integer.toString(nodeId));
+		multiPart.field("field_name", fieldName);
+		multiPart.field("attach", Boolean.toString(attach));
+
+		Type listType = new TypeToken<List<File>>(){}.getType();
+		
+		WebResource.Builder builder = wr.type(MediaType.MULTIPART_FORM_DATA).entity(multiPart).accept(MediaType.APPLICATION_JSON_TYPE).cookie(sessionId);
+		
+		ClientResponse response = builder.method("POST", ClientResponse.class);
+		Status status = response.getClientResponseStatus();
+
+		if (status == Status.OK) {
+			String json = response.getEntity(String.class);
+			List<File> apiResponse = GsonFactory.getGson().fromJson(json,listType);
+			list= new ArrayList<File>(apiResponse);
+			
+			return list;
+			
+		} else if (status == Status.UNAUTHORIZED) {
+			throw new DrupalException("Drupal returned "
+					+ status.getStatusCode());
+		} else {
+			throw new DrupalException(String.format(
+					"API returned status code %d, 200 was expected",
+					status.getStatusCode()));
+		}
+		
 	}
 }

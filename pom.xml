@@ -1,50 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.mule.modules</groupId>
-    <artifactId>mule-module-drupal</artifactId>
-    <version>1.1-SNAPSHOT</version>
-    <packaging>mule-module</packaging>
-    <name>Mule Drupal Cloud Connector</name>
-    
-    <parent>
-       <groupId>org.mule.tools.devkit</groupId>
-       <artifactId>mule-devkit-parent</artifactId>
-       <version>3.4.0</version>
-    </parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.mule.modules</groupId>
+	<artifactId>mule-module-drupal</artifactId>
+	<version>1.1-SNAPSHOT</version>
+	<packaging>mule-module</packaging>
+	<name>Mule Drupal Cloud Connector</name>
 
-    <properties>
-        <devkit.studio.package.skip>false</devkit.studio.package.skip>
-        <category>Standard</category>
-        <licensePath>LICENSE.md</licensePath>
-    </properties>
-   
-    <dependencies>
-        <dependency>
-             <groupId>com.sun.jersey</groupId>
-             <artifactId>jersey-client</artifactId>
-             <version>1.6</version>
-             <scope>provided</scope>
-        </dependency>
-    	<dependency>
-             <groupId>com.google.code.gson</groupId>
-             <artifactId>gson</artifactId>
-             <version>2.2.2</version>
-        </dependency>
-    </dependencies>
+	<parent>
+		<groupId>org.mule.tools.devkit</groupId>
+		<artifactId>mule-devkit-parent</artifactId>
+		<version>3.5.0-bighorn</version>
+	</parent>
 
-    <repositories>
-        <repository>
-            <id>mulesoft-releases</id>
-            <name>MuleSoft Releases Repository</name>
-            <url>http://repository.mulesoft.org/releases/</url>
-            <layout>default</layout>
-        </repository>
-    </repositories>
+	<properties>
+		<devkit.studio.package.skip>false</devkit.studio.package.skip>
+		<category>Standard</category>
+		<licensePath>LICENSE.md</licensePath>
+	</properties>
 
-    <scm>
-        <connection>scm:git:git://github.com:mulesoft/drupal-connector.git</connection>
-        <developerConnection>scm:git:git@github.com:mulesoft/drupal-connector.git</developerConnection>
-        <url>http://github.com/mulesoft/drupal-connector</url>
-    </scm>
+	<dependencies>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>1.6</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-connector-test</artifactId>
+			<version>2.0.4-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey.contribs</groupId>
+			<artifactId>jersey-multipart</artifactId>
+			<version>1.18</version>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>mulesoft-releases</id>
+			<name>MuleSoft Releases Repository</name>
+			<url>http://repository.mulesoft.org/releases/</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+
+	<scm>
+		<connection>scm:git:git://github.com:mulesoft/drupal-connector.git</connection>
+		<developerConnection>scm:git:git@github.com:mulesoft/drupal-connector.git</developerConnection>
+		<url>http://github.com/mulesoft/drupal-connector</url>
+	</scm>
 </project>

@@ -16,18 +16,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.mule.api.ConnectionException;
 import org.mule.api.annotations.Configurable;
-import org.mule.api.annotations.Connector;
 import org.mule.api.annotations.Connect;
-import org.mule.api.annotations.ValidateConnection;
 import org.mule.api.annotations.ConnectionIdentifier;
+import org.mule.api.annotations.Connector;
 import org.mule.api.annotations.Disconnect;
+import org.mule.api.annotations.Processor;
+import org.mule.api.annotations.ValidateConnection;
 import org.mule.api.annotations.display.Password;
 import org.mule.api.annotations.param.ConnectionKey;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.Optional;
-import org.mule.api.ConnectionException;
-import org.mule.api.annotations.Processor;
 import org.mule.modules.drupal.client.DrupalClient;
 import org.mule.modules.drupal.client.DrupalClientFactory;
 import org.mule.modules.drupal.client.DrupalException;
@@ -311,8 +311,8 @@ public class DrupalConnector
 	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned 
 	 */
 	@Processor
-	public TaxonomyTerm createTaxonomyTerm(@Optional @Default("#[payload]") TaxonomyTerm taxonomyTerm) throws DrupalException {
-		return client.createTaxonomyTerm(taxonomyTerm);
+	public void createTaxonomyTerm(@Optional @Default("#[payload]") TaxonomyTerm taxonomyTerm) throws DrupalException {
+		client.createTaxonomyTerm(taxonomyTerm);
 	}
 
 	/**
@@ -339,9 +339,9 @@ public class DrupalConnector
 	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned. Error 500 is thrown when the vocabulary already exists 
 	 */
 	@Processor
-	public TaxonomyVocabulary createTaxonomyVocabulary(
+	public void createTaxonomyVocabulary(
 			@Optional @Default("#[payload]") TaxonomyVocabulary taxonomyVocabulary) throws DrupalException {
-		return client.createTaxonomyVocabulary(taxonomyVocabulary);
+		client.createTaxonomyVocabulary(taxonomyVocabulary);
 	}
 
 	/**
@@ -378,11 +378,11 @@ public class DrupalConnector
      * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:update-comment}
      * 
 	 * @param comment Comment with new fields set
-	 * @return the same comment
+	 * @return the ID of the comment which was just updated
 	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned 
 	 */
 	@Processor
-	public Comment updateComment(@Optional @Default("#[payload]") Comment comment) throws DrupalException {
+	public Integer updateComment(@Optional @Default("#[payload]") Comment comment) throws DrupalException {
 		return client.updateComment(comment);
 	}
 
@@ -415,20 +415,6 @@ public class DrupalConnector
 	}
 
 	/**
-	 * Update file
-	 * <p/>
-     * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:update-file}
-     * 
-	 * @param file File with new fields set
-	 * @return the same File
-	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned 
-	 */
-	@Processor
-	public File updateFile(@Optional @Default("#[payload]") File file) throws DrupalException {
-		return client.updateFile(file);
-	}
-
-	/**
 	 * Update the taxonomyVocabulary
 	 * <p/>
      * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:update-taxonomy-vocabulary}
@@ -450,10 +436,11 @@ public class DrupalConnector
      * 
 	 * @param nodeId Id of the node
 	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned 
+	 * @return Returns a boolean result indicating the success or failure of the API request
 	 */
 	@Processor
-	public void deleteNode(int nodeId) throws DrupalException {
-		client.deleteNode(nodeId);
+	public boolean deleteNode(int nodeId) throws DrupalException {
+		return client.deleteNode(nodeId);
 	}
 
 	/**
@@ -463,10 +450,11 @@ public class DrupalConnector
      * 
 	 * @param commentId Id of the comment
 	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned
+	 * @return Returns a boolean result indicating the success or failure of the API request
 	 */
 	@Processor
-	public void deleteComment(int commentId) throws DrupalException {
-		client.deleteComment(commentId);
+	public boolean deleteComment(int commentId) throws DrupalException {
+		return client.deleteComment(commentId);
 	}
 	/**
 	 * Delete a file. If the file is associated to any content, then it can not be deleted.
@@ -475,10 +463,11 @@ public class DrupalConnector
      * 
 	 * @param fileId Id of the file
 	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned
+	 * @return Returns a boolean result indicating the success or failure of the API request
 	 */
 	@Processor
-	public void deleteFile(int fileId) throws DrupalException {
-		client.deleteFile(fileId);
+	public boolean deleteFile(int fileId) throws DrupalException {
+		return client.deleteFile(fileId);
 	}
 
 	/**
@@ -514,10 +503,11 @@ public class DrupalConnector
      * 
 	 * @param userId Id of the User
 	 * @throws DrupalException When the server doesn't return code 200, it contains the code returned
+	 * @return Returns a boolean result indicating the success or failure of the API request
 	 */
 	@Processor
-	public void deleteUser(int userId) throws DrupalException {
-		client.deleteUser(userId);
+	public boolean deleteUser(int userId) throws DrupalException {
+		return client.deleteUser(userId);
 	}
 	/**
 	 * Count all comments in a node
@@ -735,6 +725,26 @@ public class DrupalConnector
 		nod.setCustomFields(map);
 		
 		client.updateNode(nod);
+	}
+	
+	/**
+	 * Attaches or overwrites file(s) to an existing node.
+	 * {@sample.xml ../../../doc/mule-module-drupal.xml.sample drupal:attach-files-to-node}
+	 *  
+	 * @param files The list of files that you want to upload. These should be java File objects that point 
+	 * to files on your file system.
+	 * @param nodeId  Node ID of the node the file(s) is being attached to.
+	 * @param fieldName Machine name of the field that is attached to the node.
+	 * @param attach Optional. Defaults to true. This means that files will be attached to the
+	 * node, alongside existing files. If the maximum number of files have already 
+	 * been uploaded to this node an error is given.
+	 * If false, it removes the files, and attaches the new files uploaded.
+	 * @return An list of File with only the "fid" and "url" attributes set.
+	 * @throws DrupalException When the server doesn't return code 200
+	 */
+	@Processor
+	public List<File> attachFilesToNode(List<java.io.File> files, int nodeId, String fieldName, @Optional @Default("true") boolean attach) throws DrupalException {
+		return client.attachFilesToNode(files, nodeId, fieldName, attach);
 	}
 	
 	public String getServer() {

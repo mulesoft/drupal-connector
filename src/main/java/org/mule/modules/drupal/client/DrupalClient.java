@@ -12,11 +12,11 @@ import java.util.List;
 
 import org.mule.api.ConnectionException;
 import org.mule.modules.drupal.model.Comment;
-import org.mule.modules.drupal.model.Node;
-import org.mule.modules.drupal.model.User;
-import org.mule.modules.drupal.model.TaxonomyTerm;
 import org.mule.modules.drupal.model.File;
+import org.mule.modules.drupal.model.Node;
+import org.mule.modules.drupal.model.TaxonomyTerm;
 import org.mule.modules.drupal.model.TaxonomyVocabulary;
+import org.mule.modules.drupal.model.User;
 
 /**
  * Interface of a Drupal Client to interact with the server.
@@ -42,27 +42,28 @@ public interface DrupalClient {
 	public Node createNode(Node node) throws DrupalException;
 	public Comment createComment(Comment comment) throws DrupalException;
 	public User createUser(User user) throws DrupalException;
-	public TaxonomyTerm	createTaxonomyTerm(TaxonomyTerm taxonomyTerm) throws DrupalException;
+	public void	createTaxonomyTerm(TaxonomyTerm taxonomyTerm) throws DrupalException;
 	public File	createFile(File file) throws DrupalException;
-	public TaxonomyVocabulary createTaxonomyVocabulary(TaxonomyVocabulary taxonomyVocabulary) throws DrupalException;
+	public void createTaxonomyVocabulary(TaxonomyVocabulary taxonomyVocabulary) throws DrupalException;
 
 	public User registerUser(User user) throws DrupalException;
+	
+	public List<File> attachFilesToNode(List<java.io.File> files, int nodeId, String fieldName, boolean attach) throws DrupalException;
 
 	//update
 	public Node updateNode(Node node) throws DrupalException;
-	public Comment updateComment(Comment comment) throws DrupalException;
+	public int updateComment(Comment comment) throws DrupalException;
 	public User updateUser(User user) throws DrupalException;
 	public TaxonomyTerm	updateTaxonomyTerm(TaxonomyTerm taxonomyTerm) throws DrupalException;
-	public File	updateFile(File file) throws DrupalException;
 	public TaxonomyVocabulary updateTaxonomyVocabulary(TaxonomyVocabulary taxonomyVocabulary) throws DrupalException;
 	
 	//delete
-	public void deleteNode(int nodeId) throws DrupalException;
-	public void deleteComment(int commentId) throws DrupalException;
-	public void deleteFile(int fileId) throws DrupalException;
+	public boolean deleteNode(int nodeId) throws DrupalException;
+	public boolean deleteComment(int commentId) throws DrupalException;
+	public boolean deleteFile(int fileId) throws DrupalException;
 	public void deleteTaxonomyVocabulary(int taxonomyVocId) throws DrupalException;
 	public void deleteTaxonomyTerm(int taxonomyTermId) throws DrupalException;
-	public void deleteUser(int userId) throws DrupalException;
+	public boolean deleteUser(int userId) throws DrupalException;
 	
 	public int countAllComments(int nodeId) throws DrupalException;
 	int countNewComments(int nodeId,int since) throws DrupalException;
