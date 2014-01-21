@@ -46,7 +46,7 @@ import org.mule.modules.drupal.automation.testcases.RegisterUserTestCases;
 import org.mule.modules.drupal.automation.testcases.RegressionTests;
 import org.mule.modules.drupal.automation.testcases.UpdateCommentTestCases;
 import org.mule.modules.drupal.automation.testcases.UpdateCustomFieldForNodeTestCases;
-import org.mule.modules.drupal.automation.testcases.UpdateNodeTestCase;
+import org.mule.modules.drupal.automation.testcases.UpdateNodeTestCases;
 import org.mule.modules.drupal.automation.testcases.UpdateTaxonomyTermTestCases;
 import org.mule.modules.drupal.automation.testcases.UpdateTaxonomyVocabularyTestCases;
 import org.mule.modules.drupal.automation.testcases.UpdateUserTestCases;
@@ -87,7 +87,7 @@ import org.mule.modules.drupal.automation.testcases.UpdateUserTestCases;
 	RegisterUserTestCases.class,
 	UpdateCommentTestCases.class,
 	UpdateCustomFieldForNodeTestCases.class,
-	UpdateNodeTestCase.class,
+	UpdateNodeTestCases.class,
 	UpdateTaxonomyTermTestCases.class,
 	UpdateTaxonomyVocabularyTestCases.class,
 	UpdateUserTestCases.class

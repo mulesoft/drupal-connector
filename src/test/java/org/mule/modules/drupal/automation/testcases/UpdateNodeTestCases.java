@@ -16,7 +16,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mule.modules.drupal.model.Node;
 
-public class UpdateNodeTestCase extends DrupalTestParent {
+public class UpdateNodeTestCases extends DrupalTestParent {
 
 	@Before
 	public void setUp() throws Exception {
