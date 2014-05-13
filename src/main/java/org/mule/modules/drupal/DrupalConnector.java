@@ -45,7 +45,7 @@ import org.mule.modules.drupal.model.User;
  *
  * @author MuleSoft, Inc.
  */
-@Connector(name="drupal", schemaVersion="1.0", friendlyName = "Drupal")
+@Connector(name="drupal", schemaVersion="1.0", friendlyName = "Drupal", minMuleVersion = "3.4" )
 public class DrupalConnector
 {
 	/**
