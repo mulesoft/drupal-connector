@@ -10,8 +10,8 @@ import org.mule.modules.drupal.DrupalCollection;
 import org.mule.modules.drupal.client.DrupalClient;
 import org.mule.modules.drupal.client.DrupalClientFactory;
 
-@ConnectionManagement(configElementName = "config-type",
-        friendlyName = "Basic Auth type strategy")
+@ConnectionManagement(configElementName = "config",
+        friendlyName = "Connection Management")
 public class DrupalConnectorConnectionStrategy {
 
     /**
