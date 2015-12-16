@@ -1,35 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:drupal="http://www.mulesoft.org/schema/mule/drupal" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
-http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd 
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
-http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd 
-http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/drupal/1.0/mule-drupal.xsd 
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd 
-http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
-http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd ">
-    <drupal:config name="admin-user" username="pcabrera" password="Asuncion2003" apiUrl="/htdocs/rest" doc:name="Drupal">
+<mule
+        xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:json="http://www.mulesoft.org/schema/mule/json"
+        xmlns:drupal="http://www.mulesoft.org/schema/mule/drupal" xmlns="http://www.mulesoft.org/schema/mule/core"
+        xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+        version="EE-3.4.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+
+http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/drupal/1.0/mule-drupal.xsd
+
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+    <drupal:config name="admin-user" username="${admin.user}" password="${admin.password}" apiUrl="/htdocs/rest"
+                   doc:name="Drupal">
         <drupal:connection-pooling-profile initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
     </drupal:config>
-    <drupal:config name="Drupal" username="pcabrera" password="Asuncion2003" apiUrl="/htdocs/rest" doc:name="Drupal">
+    <drupal:config name="Drupal" username="${drupal.user}" password="${drupal.password}" apiUrl="/htdocs/rest" doc:name="Drupal">
         <drupal:connection-pooling-profile initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
     </drupal:config>
     <flow name="create-article" doc:name="create-article">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="drupal/node/create" doc:name="HTTP"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081"
+                               path="drupal/node/create" doc:name="HTTP"/>
         <drupal:create-node config-ref="admin-user" doc:name="create-node">
             <drupal:node type="article" title="#[message.inboundProperties['title']]"/>
         </drupal:create-node>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
     </flow>
     <flow name="create-comment" doc:name="create-comment">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="drupal/comment/create" doc:name="HTTP"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081"
+                               path="drupal/comment/create" doc:name="HTTP"/>
         <drupal:create-comment config-ref="admin-user" doc:name="create-comment">
             <drupal:comment nid="#[message.inboundProperties['nid']]" subject="#[message.inboundProperties['subject']]">
                 <drupal:comment-body>
                     <drupal:und>
-                     	<drupal:und>
-                        	<value>"#[message.inboundProperties['content']]"</value>
-                    	</drupal:und>
+                        <drupal:und>
+                            <value>"#[message.inboundProperties['content']]"</value>
+                        </drupal:und>
                     </drupal:und>
                 </drupal:comment-body>
             </drupal:comment>
@@ -37,13 +43,17 @@ http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/
         <json:object-to-json-transformer doc:name="Object to JSON"/>
     </flow>
     <flow name="read-node" doc:name="read-node">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="drupal/node/read" doc:name="HTTP"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="drupal/node/read"
+                               doc:name="HTTP"/>
         <drupal:read-node config-ref="Drupal" nodeId="#[message.inboundProperties['nid']]" doc:name="read-node"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
     </flow>
     <flow name="update-node" doc:name="update-node">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="drupal/node/update" doc:name="HTTP"/>
-        <drupal:update-custom-field-for-node config-ref="admin-user" doc:name="update-node" fieldName="#[message.inboundProperties['field']]" nodeId="#[message.inboundProperties['nid']]">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081"
+                               path="drupal/node/update" doc:name="HTTP"/>
+        <drupal:update-custom-field-for-node config-ref="admin-user" doc:name="update-node"
+                                             fieldName="#[message.inboundProperties['field']]"
+                                             nodeId="#[message.inboundProperties['nid']]">
             <drupal:custom-properties>
                 <drupal:custom-property key="value" value-ref="#[message.inboundProperties['value']]"/>
             </drupal:custom-properties>
@@ -51,12 +61,15 @@ http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/
         <json:object-to-json-transformer doc:name="Object to JSON"/>
     </flow>
     <flow name="vocabulary-tree" doc:name="vocabulary-tree">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="drupal/vocabulary" doc:name="HTTP"/>
-        <drupal:get-taxonomy-vocabulary-tree config-ref="admin-user" vocabularyId="#[message.inboundProperties['vid']]" doc:name="vocabulary-tree"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="drupal/vocabulary"
+                               doc:name="HTTP"/>
+        <drupal:get-taxonomy-vocabulary-tree config-ref="admin-user" vocabularyId="#[message.inboundProperties['vid']]"
+                                             doc:name="vocabulary-tree"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
     </flow>
     <flow name="index-node" doc:name="index-node">
-        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="drupal/node/index" doc:name="HTTP"/>
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" path="drupal/node/index"
+                               doc:name="HTTP"/>
         <drupal:index-nodes config-ref="admin-user" doc:name="index-node">
             <drupal:fields>
                 <drupal:field>title</drupal:field>

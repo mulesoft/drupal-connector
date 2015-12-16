@@ -1,27 +1,25 @@
 /**
- * (c) 2003-2012 MuleSoft, Inc. This software is protected under international
- * copyright law. All use of this software is subject to MuleSoft's Master
- * Subscription Agreement (or other Terms of Service) separately entered
- * into between you and MuleSoft. If such an agreement is not in
- * place, you may not use the software.
+ * (c) 2003-2015 MuleSoft, Inc. The software in this package is published under
+ * the terms of the CPAL v1.0 license, a copy of which has been included with this
+ * distribution in the LICENSE.md file.
  */
 
 package org.mule.modules.drupal.model;
 
 import com.google.gson.annotations.SerializedName;
+
 /**
  * Class that represents a comment.
- * 
- * @author pablocabrera
  *
+ * @author pablocabrera
  */
-public class Comment  extends DrupalEntity{
+public class Comment extends DrupalEntity {
 
-	private static final long serialVersionUID = -827408992218353534L;
+    private static final long serialVersionUID = -827408992218353534L;
 
-	/**
-	 * Primary Key: Unique comment ID.
-	 */
+    /**
+     * Primary Key: Unique comment ID.
+     */
     private Integer cid;
     /**
      * The comment.cid to which this comment is a reply. If set to 0, this comment is not a reply to an existing comment.
@@ -62,7 +60,7 @@ public class Comment  extends DrupalEntity{
     /**
      * The comment authors name. Uses users.name if the user is logged in, otherwise uses the value typed into the comment form. See {@link User}
      */
-    private String name;    
+    private String name;
     /**
      * The comment authors e-mail address from the comment form, if user is anonymous, and the Anonymous users may/must leave their contact information setting is turned on. See {@link User}
      */
@@ -75,227 +73,227 @@ public class Comment  extends DrupalEntity{
      * The languages.language of this comment.
      */
     private String language;
-    
+
     /**
      * Type of the comment
      */
-    @SerializedName(value="node_Type")
+    @SerializedName(value = "node_Type")
     private String nodeType;
-    
+
     /**
      * Comment authors registered name
      */
-    @SerializedName(value="registered_name")
+    @SerializedName(value = "registered_name")
     private String registeredName;
-    
+
     /**
      * Id of the user
      */
-    @SerializedName(value="uuid")
+    @SerializedName(value = "uuid")
     private String uUid;
     /**
      * Signatureof the user
      */
     private String signature;
-    
+
     /**
      * Signature format
      */
-    @SerializedName(value="signature_format")
+    @SerializedName(value = "signature_format")
     private String signatureFormat;
     /**
      * Picture
      */
     private String picture;
-    
+
     /**
      * Boolean to indicate the status
      */
-    @SerializedName(value="new")
+    @SerializedName(value = "new")
     private String isNew;
     /**
      * Comment content
      */
-    @SerializedName(value="comment_body")
+    @SerializedName(value = "comment_body")
     private CustomField commentBody;
 
-    public Comment(){
-    	setPid(0);
+    public Comment() {
+        setPid(0);
     }
-    
-	public Integer getCid() {
-		return cid;
-	}
 
-	public void setCid(Integer cid) {
-		this.cid = cid;
-	}
+    public Integer getCid() {
+        return cid;
+    }
 
-	public Integer getPid() {
-		return pid;
-	}
+    public void setCid(Integer cid) {
+        this.cid = cid;
+    }
 
-	public void setPid(Integer pid) {
-		this.pid = pid;
-	}
+    public Integer getPid() {
+        return pid;
+    }
 
-	public Integer getNid() {
-		return nid;
-	}
+    public void setPid(Integer pid) {
+        this.pid = pid;
+    }
 
-	public void setNid(Integer nid) {
-		this.nid = nid;
-	}
+    public Integer getNid() {
+        return nid;
+    }
 
-	public Integer getUid() {
-		return uid;
-	}
+    public void setNid(Integer nid) {
+        this.nid = nid;
+    }
 
-	public void setUid(Integer uid) {
-		this.uid = uid;
-	}
+    public Integer getUid() {
+        return uid;
+    }
 
-	public String getSubject() {
-		return subject;
-	}
+    public void setUid(Integer uid) {
+        this.uid = uid;
+    }
 
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
+    public String getSubject() {
+        return subject;
+    }
 
-	public String getHostname() {
-		return hostname;
-	}
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
-	public void setHostname(String hostname) {
-		this.hostname = hostname;
-	}
+    public String getHostname() {
+        return hostname;
+    }
 
-	public Integer getCreated() {
-		return created;
-	}
+    public void setHostname(String hostname) {
+        this.hostname = hostname;
+    }
 
-	public void setCreated(Integer created) {
-		this.created = created;
-	}
+    public Integer getCreated() {
+        return created;
+    }
 
-	public Integer getChanged() {
-		return changed;
-	}
+    public void setCreated(Integer created) {
+        this.created = created;
+    }
 
-	public void setChanged(Integer changed) {
-		this.changed = changed;
-	}
+    public Integer getChanged() {
+        return changed;
+    }
 
-	public Integer getStatus() {
-		return status;
-	}
+    public void setChanged(Integer changed) {
+        this.changed = changed;
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+    public Integer getStatus() {
+        return status;
+    }
 
-	public String getThread() {
-		return thread;
-	}
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
-	public void setThread(String thread) {
-		this.thread = thread;
-	}
+    public String getThread() {
+        return thread;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setThread(String thread) {
+        this.thread = thread;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getMail() {
-		return mail;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
+    public String getMail() {
+        return mail;
+    }
 
-	public String getHomepage() {
-		return homepage;
-	}
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 
-	public void setHomepage(String homepage) {
-		this.homepage = homepage;
-	}
+    public String getHomepage() {
+        return homepage;
+    }
 
-	public String getLanguage() {
-		return language;
-	}
+    public void setHomepage(String homepage) {
+        this.homepage = homepage;
+    }
 
-	public void setLanguage(String language) {
-		this.language = language;
-	}
+    public String getLanguage() {
+        return language;
+    }
 
-	public String getNodeType() {
-		return nodeType;
-	}
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
-	public void setNodeType(String nodeType) {
-		this.nodeType = nodeType;
-	}
+    public String getNodeType() {
+        return nodeType;
+    }
 
-	public String getRegisteredName() {
-		return registeredName;
-	}
+    public void setNodeType(String nodeType) {
+        this.nodeType = nodeType;
+    }
 
-	public void setRegisteredName(String registeredName) {
-		this.registeredName = registeredName;
-	}
+    public String getRegisteredName() {
+        return registeredName;
+    }
 
-	public String getuUid() {
-		return uUid;
-	}
+    public void setRegisteredName(String registeredName) {
+        this.registeredName = registeredName;
+    }
 
-	public void setuUid(String uUid) {
-		this.uUid = uUid;
-	}
+    public String getuUid() {
+        return uUid;
+    }
 
-	public String getSignature() {
-		return signature;
-	}
+    public void setuUid(String uUid) {
+        this.uUid = uUid;
+    }
 
-	public void setSignature(String signature) {
-		this.signature = signature;
-	}
+    public String getSignature() {
+        return signature;
+    }
 
-	public String getSignatureFormat() {
-		return signatureFormat;
-	}
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
 
-	public void setSignatureFormat(String signatureFormat) {
-		this.signatureFormat = signatureFormat;
-	}
+    public String getSignatureFormat() {
+        return signatureFormat;
+    }
 
-	public String getPicture() {
-		return picture;
-	}
+    public void setSignatureFormat(String signatureFormat) {
+        this.signatureFormat = signatureFormat;
+    }
 
-	public void setPicture(String picture) {
-		this.picture = picture;
-	}
+    public String getPicture() {
+        return picture;
+    }
 
-	public String getIsNew() {
-		return isNew;
-	}
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 
-	public void setIsNew(String isNew) {
-		this.isNew = isNew;
-	}
+    public String getIsNew() {
+        return isNew;
+    }
 
-	public CustomField getCommentBody() {
-		return commentBody;
-	}
+    public void setIsNew(String isNew) {
+        this.isNew = isNew;
+    }
 
-	public void setCommentBody(CustomField commentBody) {
-		this.commentBody = commentBody;
-	}
+    public CustomField getCommentBody() {
+        return commentBody;
+    }
+
+    public void setCommentBody(CustomField commentBody) {
+        this.commentBody = commentBody;
+    }
 }
