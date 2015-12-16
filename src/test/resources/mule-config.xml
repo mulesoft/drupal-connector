@@ -3,13 +3,16 @@
 <mule xmlns="http://www.mulesoft.org/schema/mule/core"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:drupal="http://www.mulesoft.org/schema/mule/drupal"
+      xmlns:context="http://www.springframework.org/schema/context"
       xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
         http://www.mulesoft.org/schema/mule/drupal http://www.mulesoft.org/schema/mule/drupal/current/mule-drupal.xsd">
 
-    <drupal:config name="drupal" username="pcabrera" password="Asuncion2003" apiUrl="/htdocs/rest"/>
+    <context:property-placeholder location="automation-credentials.properties "/>
+
+    <drupal:config name="drupal" username="${drupal.config.username}" password="${drupal.config.password}" apiUrl="/htdocs/rest"/>
 
     <flow name="testFlow">
-        <drupal:count-all-comments nodeId="1"/>
+        <drupal:count-all-comments config-ref="drupal" nodeId="1"/>
     </flow>
 
 </mule>
