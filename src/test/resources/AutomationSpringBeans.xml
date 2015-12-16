@@ -1,689 +1,749 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
-                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location">
-			<value>automation-credentials.properties</value>
-		</property>
-	</bean>
+    <bean
+            class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>automation-credentials.properties</value>
+        </property>
+    </bean>
 
-	<!-- create-node -->
-	<util:map id="createNodeTestData" map-class="java.util.HashMap"
-		key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="title" value="My Title" />
-		<entry key="content" value="Hello this is the body content" />
-		<entry key="type" value="article" />
-	</util:map>
+    <!-- create-node -->
+    <util:map id="createNodeTestData" map-class="java.util.HashMap"
+              key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="title" value="My Title"/>
+        <entry key="content" value="Hello this is the body content"/>
+        <entry key="type" value="article"/>
+    </util:map>
 
-	<!-- delete-node -->
-	<util:map id="deleteNodeTestData" map-class="java.util.HashMap"
-		key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="title" value="My Title" />
-		<entry key="content" value="Hello this is the body content" />
-		<entry key="type" value="article" />
-	</util:map>
+    <!-- delete-node -->
+    <util:map id="deleteNodeTestData" map-class="java.util.HashMap"
+              key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="title" value="My Title"/>
+        <entry key="content" value="Hello this is the body content"/>
+        <entry key="type" value="article"/>
+    </util:map>
 
-	<!-- update-node -->
-	<util:map id="updateNodeTestData" map-class="java.util.HashMap"
-		key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="title" value="My Title" />
-		<entry key="content" value="Hello this is the body content" />
-		<entry key="type" value="article" />
-		<entry key="titleForUpdate" value="My Updated Title" />
-	</util:map>
-	
-	<!-- read-node -->
-	<util:map id="readNodeTestData" map-class="java.util.HashMap"
-		key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="title" value="My Title" />
-		<entry key="content" value="Hello this is the body content" />
-		<entry key="type" value="article" />
-	</util:map>
-	
-	<!-- update-custom-field-for-node -->
-	<util:map id="updateCustomFieldForNodeTestData" map-class="java.util.HashMap"
-		key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="title" value="My Title" />
-		<entry key="content" value="Hello this is the body content" />
-		<entry key="type" value="article" />
-		<entry key="customproperty" value="Hello 123" />
-	</util:map>
-	
-	<!-- attach-files-to-node -->
-	<util:map id="attachFilesToNodeTestData" map-class="java.util.HashMap"
-		key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="node">
-			<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateNode">
-				<constructor-arg index="0" value="My node containing files" />
-				<constructor-arg index="1" value="This is the node to which I am uploading files to" />
-				<constructor-arg index="2" value="article" />
-			</bean>
-		</entry>
-		<!-- 
-			This is a list of files which will be loaded from the classpath.
-			In this case, 'images.jpg' is being loaded which can be found in src/test/resources
-		-->
-		<entry key="filePaths">
-			<list value-type="java.lang.String">
-				<value>images.jpg</value>
-			</list>
-		</entry>
-		<entry key="fieldName" value="field_image" />
-		<entry key="attach" value="true" />
-	</util:map>
-	
-	<!-- craete-comment -->
-	<util:map id="createCommentTestData" map-class="java.util.HashMap"
-		key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="title" value="My Title" />
-		<entry key="content" value="Hello this is the body content" />
-		<entry key="type" value="article" />
-		<entry key="subject" value="Hello 123" />
-		<entry key="und" value="abc 123" />
-	</util:map>
-	
-	<!-- count-all-comments -->
-	<util:map id="countAllCommentsTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="title" value="My Node Title" />
-		<entry key="content" value="My Node content" />
-		<entry key="type" value="article" />
-		<entry key="comments">
-			<list value-type="org.mule.modules.drupal.model.Comment">
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
-					<constructor-arg index="0" value="My First Comment Subject" />
-					<constructor-arg index="1" value="My First Comment" />
-				</bean>
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
-					<constructor-arg index="0" value="My Second Comment Subject" />
-					<constructor-arg index="1" value="My Second Comment" />
-				</bean>
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
-					<constructor-arg index="0" value="My Third Comment Subject" />
-					<constructor-arg index="1" value="My Third Comment" />
-				</bean>
-			</list>
-		</entry>
-	</util:map>
-	
-	<!-- count-new-comments -->
-	<util:map id="countNewCommentsTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="title" value="My Node Title" />
-		<entry key="content" value="My Node content" />
-		<entry key="type" value="article" />
-		<entry key="since" value="#{0}" />
-		<entry key="comments">
-			<list value-type="org.mule.modules.drupal.model.Comment">
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
-					<constructor-arg index="0" value="My First Comment Subject" />
-					<constructor-arg index="1" value="My First Comment" />
-				</bean>
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
-					<constructor-arg index="0" value="My Second Comment Subject" />
-					<constructor-arg index="1" value="My Second Comment" />
-				</bean>
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
-					<constructor-arg index="0" value="My Third Comment Subject" />
-					<constructor-arg index="1" value="My Third Comment" />
-				</bean>
-			</list>
-		</entry>
-	</util:map>
-	
-	<!-- get-comments-for-node -->
-	<util:map id="getCommentsForNodeTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="title" value="My Node Title" />
-		<entry key="content" value="My Node content" />
-		<entry key="type" value="article" />
-		<entry key="comments">
-			<list value-type="org.mule.modules.drupal.model.Comment">
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
-					<constructor-arg index="0" value="First Comment Subject" />
-					<constructor-arg index="1" value="First Comment" />
-				</bean>
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
-					<constructor-arg index="0" value="Second Comment Subject" />
-					<constructor-arg index="1" value="Second Comment" />
-				</bean>
-			</list>
-		</entry>
-	</util:map>
-	
-	<!-- delete-comment -->
-	<util:map id="deleteCommentTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="title" value="My Node Title" />
-		<entry key="content" value="My Node Content" />
-		<entry key="type" value="article" />
-		<entry key="comment">
-			<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
-				<constructor-arg index="0" value="My Node Comment Subject" />
-				<constructor-arg index="1" value="My Node Comment" />
-			</bean>
-		</entry>
-	</util:map>
-	
-	<!-- read-comment -->
-	<util:map id="readCommentTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="title" value="My Read Node Title" />
-		<entry key="content" value="My Read Node Content" />
-		<entry key="type" value="article" />
-		<entry key="comment">
-			<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
-				<constructor-arg index="0" value="My Read Node Comment Subject" />
-				<constructor-arg index="1" value="My Read Node Comment" />
-			</bean>
-		</entry>
-		<entry key="nonExistentCommentId" value="#{-1}" />
-	</util:map>
-	
-	<!-- update-comment -->
-	<util:map id="updateCommentTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="title" value="My Update Node Title" />
-		<entry key="content" value="My Update Node Content" />
-		<entry key="type" value="article" />
-		<entry key="comment">
-			<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
-				<constructor-arg index="0" value="My First Update Node Comment Subject" />
-				<constructor-arg index="1" value="My First Update Node Comment" />
-			</bean>
-		</entry>
-		<entry key="update">
-			<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
-				<constructor-arg index="0" value="My Second Update Node Comment Subject" />
-				<constructor-arg index="1" value="My Second Update Node Comment" />
-			</bean>
-		</entry>
-	</util:map>
-	
-	<!-- create-file -->
-	<util:map id="createFileTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="file">
-			<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateFile">
-				<!-- The name of the file. Can be anything. -->
-				<constructor-arg index="0" value="My Image File" />
-				<!-- The path of the file relative to the classpath -->
-				<constructor-arg index="1" value="images.jpg" />
-			</bean>
-		</entry>
-	</util:map>
-	
-	<!-- delete-file -->
-	<util:map id="deleteFileTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="file">
-			<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateFile">
-				<!-- The name of the file. Can be anything. -->
-				<constructor-arg index="0" value="My Image File To Delete" />
-				<!-- The path of the file relative to the classpath -->
-				<constructor-arg index="1" value="images.jpg" />
-			</bean>
-		</entry>
-	</util:map>
-	
-	<!-- read-file -->
-	<util:map id="readFileTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="file">
-			<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateFile">
-				<!-- The name of the file. Can be anything. -->
-				<constructor-arg index="0" value="My Read File Image File" />
-				<!-- The path of the file relative to the classpath -->
-				<constructor-arg index="1" value="images.jpg" />
-			</bean>
-		</entry>
-	</util:map>
-	
-	<!-- create-user -->
-	<util:map id="createUserTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="user">
-			<bean class="org.mule.modules.drupal.model.User">
-				<property name="name" value="MuleSoft" />
-				<property name="password" value="soft123" />
-				<property name="mail" value="mule.soft@mulesoft.com" />
-			</bean>
-		</entry>
-	</util:map>
-	
-	<!-- delete-user -->
-	<util:map id="deleteUserTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="user">
-			<bean class="org.mule.modules.drupal.model.User">
-				<property name="name" value="MuleSoft" />
-				<property name="password" value="soft123" />
-				<property name="mail" value="mule.soft@mulesoft.com" />
-			</bean>
-		</entry>
-	</util:map>
-	
-	<!-- read-user -->
-	<util:map id="readUserTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="user">
-			<bean class="org.mule.modules.drupal.model.User">
-				<property name="name" value="MuleSoft" />
-				<property name="password" value="soft123" />
-				<property name="mail" value="mule.soft@mulesoft.com" />
-			</bean>
-		</entry>
-	</util:map>
-	
-	<!-- register-user -->
-	<util:map id="registerUserTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="userRef">
-			<bean class="org.mule.modules.drupal.model.User">
-				<property name="name" value="MuleSoft" />
-				<property name="password" value="soft123" />
-				<property name="mail" value="mule.soft@mulesoft.com" />
-			</bean>
-		</entry>
-	</util:map>
-	
-	<!-- update-user -->
-	<util:map id="updateUserTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="user">
-			<bean class="org.mule.modules.drupal.model.User">
-				<property name="name" value="MuleSoft" />
-				<property name="password" value="soft123" />
-				<property name="mail" value="mule.soft@mulesoft.com" />
-			</bean>
-		</entry>
-		<entry key="updatedUser">
-			<bean class="org.mule.modules.drupal.model.User">
-				<property name="name" value="Google" />
-				<property name="password" value="goog123" />
-				<property name="mail" value="goo.gle@google.com" />
-			</bean>
-		</entry>
-	</util:map>
-	
-	<!-- create-taxonomy-term -->
-	<util:map id="createTaxonomyTermTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="taxonomyVocabulary">
-			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
-				<property name="name" value="My Vocabulary" />
-				<property name="description" value="This is my Taxonomy Vocabulary entry containing Taxonomy Terms." />
-				<property name="machineName" value="taxonomyTermTaxonomyVocabularyEntry" />
-			</bean>
-		</entry>
-		<entry key="taxonomyTerm">
-			<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
-				<property name="name" value="My Term" />
-				<property name="description" value="This is my Taxonomy Term" />
-			</bean>
-		</entry>
-	</util:map>
-	
-	<!-- delete-taxonomy-term -->
-	<util:map id="deleteTaxonomyTermTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="taxonomyVocabulary">
-			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
-				<property name="name" value="My Delete-Taxonomy-Term Vocabulary" />
-				<property name="description" value="This is my Taxonomy Vocabulary entry containing Taxonomy Terms that I am about to delete." />
-				<property name="machineName" value="taxonomyTermTaxonomyVocabularyEntry" />
-			</bean>
-		</entry>
-		<entry key="taxonomyTerm">
-			<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
-				<property name="name" value="My Delete Taxonomy Term" />
-				<property name="description" value="This is my Taxonomy Term that I am about to delete" />
-			</bean>
-		</entry>
-	</util:map>
-	
-	<!-- read-taxonomy-term -->
-	<util:map id="readTaxonomyTermTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="taxonomyVocabulary">
-			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
-				<property name="name" value="My Read-Taxonomy-Term Vocabulary" />
-				<property name="description" value="This is my Taxonomy Vocabulary entry containing Taxonomy Terms that I am about to read." />
-				<property name="machineName" value="taxonomyTermTaxonomyVocabularyEntry" />
-			</bean>
-		</entry>
-		<entry key="taxonomyTerm">
-			<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
-				<property name="name" value="My Read Taxonomy Term" />
-				<property name="description" value="This is my Taxonomy Term that I am about to read" />
-			</bean>
-		</entry>
-	</util:map>
-	
-	<!-- update-taxonomy-term -->
-	<util:map id="updateTaxonomyTermTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="taxonomyVocabulary">
-			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
-				<property name="name" value="My Read-Taxonomy-Term Vocabulary" />
-				<property name="description" value="This is my Taxonomy Vocabulary entry containing Taxonomy Terms that I am about to read." />
-				<property name="machineName" value="taxonomyTermTaxonomyVocabularyEntry" />
-			</bean>
-		</entry>
-		<entry key="taxonomyTerm">
-			<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
-				<property name="name" value="My Un-updated Taxonomy Term" />
-				<property name="description" value="This is my Taxonomy Term that I am going to update" />
-			</bean>
-		</entry>
-		<entry key="updatedTaxonomyTerm">
-		    <bean class="org.mule.modules.drupal.model.TaxonomyTerm">
-		        <property name="name" value="My Updated Taxonomy Term" />
-		        <property name="description" value="This is my updated Taxonomy Term" />
-		    </bean>
-		</entry>
-	</util:map>
-	
-	<!-- get-nodes-with-term -->
-	<util:map id="getNodesWithTermTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="taxonomyVocabulary">
-			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
-				<property name="name" value="My Get-Nodes-With-Term Vocabulary" />
-				<property name="description" value="This is my Taxonomy Vocabulary entry containing Taxonomy Terms that I am about to assign to nodes." />
-				<property name="machineName" value="taxonomyTermTaxonomyVocabularyEntry" />
-			</bean>
-		</entry>
-		<entry key="taxonomyTerm">
-			<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
-				<property name="name" value="My node Taxonomy Term" />
-				<property name="description" value="This is my Taxonomy Term that I am going to assign to nodes." />
-			</bean>
-		</entry>
-		<entry key="nodes">
-			<list value-type="org.mule.modules.drupal.model.Node">
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateNode">
-					<constructor-arg index="0" value="First node" />
-					<constructor-arg index="1" value="This is the content for the first node" />
-					<constructor-arg index="2" value="article" />
-				</bean>
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateNode">
-					<constructor-arg index="0" value="Second node" />
-					<constructor-arg index="1" value="This is the content for the second node" />
-					<constructor-arg index="2" value="article" />
-				</bean>
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateNode">
-					<constructor-arg index="0" value="Third node" />
-					<constructor-arg index="1" value="This is the content for the third node" />
-					<constructor-arg index="2" value="article" />
-				</bean>
-			</list>
-		</entry>
-	</util:map>	
-	
-	<!-- create-taxonomy-vocabulary -->
-	<util:map id="createTaxonomyVocabularyTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="taxonomyVocabulary">
-			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
-				<property name="name" value="My Vocabulary" />
-				<property name="description" value="This is my Taxonomy Vocabulary entry." />
-				<property name="machineName" value="createTaxonomyVocabularyEntry" />
-			</bean>
-		</entry>
-	</util:map>
-	
-	<!-- delete-taxonomy-vocabulary -->
-	<util:map id="deleteTaxonomyVocabularyTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="taxonomyVocabulary">
-			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
-				<property name="name" value="My Delete Vocabulary" />
-				<property name="description" value="This is a Taxonomy Vocabulary entry." />
-				<property name="machineName" value="deleteTaxonomyVocabularyEntry" />
-			</bean>
-		</entry>
-	</util:map>
-	
-	<!-- index-taxonomy-vocabulary -->
-	<util:map id="indexTaxonomyVocabularyTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="taxonomyVocabularies">
-			<list>
-				<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
-					<property name="name" value="My First Taxonomy Vocabulary" />
-					<property name="description" value="This is my first Taxonomy Vocabulary entry." />
-					<property name="machineName" value="firstTaxonomyVocabularyEntry" />
-				</bean>
-				<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
-					<property name="name" value="My Second Taxonomy Vocabulary" />
-					<property name="description" value="This is my second Taxonomy Vocabulary entry." />
-					<property name="machineName" value="secondTaxonomyVocabularyEntry" />
-				</bean>
-				<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
-					<property name="name" value="My Third Vocabulary" />
-					<property name="description" value="This is my third Taxonomy Vocabulary entry." />
-					<property name="machineName" value="thirdTaxonomyVocabularyEntry" />
-				</bean>
-			</list>
-		</entry>
-	</util:map>
-	
-	<!-- read-taxonomy-vocabulary -->
-	<util:map id="readTaxonomyVocabularyTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="vocabulary">
-			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
-				<property name="name" value="My Vocabulary to Read" />
-				<property name="description" value="This is a Taxonomy Vocabulary entry that I plan to retrieve." />
-				<property name="machineName" value="readTaxonomyVocabularyEntry" />
-			</bean>
-		</entry>
-	</util:map>
-	
-	<!-- update-taxonomy-vocabulary -->
-	<util:map id="updateTaxonomyVocabularyTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="vocabulary">
-			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
-				<property name="name" value="My Vocabulary to Update" />
-				<property name="description" value="This is a Taxonomy Vocabulary entry that I plan to update." />
-				<property name="machineName" value="toUpdateTaxonomyVocabularyEntry" />
-			</bean>
-		</entry>
-		<entry key="updatedVocabulary">
-			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
-				<property name="name" value="My Updated Vocabulary" />
-				<property name="description" value="This is a Taxonomy Vocabulary entry that I have just updated." />
-				<property name="machineName" value="updatedTaxonomyVocabularyEntry" />
-			</bean>
-		</entry>
-	</util:map>
-	
-	<!-- get-files-for-node -->
-	<util:map id="getFilesForNodeTestData" map-class="java.util.HashMap"
-		key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="node">
-			<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateNode">
-				<constructor-arg index="0" value="My node containing files" />
-				<constructor-arg index="1" value="This is the node to which I am uploading files to" />
-				<constructor-arg index="2" value="article" />
-			</bean>
-		</entry>
-		<entry key="filePaths">
-			<list value-type="java.lang.String">
-				<value>images.jpg</value>
-			</list>
-		</entry>
-		<entry key="fieldName" value="field_image" />
-		<entry key="attach" value="true" />
-	</util:map>
-		
-	<!-- index-nodes -->
-	<util:map id="indexNodesTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="nodes">
-			<list value-type="org.mule.modules.drupal.model.Node">
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateNode">
-					<constructor-arg index="0" value="First node" />
-					<constructor-arg index="1" value="This is the content for the first node" />
-					<constructor-arg index="2" value="article" />
-				</bean>
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateNode">
-					<constructor-arg index="0" value="Second node" />
-					<constructor-arg index="1" value="This is the content for the second node" />
-					<constructor-arg index="2" value="article" />
-				</bean>
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateNode">
-					<constructor-arg index="0" value="Third node" />
-					<constructor-arg index="1" value="This is the content for the third node" />
-					<constructor-arg index="2" value="article" />
-				</bean>
-			</list>
-		</entry>
-		<entry key="fieldsRef">
-			<list value-type="java.lang.String">
-				<value>nid</value>
-				<value>title</value>
-				<value>type</value>
-			</list>
-		</entry>
-		<entry key="startPage" value="#{-1}" />
-		<entry key="pagesize" value="#{0}" />
-	</util:map>
-		
-	<!-- index-taxonomy-terms -->
-	<util:map id="indexTaxonomyTermsTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-	    <entry key="taxonomyVocabulary">
-			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
-				<property name="name" value="My Get-Nodes-With-Term Vocabulary" />
-				<property name="description" value="This is my Taxonomy Vocabulary entry containing Taxonomy Terms that I am about to assign to nodes." />
-				<property name="machineName" value="taxonomyTermTaxonomyVocabularyEntry" />
-			</bean>
-		</entry>
-		<entry key="taxonomyTerms">
-		    <list value-type="org.mule.modules.drupal.model.TaxonomyTerm">
-				<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
-					<property name="name" value="My First Indexed Taxonomy Term" />
-					<property name="description" value="This is the first Taxonomy Term that is going to be indexed" />
-				</bean>
-				<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
-					<property name="name" value="My Second Indexed Taxonomy Term" />
-					<property name="description" value="This is the second Taxonomy Term that is going to be indexed" />
-				</bean>
-				<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
-					<property name="name" value="My Third Indexed Taxonomy Term" />
-					<property name="description" value="This is the third Taxonomy Term that is going to be indexed" />
-				</bean>
-		    </list>
-		</entry>
-	</util:map>
-	
-	<!-- index-users -->
-	<util:map id="indexUsersTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="users">
-			<list value-type="org.mule.modules.drupal.model.User">
-				<bean class="org.mule.modules.drupal.model.User">
-					<property name="name" value="John Doe" />
-					<property name="password" value="john.doe" />
-					<property name="mail" value="john.doe@mulesoft.com" />
-				</bean>				
-				<bean class="org.mule.modules.drupal.model.User">
-					<property name="name" value="Jane Doe" />
-					<property name="password" value="jane.doe" />
-					<property name="mail" value="jane.doe@mulesoft.com" />
-				</bean>
-				<bean class="org.mule.modules.drupal.model.User">
-					<property name="name" value="John Smith" />
-					<property name="password" value="john.smith" />
-					<property name="mail" value="john.smith@mulesoft.com" />
-				</bean>
-			</list>
-		</entry>
-		<entry key="fieldsRef">
-			<list value-type="java.lang.String">
-				<value>uid</value>
-				<value>name</value>
-				<value>mail</value>
-			</list>
-		</entry>
-		<entry key="startPage" value="#{-1}" />
-		<entry key="pagesize" value="#{0}" />
-	</util:map>
+    <!-- update-node -->
+    <util:map id="updateNodeTestData" map-class="java.util.HashMap"
+              key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="title" value="My Title"/>
+        <entry key="content" value="Hello this is the body content"/>
+        <entry key="type" value="article"/>
+        <entry key="titleForUpdate" value="My Updated Title"/>
+    </util:map>
 
-	<!-- index-comments -->
-	<util:map id="indexCommentsTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="node">
-			<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateNode">
-				<constructor-arg index="0" value="Node to Comment" />
-				<constructor-arg index="1" value="This is the node to which I am posting comments" />
-				<constructor-arg index="2" value="article" />
-			</bean>
-		</entry>
-		<entry key="comments">
-			<list value-type="org.mule.modules.drupal.model.Comment">
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
-					<constructor-arg index="0" value="This is the subject of the first comment I am creating" />
-					<constructor-arg index="1" value="This is the body of the first comment that I am creating" />
-				</bean>
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
-					<constructor-arg index="0" value="This is the subject of the second comment that I am creating" />
-					<constructor-arg index="1" value="This is the body of the first comment that I am creating" />
-				</bean>
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateComment">
-					<constructor-arg index="0" value="This is the subject of the third comment that I am creating" />
-					<constructor-arg index="1" value="This is the body of the third comment that I am creating" />
-				</bean>
-			</list>
-		</entry>
-		<entry key="fieldsRef">
-			<list value-type="java.lang.String">
-				<value>cid</value>
-				<value>nid</value>
-				<value>subject</value>
-				<value>created</value>
-				<value>changed</value>
-			</list>
-		</entry>
-		<entry key="startPage" value="#{-1}" />
-		<entry key="pagesize" value="#{0}" />
-	</util:map>
+    <!-- read-node -->
+    <util:map id="readNodeTestData" map-class="java.util.HashMap"
+              key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="title" value="My Title"/>
+        <entry key="content" value="Hello this is the body content"/>
+        <entry key="type" value="article"/>
+    </util:map>
 
-	<util:map id="indexFilesTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-		<entry key="files">
-			<list value-type="org.mule.modules.drupal.model.File">
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateFile">
-					<constructor-arg index="0" value="First file that I am uploading" />
-					<constructor-arg index="1" value="images.jpg" />
-				</bean>
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateFile">
-					<constructor-arg index="0" value="Second file that I am uploading" />
-					<constructor-arg index="1" value="images.jpg" />
-				</bean>
-				<bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateFile">
-					<constructor-arg index="0" value="Third file that I am uploading" />
-					<constructor-arg index="1" value="images.jpg" />
-				</bean>
-			</list>
-		</entry>
-		<entry key="fieldsRef">
-			<list value-type="java.lang.String">
-				<value>fid</value>
-			</list>
-		</entry>
-		<entry key="startPage" value="#{-1}" />
-		<entry key="pagesize" value="#{0}" />
-	</util:map>
-	
-	<!-- get-taxonomy-vocabulary-tree -->
-	<util:map id="getTaxonomyVocabularyTreeTestData" map-class="java.util.HashMap" key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
-	    <entry key="taxonomyVocabulary">
-			<bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
-				<property name="name" value="My Get-Taxonomy-Vocabulary-Tree Vocabulary" />
-				<property name="description" value="This is my Taxonomy Vocabulary entry containing Taxonomy Terms in my tree." />
-				<property name="machineName" value="taxonomyTermTaxonomyVocabularyEntry" />
-			</bean>
-		</entry>
-		<entry key="taxonomyTerms">
-		    <list value-type="org.mule.modules.drupal.model.TaxonomyTerm">
-				<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
-					<property name="name" value="My First Tree Taxonomy Term" />
-					<property name="description" value="This is the first Taxonomy Term that is going to be in the tree" />
-				</bean>
-				<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
-					<property name="name" value="My Second Tree Taxonomy Term" />
-					<property name="description" value="This is the second Taxonomy Term that is going to be in the tree" />
-				</bean>
-				<bean class="org.mule.modules.drupal.model.TaxonomyTerm">
-					<property name="name" value="My Third Tree Taxonomy Term" />
-					<property name="description" value="This is the third Taxonomy Term that is going to be in the tree" />
-				</bean>
-		    </list>
-		</entry>
-		<entry key="parent" value="-1" />
-		<entry key="maxdepth" value="0" />
-	</util:map>
+    <!-- update-custom-field-for-node -->
+    <util:map id="updateCustomFieldForNodeTestData" map-class="java.util.HashMap"
+              key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="title" value="My Title"/>
+        <entry key="content" value="Hello this is the body content"/>
+        <entry key="type" value="article"/>
+        <entry key="customproperty" value="Hello 123"/>
+    </util:map>
+
+    <!-- attach-files-to-node -->
+    <util:map id="attachFilesToNodeTestData" map-class="java.util.HashMap"
+              key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="node">
+            <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateNode">
+                <constructor-arg index="0" value="My node containing files"/>
+                <constructor-arg index="1" value="This is the node to which I am uploading files to"/>
+                <constructor-arg index="2" value="article"/>
+            </bean>
+        </entry>
+        <!--
+            This is a list of files which will be loaded from the classpath.
+            In this case, 'images.jpg' is being loaded which can be found in src/test/resources
+        -->
+        <entry key="filePaths">
+            <list value-type="java.lang.String">
+                <value>images.jpg</value>
+            </list>
+        </entry>
+        <entry key="fieldName" value="field_image"/>
+        <entry key="attach" value="true"/>
+    </util:map>
+
+    <!-- craete-comment -->
+    <util:map id="createCommentTestData" map-class="java.util.HashMap"
+              key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="title" value="My Title"/>
+        <entry key="content" value="Hello this is the body content"/>
+        <entry key="type" value="article"/>
+        <entry key="subject" value="Hello 123"/>
+        <entry key="und" value="abc 123"/>
+    </util:map>
+
+    <!-- count-all-comments -->
+    <util:map id="countAllCommentsTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="title" value="My Node Title"/>
+        <entry key="content" value="My Node content"/>
+        <entry key="type" value="article"/>
+        <entry key="comments">
+            <list value-type="org.mule.modules.drupal.model.Comment">
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateComment">
+                    <constructor-arg index="0" value="My First Comment Subject"/>
+                    <constructor-arg index="1" value="My First Comment"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateComment">
+                    <constructor-arg index="0" value="My Second Comment Subject"/>
+                    <constructor-arg index="1" value="My Second Comment"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateComment">
+                    <constructor-arg index="0" value="My Third Comment Subject"/>
+                    <constructor-arg index="1" value="My Third Comment"/>
+                </bean>
+            </list>
+        </entry>
+    </util:map>
+
+    <!-- count-new-comments -->
+    <util:map id="countNewCommentsTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="title" value="My Node Title"/>
+        <entry key="content" value="My Node content"/>
+        <entry key="type" value="article"/>
+        <entry key="since" value="#{0}"/>
+        <entry key="comments">
+            <list value-type="org.mule.modules.drupal.model.Comment">
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateComment">
+                    <constructor-arg index="0" value="My First Comment Subject"/>
+                    <constructor-arg index="1" value="My First Comment"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateComment">
+                    <constructor-arg index="0" value="My Second Comment Subject"/>
+                    <constructor-arg index="1" value="My Second Comment"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateComment">
+                    <constructor-arg index="0" value="My Third Comment Subject"/>
+                    <constructor-arg index="1" value="My Third Comment"/>
+                </bean>
+            </list>
+        </entry>
+    </util:map>
+
+    <!-- get-comments-for-node -->
+    <util:map id="getCommentsForNodeTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="title" value="My Node Title"/>
+        <entry key="content" value="My Node content"/>
+        <entry key="type" value="article"/>
+        <entry key="comments">
+            <list value-type="org.mule.modules.drupal.model.Comment">
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateComment">
+                    <constructor-arg index="0" value="First Comment Subject"/>
+                    <constructor-arg index="1" value="First Comment"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateComment">
+                    <constructor-arg index="0" value="Second Comment Subject"/>
+                    <constructor-arg index="1" value="Second Comment"/>
+                </bean>
+            </list>
+        </entry>
+    </util:map>
+
+    <!-- delete-comment -->
+    <util:map id="deleteCommentTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="title" value="My Node Title"/>
+        <entry key="content" value="My Node Content"/>
+        <entry key="type" value="article"/>
+        <entry key="comment">
+            <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                  factory-method="generateComment">
+                <constructor-arg index="0" value="My Node Comment Subject"/>
+                <constructor-arg index="1" value="My Node Comment"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <!-- read-comment -->
+    <util:map id="readCommentTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="title" value="My Read Node Title"/>
+        <entry key="content" value="My Read Node Content"/>
+        <entry key="type" value="article"/>
+        <entry key="comment">
+            <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                  factory-method="generateComment">
+                <constructor-arg index="0" value="My Read Node Comment Subject"/>
+                <constructor-arg index="1" value="My Read Node Comment"/>
+            </bean>
+        </entry>
+        <entry key="nonExistentCommentId" value="#{-1}"/>
+    </util:map>
+
+    <!-- update-comment -->
+    <util:map id="updateCommentTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="title" value="My Update Node Title"/>
+        <entry key="content" value="My Update Node Content"/>
+        <entry key="type" value="article"/>
+        <entry key="comment">
+            <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                  factory-method="generateComment">
+                <constructor-arg index="0" value="My First Update Node Comment Subject"/>
+                <constructor-arg index="1" value="My First Update Node Comment"/>
+            </bean>
+        </entry>
+        <entry key="update">
+            <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                  factory-method="generateComment">
+                <constructor-arg index="0" value="My Second Update Node Comment Subject"/>
+                <constructor-arg index="1" value="My Second Update Node Comment"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <!-- create-file -->
+    <util:map id="createFileTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="file">
+            <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateFile">
+                <!-- The name of the file. Can be anything. -->
+                <constructor-arg index="0" value="My Image File"/>
+                <!-- The path of the file relative to the classpath -->
+                <constructor-arg index="1" value="images.jpg"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <!-- delete-file -->
+    <util:map id="deleteFileTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="file">
+            <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateFile">
+                <!-- The name of the file. Can be anything. -->
+                <constructor-arg index="0" value="My Image File To Delete"/>
+                <!-- The path of the file relative to the classpath -->
+                <constructor-arg index="1" value="images.jpg"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <!-- read-file -->
+    <util:map id="readFileTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="file">
+            <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateFile">
+                <!-- The name of the file. Can be anything. -->
+                <constructor-arg index="0" value="My Read File Image File"/>
+                <!-- The path of the file relative to the classpath -->
+                <constructor-arg index="1" value="images.jpg"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <!-- create-user -->
+    <util:map id="createUserTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="user">
+            <bean class="org.mule.modules.drupal.model.User">
+                <property name="name" value="MuleSoft"/>
+                <property name="password" value="soft123"/>
+                <property name="mail" value="mule.soft@mulesoft.com"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <!-- delete-user -->
+    <util:map id="deleteUserTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="user">
+            <bean class="org.mule.modules.drupal.model.User">
+                <property name="name" value="MuleSoft"/>
+                <property name="password" value="soft123"/>
+                <property name="mail" value="mule.soft@mulesoft.com"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <!-- read-user -->
+    <util:map id="readUserTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="user">
+            <bean class="org.mule.modules.drupal.model.User">
+                <property name="name" value="MuleSoft"/>
+                <property name="password" value="soft123"/>
+                <property name="mail" value="mule.soft@mulesoft.com"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <!-- register-user -->
+    <util:map id="registerUserTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="userRef">
+            <bean class="org.mule.modules.drupal.model.User">
+                <property name="name" value="MuleSoft"/>
+                <property name="password" value="soft123"/>
+                <property name="mail" value="mule.soft@mulesoft.com"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <!-- update-user -->
+    <util:map id="updateUserTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="user">
+            <bean class="org.mule.modules.drupal.model.User">
+                <property name="name" value="MuleSoft"/>
+                <property name="password" value="soft123"/>
+                <property name="mail" value="mule.soft@mulesoft.com"/>
+            </bean>
+        </entry>
+        <entry key="updatedUser">
+            <bean class="org.mule.modules.drupal.model.User">
+                <property name="name" value="Google"/>
+                <property name="password" value="goog123"/>
+                <property name="mail" value="goo.gle@google.com"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <!-- create-taxonomy-term -->
+    <util:map id="createTaxonomyTermTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="taxonomyVocabulary">
+            <bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+                <property name="name" value="My Vocabulary"/>
+                <property name="description" value="This is my Taxonomy Vocabulary entry containing Taxonomy Terms."/>
+                <property name="machineName" value="taxonomyTermTaxonomyVocabularyEntry"/>
+            </bean>
+        </entry>
+        <entry key="taxonomyTerm">
+            <bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+                <property name="name" value="My Term"/>
+                <property name="description" value="This is my Taxonomy Term"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <!-- delete-taxonomy-term -->
+    <util:map id="deleteTaxonomyTermTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="taxonomyVocabulary">
+            <bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+                <property name="name" value="My Delete-Taxonomy-Term Vocabulary"/>
+                <property name="description"
+                          value="This is my Taxonomy Vocabulary entry containing Taxonomy Terms that I am about to delete."/>
+                <property name="machineName" value="taxonomyTermTaxonomyVocabularyEntry"/>
+            </bean>
+        </entry>
+        <entry key="taxonomyTerm">
+            <bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+                <property name="name" value="My Delete Taxonomy Term"/>
+                <property name="description" value="This is my Taxonomy Term that I am about to delete"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <!-- read-taxonomy-term -->
+    <util:map id="readTaxonomyTermTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="taxonomyVocabulary">
+            <bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+                <property name="name" value="My Read-Taxonomy-Term Vocabulary"/>
+                <property name="description"
+                          value="This is my Taxonomy Vocabulary entry containing Taxonomy Terms that I am about to read."/>
+                <property name="machineName" value="taxonomyTermTaxonomyVocabularyEntry"/>
+            </bean>
+        </entry>
+        <entry key="taxonomyTerm">
+            <bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+                <property name="name" value="My Read Taxonomy Term"/>
+                <property name="description" value="This is my Taxonomy Term that I am about to read"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <!-- update-taxonomy-term -->
+    <util:map id="updateTaxonomyTermTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="taxonomyVocabulary">
+            <bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+                <property name="name" value="My Read-Taxonomy-Term Vocabulary"/>
+                <property name="description"
+                          value="This is my Taxonomy Vocabulary entry containing Taxonomy Terms that I am about to read."/>
+                <property name="machineName" value="taxonomyTermTaxonomyVocabularyEntry"/>
+            </bean>
+        </entry>
+        <entry key="taxonomyTerm">
+            <bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+                <property name="name" value="My Un-updated Taxonomy Term"/>
+                <property name="description" value="This is my Taxonomy Term that I am going to update"/>
+            </bean>
+        </entry>
+        <entry key="updatedTaxonomyTerm">
+            <bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+                <property name="name" value="My Updated Taxonomy Term"/>
+                <property name="description" value="This is my updated Taxonomy Term"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <!-- get-nodes-with-term -->
+    <util:map id="getNodesWithTermTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="taxonomyVocabulary">
+            <bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+                <property name="name" value="My Get-Nodes-With-Term Vocabulary"/>
+                <property name="description"
+                          value="This is my Taxonomy Vocabulary entry containing Taxonomy Terms that I am about to assign to nodes."/>
+                <property name="machineName" value="taxonomyTermTaxonomyVocabularyEntry"/>
+            </bean>
+        </entry>
+        <entry key="taxonomyTerm">
+            <bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+                <property name="name" value="My node Taxonomy Term"/>
+                <property name="description" value="This is my Taxonomy Term that I am going to assign to nodes."/>
+            </bean>
+        </entry>
+        <entry key="nodes">
+            <list value-type="org.mule.modules.drupal.model.Node">
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateNode">
+                    <constructor-arg index="0" value="First node"/>
+                    <constructor-arg index="1" value="This is the content for the first node"/>
+                    <constructor-arg index="2" value="article"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateNode">
+                    <constructor-arg index="0" value="Second node"/>
+                    <constructor-arg index="1" value="This is the content for the second node"/>
+                    <constructor-arg index="2" value="article"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateNode">
+                    <constructor-arg index="0" value="Third node"/>
+                    <constructor-arg index="1" value="This is the content for the third node"/>
+                    <constructor-arg index="2" value="article"/>
+                </bean>
+            </list>
+        </entry>
+    </util:map>
+
+    <!-- create-taxonomy-vocabulary -->
+    <util:map id="createTaxonomyVocabularyTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="taxonomyVocabulary">
+            <bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+                <property name="name" value="My Vocabulary"/>
+                <property name="description" value="This is my Taxonomy Vocabulary entry."/>
+                <property name="machineName" value="createTaxonomyVocabularyEntry"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <!-- delete-taxonomy-vocabulary -->
+    <util:map id="deleteTaxonomyVocabularyTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="taxonomyVocabulary">
+            <bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+                <property name="name" value="My Delete Vocabulary"/>
+                <property name="description" value="This is a Taxonomy Vocabulary entry."/>
+                <property name="machineName" value="deleteTaxonomyVocabularyEntry"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <!-- index-taxonomy-vocabulary -->
+    <util:map id="indexTaxonomyVocabularyTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="taxonomyVocabularies">
+            <list>
+                <bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+                    <property name="name" value="My First Taxonomy Vocabulary"/>
+                    <property name="description" value="This is my first Taxonomy Vocabulary entry."/>
+                    <property name="machineName" value="firstTaxonomyVocabularyEntry"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+                    <property name="name" value="My Second Taxonomy Vocabulary"/>
+                    <property name="description" value="This is my second Taxonomy Vocabulary entry."/>
+                    <property name="machineName" value="secondTaxonomyVocabularyEntry"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+                    <property name="name" value="My Third Vocabulary"/>
+                    <property name="description" value="This is my third Taxonomy Vocabulary entry."/>
+                    <property name="machineName" value="thirdTaxonomyVocabularyEntry"/>
+                </bean>
+            </list>
+        </entry>
+    </util:map>
+
+    <!-- read-taxonomy-vocabulary -->
+    <util:map id="readTaxonomyVocabularyTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="vocabulary">
+            <bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+                <property name="name" value="My Vocabulary to Read"/>
+                <property name="description" value="This is a Taxonomy Vocabulary entry that I plan to retrieve."/>
+                <property name="machineName" value="readTaxonomyVocabularyEntry"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <!-- update-taxonomy-vocabulary -->
+    <util:map id="updateTaxonomyVocabularyTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="vocabulary">
+            <bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+                <property name="name" value="My Vocabulary to Update"/>
+                <property name="description" value="This is a Taxonomy Vocabulary entry that I plan to update."/>
+                <property name="machineName" value="toUpdateTaxonomyVocabularyEntry"/>
+            </bean>
+        </entry>
+        <entry key="updatedVocabulary">
+            <bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+                <property name="name" value="My Updated Vocabulary"/>
+                <property name="description" value="This is a Taxonomy Vocabulary entry that I have just updated."/>
+                <property name="machineName" value="updatedTaxonomyVocabularyEntry"/>
+            </bean>
+        </entry>
+    </util:map>
+
+    <!-- get-files-for-node -->
+    <util:map id="getFilesForNodeTestData" map-class="java.util.HashMap"
+              key-type="java.lang.String" value-type="java.lang.Object" scope="prototype">
+        <entry key="node">
+            <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateNode">
+                <constructor-arg index="0" value="My node containing files"/>
+                <constructor-arg index="1" value="This is the node to which I am uploading files to"/>
+                <constructor-arg index="2" value="article"/>
+            </bean>
+        </entry>
+        <entry key="filePaths">
+            <list value-type="java.lang.String">
+                <value>images.jpg</value>
+            </list>
+        </entry>
+        <entry key="fieldName" value="field_image"/>
+        <entry key="attach" value="true"/>
+    </util:map>
+
+    <!-- index-nodes -->
+    <util:map id="indexNodesTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="nodes">
+            <list value-type="org.mule.modules.drupal.model.Node">
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateNode">
+                    <constructor-arg index="0" value="First node"/>
+                    <constructor-arg index="1" value="This is the content for the first node"/>
+                    <constructor-arg index="2" value="article"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateNode">
+                    <constructor-arg index="0" value="Second node"/>
+                    <constructor-arg index="1" value="This is the content for the second node"/>
+                    <constructor-arg index="2" value="article"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateNode">
+                    <constructor-arg index="0" value="Third node"/>
+                    <constructor-arg index="1" value="This is the content for the third node"/>
+                    <constructor-arg index="2" value="article"/>
+                </bean>
+            </list>
+        </entry>
+        <entry key="fieldsRef">
+            <list value-type="java.lang.String">
+                <value>nid</value>
+                <value>title</value>
+                <value>type</value>
+            </list>
+        </entry>
+        <entry key="startPage" value="#{-1}"/>
+        <entry key="pagesize" value="#{0}"/>
+    </util:map>
+
+    <!-- index-taxonomy-terms -->
+    <util:map id="indexTaxonomyTermsTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="taxonomyVocabulary">
+            <bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+                <property name="name" value="My Get-Nodes-With-Term Vocabulary"/>
+                <property name="description"
+                          value="This is my Taxonomy Vocabulary entry containing Taxonomy Terms that I am about to assign to nodes."/>
+                <property name="machineName" value="taxonomyTermTaxonomyVocabularyEntry"/>
+            </bean>
+        </entry>
+        <entry key="taxonomyTerms">
+            <list value-type="org.mule.modules.drupal.model.TaxonomyTerm">
+                <bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+                    <property name="name" value="My First Indexed Taxonomy Term"/>
+                    <property name="description" value="This is the first Taxonomy Term that is going to be indexed"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+                    <property name="name" value="My Second Indexed Taxonomy Term"/>
+                    <property name="description" value="This is the second Taxonomy Term that is going to be indexed"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+                    <property name="name" value="My Third Indexed Taxonomy Term"/>
+                    <property name="description" value="This is the third Taxonomy Term that is going to be indexed"/>
+                </bean>
+            </list>
+        </entry>
+    </util:map>
+
+    <!-- index-users -->
+    <util:map id="indexUsersTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="users">
+            <list value-type="org.mule.modules.drupal.model.User">
+                <bean class="org.mule.modules.drupal.model.User">
+                    <property name="name" value="John Doe"/>
+                    <property name="password" value="john.doe"/>
+                    <property name="mail" value="john.doe@mulesoft.com"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.model.User">
+                    <property name="name" value="Jane Doe"/>
+                    <property name="password" value="jane.doe"/>
+                    <property name="mail" value="jane.doe@mulesoft.com"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.model.User">
+                    <property name="name" value="John Smith"/>
+                    <property name="password" value="john.smith"/>
+                    <property name="mail" value="john.smith@mulesoft.com"/>
+                </bean>
+            </list>
+        </entry>
+        <entry key="fieldsRef">
+            <list value-type="java.lang.String">
+                <value>uid</value>
+                <value>name</value>
+                <value>mail</value>
+            </list>
+        </entry>
+        <entry key="startPage" value="#{-1}"/>
+        <entry key="pagesize" value="#{0}"/>
+    </util:map>
+
+    <!-- index-comments -->
+    <util:map id="indexCommentsTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="node">
+            <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent" factory-method="generateNode">
+                <constructor-arg index="0" value="Node to Comment"/>
+                <constructor-arg index="1" value="This is the node to which I am posting comments"/>
+                <constructor-arg index="2" value="article"/>
+            </bean>
+        </entry>
+        <entry key="comments">
+            <list value-type="org.mule.modules.drupal.model.Comment">
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateComment">
+                    <constructor-arg index="0" value="This is the subject of the first comment I am creating"/>
+                    <constructor-arg index="1" value="This is the body of the first comment that I am creating"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateComment">
+                    <constructor-arg index="0" value="This is the subject of the second comment that I am creating"/>
+                    <constructor-arg index="1" value="This is the body of the first comment that I am creating"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateComment">
+                    <constructor-arg index="0" value="This is the subject of the third comment that I am creating"/>
+                    <constructor-arg index="1" value="This is the body of the third comment that I am creating"/>
+                </bean>
+            </list>
+        </entry>
+        <entry key="fieldsRef">
+            <list value-type="java.lang.String">
+                <value>cid</value>
+                <value>nid</value>
+                <value>subject</value>
+                <value>created</value>
+                <value>changed</value>
+            </list>
+        </entry>
+        <entry key="startPage" value="#{-1}"/>
+        <entry key="pagesize" value="#{0}"/>
+    </util:map>
+
+    <util:map id="indexFilesTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="files">
+            <list value-type="org.mule.modules.drupal.model.File">
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateFile">
+                    <constructor-arg index="0" value="First file that I am uploading"/>
+                    <constructor-arg index="1" value="images.jpg"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateFile">
+                    <constructor-arg index="0" value="Second file that I am uploading"/>
+                    <constructor-arg index="1" value="images.jpg"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.automation.testcases.DrupalTestParent"
+                      factory-method="generateFile">
+                    <constructor-arg index="0" value="Third file that I am uploading"/>
+                    <constructor-arg index="1" value="images.jpg"/>
+                </bean>
+            </list>
+        </entry>
+        <entry key="fieldsRef">
+            <list value-type="java.lang.String">
+                <value>fid</value>
+            </list>
+        </entry>
+        <entry key="startPage" value="#{-1}"/>
+        <entry key="pagesize" value="#{0}"/>
+    </util:map>
+
+    <!-- get-taxonomy-vocabulary-tree -->
+    <util:map id="getTaxonomyVocabularyTreeTestData" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.Object" scope="prototype">
+        <entry key="taxonomyVocabulary">
+            <bean class="org.mule.modules.drupal.model.TaxonomyVocabulary">
+                <property name="name" value="My Get-Taxonomy-Vocabulary-Tree Vocabulary"/>
+                <property name="description"
+                          value="This is my Taxonomy Vocabulary entry containing Taxonomy Terms in my tree."/>
+                <property name="machineName" value="taxonomyTermTaxonomyVocabularyEntry"/>
+            </bean>
+        </entry>
+        <entry key="taxonomyTerms">
+            <list value-type="org.mule.modules.drupal.model.TaxonomyTerm">
+                <bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+                    <property name="name" value="My First Tree Taxonomy Term"/>
+                    <property name="description"
+                              value="This is the first Taxonomy Term that is going to be in the tree"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+                    <property name="name" value="My Second Tree Taxonomy Term"/>
+                    <property name="description"
+                              value="This is the second Taxonomy Term that is going to be in the tree"/>
+                </bean>
+                <bean class="org.mule.modules.drupal.model.TaxonomyTerm">
+                    <property name="name" value="My Third Tree Taxonomy Term"/>
+                    <property name="description"
+                              value="This is the third Taxonomy Term that is going to be in the tree"/>
+                </bean>
+            </list>
+        </entry>
+        <entry key="parent" value="-1"/>
+        <entry key="maxdepth" value="0"/>
+    </util:map>
 </beans>

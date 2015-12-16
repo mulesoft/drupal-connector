@@ -1,135 +1,134 @@
 /**
- * (c) 2003-2012 MuleSoft, Inc. This software is protected under international
- * copyright law. All use of this software is subject to MuleSoft's Master
- * Subscription Agreement (or other Terms of Service) separately entered
- * into between you and MuleSoft. If such an agreement is not in
- * place, you may not use the software.
+ * (c) 2003-2015 MuleSoft, Inc. The software in this package is published under
+ * the terms of the CPAL v1.0 license, a copy of which has been included with this
+ * distribution in the LICENSE.md file.
  */
 
 package org.mule.modules.drupal.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
-import com.google.gson.annotations.SerializedName;
 /**
  * Class that represent term references in articles
- * @author pablocabrera
  *
+ * @author pablocabrera
  */
-public class TaxonomyTerm extends DrupalEntity{
+public class TaxonomyTerm extends DrupalEntity {
 
-	private static final long serialVersionUID = 6818911701829311027L;
-	
-	/**
-	 * A description of the term
-	 */
-	private String description;
-	/**
-	 * The filter_format.format of the description
-	 */
-	private String format;
-	/**
-	 * The term name
-	 */
-	private String name;
-	/**
-	 * Primary Key: Unique term ID.
-	 */
-	private Integer tid;
-	/**
-	 * The taxonomy vocabulary vid of the vocabulary to which the term is assigned. See {@link TaxonomyVocabulary}
-	 */
-	private Integer vid;
-	
-	/**
-	 * The weight of this term in relation to other terms.
-	 */
-	private Integer weight;
-	
-	/**
-	 * Depth of the node in the vocabulary tree
-	 */
-	private Integer depth;
+    private static final long serialVersionUID = 6818911701829311027L;
 
-	/**
-	 * List of term Id that of wich this is considered a son.
-	 */
-	private List<Integer> parents;
-	/**
-	 * The vocabulary machine name of the vocabulary to witch the term is assigned. See {@link TaxonomyVocabulary}
-	 */
-	@SerializedName(value="vocabulary_machine_name")
-	private String vocabularyMachineName;
+    /**
+     * A description of the term
+     */
+    private String description;
+    /**
+     * The filter_format.format of the description
+     */
+    private String format;
+    /**
+     * The term name
+     */
+    private String name;
+    /**
+     * Primary Key: Unique term ID.
+     */
+    private Integer tid;
+    /**
+     * The taxonomy vocabulary vid of the vocabulary to which the term is assigned. See {@link TaxonomyVocabulary}
+     */
+    private Integer vid;
 
-	public String getDescription() {
-		return description;
-	}
+    /**
+     * The weight of this term in relation to other terms.
+     */
+    private Integer weight;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    /**
+     * Depth of the node in the vocabulary tree
+     */
+    private Integer depth;
 
-	public String getFormat() {
-		return format;
-	}
+    /**
+     * List of term Id that of wich this is considered a son.
+     */
+    private List<Integer> parents;
+    /**
+     * The vocabulary machine name of the vocabulary to witch the term is assigned. See {@link TaxonomyVocabulary}
+     */
+    @SerializedName(value = "vocabulary_machine_name")
+    private String vocabularyMachineName;
 
-	public void setFormat(String format) {
-		this.format = format;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getFormat() {
+        return format;
+    }
 
-	public Integer getTid() {
-		return tid;
-	}
+    public void setFormat(String format) {
+        this.format = format;
+    }
 
-	public void setTid(Integer tid) {
-		this.tid = tid;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Integer getVid() {
-		return vid;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setVid(Integer vid) {
-		this.vid = vid;
-	}
+    public Integer getTid() {
+        return tid;
+    }
 
-	public Integer getWeight() {
-		return weight;
-	}
+    public void setTid(Integer tid) {
+        this.tid = tid;
+    }
 
-	public void setWeight(Integer weight) {
-		this.weight = weight;
-	}
+    public Integer getVid() {
+        return vid;
+    }
 
-	public String getVocabularyMachineName() {
-		return vocabularyMachineName;
-	}
+    public void setVid(Integer vid) {
+        this.vid = vid;
+    }
 
-	public void setVocabularyMachineName(String vocabularyMachineName) {
-		this.vocabularyMachineName = vocabularyMachineName;
-	}
-	
-	public Integer getDepth() {
-		return depth;
-	}
+    public Integer getWeight() {
+        return weight;
+    }
 
-	public void setDepth(Integer depth) {
-		this.depth = depth;
-	}
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
 
-	public List<Integer> getParents() {
-		return parents;
-	}
+    public String getVocabularyMachineName() {
+        return vocabularyMachineName;
+    }
 
-	public void setParents(List<Integer> parents) {
-		this.parents = parents;
-	}
+    public void setVocabularyMachineName(String vocabularyMachineName) {
+        this.vocabularyMachineName = vocabularyMachineName;
+    }
+
+    public Integer getDepth() {
+        return depth;
+    }
+
+    public void setDepth(Integer depth) {
+        this.depth = depth;
+    }
+
+    public List<Integer> getParents() {
+        return parents;
+    }
+
+    public void setParents(List<Integer> parents) {
+        this.parents = parents;
+    }
 }
